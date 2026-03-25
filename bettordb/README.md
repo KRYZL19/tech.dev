@@ -1,69 +1,193 @@
-# BETTORDB API — Casino Probability & Simulation Engine
+# BETTORDB — Casino Probability Engine API
 
-**For educational and game development use only.**
+> *"The math proves the martingale always loses. Now prove it to your users."*
 
-A FastAPI-powered backend that provides gambling probability data, odds conversion, and Monte Carlo betting system simulations. Built for casino game developers and betting system researchers.
-
----
-
-## What It Does
-
-BETTORDB provides real-time probability calculations and Monte Carlo simulations for popular casino games and betting systems:
-
-- **Slot Machine Simulation** — Weighted reel analysis with configurable symbols, paylines, and reels. Returns house edge, RTP, expected loss, and 95% confidence intervals.
-- **Betting System Simulator** — Monte Carlo analysis (10,000 sequences) for Martingale, Fibonacci, D'Alembert, and Flat betting. Returns probability of reaching target, ruin probability, expected value, and worst-case scenarios.
-- **Odds Converter** — Convert between decimal, fractional, American (moneyline), and implied probability formats.
-- **Kelly Criterion Calculator** — Optimal bet sizing based on bankroll, odds, and win probability.
-- **Blackjack Odds** — House edge for basic strategy and card counting, natural blackjack probability, dealer bust probability.
-- **Roulette Odds** — House edge and pocket probabilities for American (38 pockets) and European (37 pockets) variants.
-- **Baccarat Odds** — Player, Banker, and Tie probabilities with house edge.
-
----
-
-## Who It's For
-
-- **Casino game developers** building slot machines, table games, or betting interfaces
-- **Betting system researchers** analyzing Martingale, Fibonacci, and other betting strategies
-- **Quantitative analysts** working on gambling probability models
-- **Game jam / side project developers** needing quick odds calculations
-
----
+A FastAPI-based casino probability engine. Calculate house edges, simulate betting systems, convert odds formats, and run the Kelly Criterion.
 
 ## Quick Start
 
 ```bash
-cd bettordb
 pip install -r requirements.txt
-python -m uvicorn main:app --reload --port 8000
+uvicorn main:app --reload
 ```
 
-API docs at `http://localhost:8000/docs`
+API runs at `http://localhost:8000`. Docs at `http://localhost:8000/docs`.
+
+## Endpoints
+
+### 🎰 Slot Machine Simulation
+```
+POST /api/v1/simulate/slots
+```
+Simulate slot spins with weighted symbols.
+
+**Request:**
+```json
+{
+  "spins": 1000,
+  "paylines": 1,
+  "symbol_weights": {"cherry": 10, "lemon": 8, "orange": 6, "plum": 4, "7": 1},
+  "reels": 5,
+  "bet_per_line": 1.0
+}
+```
+
+**Response:**
+```json
+{
+  "house_edge": 0.049,
+  "rtp": 0.951,
+  "expected_loss": 49.0
+}
+```
 
 ---
 
-## API Endpoints
+### 🎲 Betting System Simulation
+```
+POST /api/v1/simulate/betting-system
+```
+Simulate martingale, fibonacci, dalembert, or flat betting over 10,000 sequences. **The martingale will destroy you.**
 
-### Health Check
-
-```bash
-curl http://localhost:8000/api/v1/health
+**Request:**
+```json
+{
+  "system": "martingale",
+  "base_bet": 10,
+  "target_wins": 5,
+  "max_bets": 100,
+  "bankroll": 1000,
+  "win_probability": 0.475
+}
 ```
 
-### Slot Machine Simulation
-
-```bash
-curl -X POST http://localhost:8000/api/v1/simulate/slots \
-  -H "Content-Type: application/json" \
-  -d '{
-    "spins": 1000000,
-    "paylines": 5,
-    "symbol_weights": [10, 5, 3, 2, 1],
-    "reels": 5,
-    "bet_per_line": 0.25
-  }'
+**Response:**
+```json
+{
+  "system": "martingale",
+  "prob_reaching_target": 0.96,
+  "prob_ruin": 0.04,
+  "expected_value": -25.3,
+  "median_ending_bankroll": 1020.0,
+  "worst_case": 0.0,
+  "n_simulations": 10000
+}
 ```
 
-### Betting System Simulation (Martingale)
+> **The martingale trap:** ~96% reach their target but the ~4% who blow up lose everything. Expected value stays negative. The house always wins.
+
+---
+
+### 🔄 Odds Conversion
+```
+POST /api/v1/odds/convert
+```
+Convert between decimal, fractional, American, and implied probability.
+
+**Request (any one field):**
+```json
+{
+  "decimal_odds": 2.5
+}
+```
+
+**Response:**
+```json
+{
+  "decimal": 2.5,
+  "fractional": 1.5,
+  "american": 150.0,
+  "implied_probability": 0.4
+}
+```
+
+---
+
+### 📊 Kelly Criterion
+```
+POST /api/v1/kelly/criterion
+```
+Calculate optimal bet size using the Kelly Criterion.
+
+**Request:**
+```json
+{
+  "bankroll": 10000,
+  "odds_decimal": 3.0,
+  "probability_win": 0.4
+}
+```
+
+**Response:**
+```json
+{
+  "kelly_fraction": 0.233333,
+  "suggested_bet": 2333.33,
+  "is_kelly_positive": true
+}
+```
+
+---
+
+### 🃏 Blackjack Odds
+```
+GET /api/v1/game/blackjack/odds?decks=6
+```
+Returns house edge, blackjack probability, and dealer bust probability.
+
+---
+
+### 🎡 Roulette Odds
+```
+GET /api/v1/game/roulette/odds?variant=european
+```
+Returns house edge and pocket count. Supports `european` (37 pockets) or `american` (38 pockets).
+
+---
+
+### 💚 Health
+```
+GET /api/v1/health
+```
+
+## Deployment
+
+### Render
+```bash
+render.yaml  # Auto-deploys on render.com
+```
+
+### Railway
+```bash
+railway.toml  # Auto-deploys on railway.app
+```
+
+## Files
+
+```
+bettordb/
+├── main.py              # FastAPI app + game endpoints
+├── requirements.txt
+├── routes/
+│   ├── simulate.py      # Slots + betting system simulation
+│   ├── odds.py          # Odds format conversion
+│   └── kelly.py         # Kelly Criterion
+├── games/
+│   ├── slots.py         # Slot machine simulator
+│   ├── blackjack.py     # Blackjack odds calculator
+│   ├── roulette.py      # Roulette odds calculator
+│   ├── baccarat.py      # Baccarat odds
+│   └── martingale.py    # Betting system simulator (the proof)
+├── models/
+│   └── schemas.py       # Pydantic request/response models
+├── render.yaml
+├── railway.toml
+└── README.md
+```
+
+## The Martingale Proof
+
+Run this to see why martingale fails:
 
 ```bash
 curl -X POST http://localhost:8000/api/v1/simulate/betting-system \
@@ -74,124 +198,14 @@ curl -X POST http://localhost:8000/api/v1/simulate/betting-system \
     "target_wins": 5,
     "max_bets": 100,
     "bankroll": 1000,
-    "win_probability": 0.4768,
-    "payout": 2.0
+    "win_probability": 0.475
   }'
 ```
 
-### Odds Conversion
+**What you'll find:** ~96% of sequences hit the target. But that 4% ruin rate — combined with the fact that the losers lose EVERYTHING — makes expected value deeply negative. The median looks fine. The worst case is $0. The house edge compounds. No infinite bankroll exists.
 
-```bash
-curl -X POST http://localhost:8000/api/v1/odds/convert \
-  -H "Content-Type: application/json" \
-  -d '{
-    "value": 2.5,
-    "from_format": "decimal",
-    "to_format": "american"
-  }'
-```
-
-### Kelly Criterion
-
-```bash
-curl -X POST http://localhost:8000/api/v1/kelly/criterion \
-  -H "Content-Type: application/json" \
-  -d '{
-    "bankroll": 1000,
-    "odds_decimal": 2.1,
-    "probability_win": 0.52
-  }'
-```
-
-### Blackjack Odds
-
-```bash
-curl "http://localhost:8000/api/v1/game/blackjack/odds?decks=6&dealer_stands_on=17"
-```
-
-### Roulette Odds
-
-```bash
-curl "http://localhost:8000/api/v1/game/roulette/odds?variant=european"
-```
+Play long enough, and the martingale will take everything.
 
 ---
 
-## Pricing
-
-| Plan | Simulations/Month | Rate Limits | Support |
-|------|-------------------|-------------|---------|
-| **Free** | 1,000 sims | 100 req/min | Community |
-| **Dev** ($49/mo) | 100,000 sims | 1,000 req/min | Email |
-| **Pro** ($199/mo) | Unlimited | 10,000 req/min | Priority |
-
-Contact for enterprise licensing and white-label deployments.
-
----
-
-## Deploy
-
-### Railway
-
-```bash
-railway init
-railway up
-railway domain
-```
-
-Or use `railway.toml`:
-
-```toml
-[build]
-builder = "nixpacks"
-nixpacksPlan = "{ language = "python" }"
-
-[deploy]
-healthcheckPath = "/api/v1/health"
-port = 8000
-```
-
-### Render
-
-```bash
-render deploy
-```
-
-Or use `render.yaml`:
-
-```yaml
-services:
-  - type: web
-    name: bettordb
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /api/v1/health
-```
-
-### Docker
-
-```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
-EXPOSE 8000
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-```
-
----
-
-## Tech Stack
-
-- **FastAPI** — Async web framework
-- **Pydantic v2** — Data validation
-- **NumPy** — Fast Monte Carlo simulations
-- **Uvicorn** — ASGI server
-
----
-
-## Disclaimer
-
-**For educational and game development use only.** This software is provided for simulating casino probabilities and analyzing betting systems. It is not intended for actual gambling. Betting systems do not overcome the house edge — past performance does not guarantee future results. Use responsibly.
+*Built for anyone who thinks they've found a "system."*

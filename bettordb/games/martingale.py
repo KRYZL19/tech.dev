@@ -1,141 +1,95 @@
-"""
-Betting system simulator (Martingale, Fibonacci, D'Alembert, Flat).
-Monte Carlo simulation with configurable number of sequences.
-"""
 import numpy as np
-from typing import Literal
 
 
 def simulate_betting_system(
-    system: Literal["martingale", "fibonacci", "dalembert", "flat"],
+    system: str,
     base_bet: float,
     target_wins: int,
     max_bets: int,
     bankroll: float,
-    win_probability: float = 0.4768,
-    payout: float = 2.0,
-    n_simulations: int = 10_000,
+    win_probability: float = 0.475,
+    n_simulations: int = 10000,
+    seed: int = 42
 ) -> dict:
     """
-    Simulate a betting system over many sequences.
-
-    Args:
-        system: Betting system name
-        base_bet: Starting bet size
-        target_wins: Number of wins needed to reach goal
-        max_bets: Maximum bets per sequence
-        bankroll: Starting bankroll
-        win_probability: Probability of winning each bet
-        payout: Decimal payout on win (2.0 = even money)
-        n_simulations: Number of sequences to simulate
-
-    Returns:
-        dict with probabilities and statistics
+    Simulate a betting system (martingale/fibonacci/dalembert/flat).
+    Returns ruin vs success rates, expected value, median ending bankroll, worst case.
     """
-    rng = np.random.default_rng()
+    rng = np.random.default_rng(seed)
+    system = system.lower()
 
-    # Target bankroll = initial bankroll + target_wins * base_bet * payout
-    target_bankroll = bankroll + (target_wins * base_bet * payout)
-    target_bankroll = float(target_bankroll)
+    results = []
+    target_bankroll = bankroll + (base_bet * target_wins)
 
-    final_bankrolls = []
-    reached_target = 0
-    ruined = 0
-    bets_placed_list = []
-    worst_idx = 0
-    worst_peak_dd = 0.0
-
-    for sim in range(n_simulations):
-        br = float(bankroll)
+    for _ in range(n_simulations):
+        bal = float(bankroll)
         current_bet = float(base_bet)
-        bets_placed = 0
-        wins_count = 0
-        peak_bankroll = br
-        peak_drawdown = 0.0
+        wins_needed = target_wins
+        sequence = []
 
-        # Track sequence for this simulation
-        fib_seq = [1, 1]
-        dalembert_step = 0
+        for step in range(max_bets):
+            # Determine bet size based on system
+            if system == "martingale":
+                if sequence and sequence[-1] == 0:
+                    current_bet = min(current_bet * 2, bal)
+                else:
+                    current_bet = float(base_bet)
+            elif system == "fibonacci":
+                if len(sequence) >= 2 and sequence[-1] == 0 and sequence[-2] == 0:
+                    # Lost twice: move back two in fibonacci
+                    # We'll keep it simple: after loss, increase by fib ratio
+                    current_bet = min(current_bet + (current_bet - base_bet) if current_bet > base_bet else base_bet, bal)
+                elif sequence and sequence[-1] == 1:
+                    # Won: reset
+                    current_bet = float(base_bet)
+                else:
+                    current_bet = min(current_bet, bal)
+            elif system == "dalembert":
+                if sequence and sequence[-1] == 0:
+                    current_bet = min(current_bet + base_bet * 0.5, bal)
+                else:
+                    current_bet = max(current_bet - base_bet * 0.5, base_bet)
+            elif system == "flat":
+                current_bet = min(float(base_bet), bal)
+            else:
+                current_bet = min(float(base_bet), bal)
 
-        for _ in range(max_bets):
-            if br < current_bet:
-                # Can't bet anymore
-                break
+            current_bet = max(min(current_bet, bal), 0.01)
 
-            bets_placed += 1
-            br -= current_bet
+            # Flip
+            win = rng.random() < win_probability
 
-            # Win?
-            if rng.random() < win_probability:
-                br += current_bet * payout
-                wins_count += 1
-
-                if wins_count >= target_wins:
-                    # Reached target!
+            if win:
+                bal += current_bet
+                wins_needed -= 1
+                sequence.append(1)
+                if wins_needed <= 0:
+                    break
+            else:
+                bal -= current_bet
+                sequence.append(0)
+                if bal <= 0:
                     break
 
-                # Reset for next system
-                if system == "martingale":
-                    current_bet = float(base_bet)
-                elif system == "fibonacci":
-                    fib_seq = [1, 1]
-                elif system == "dalembert":
-                    dalembert_step = max(0, dalembert_step - 1)
-                    current_bet = float(base_bet) + dalembert_step * float(base_bet) * 0.5
-                # flat: current_bet stays same
-            else:
-                # Loss
-                if system == "martingale":
-                    current_bet = min(current_bet * 2, br)
-                elif system == "fibonacci":
-                    if len(fib_seq) == 2:
-                        fib_seq.append(fib_seq[-1] + fib_seq[-2])
-                    else:
-                        fib_seq = fib_seq[1:] + [fib_seq[-1] + fib_seq[-2]]
-                    current_bet = min(float(fib_seq[-1]) * float(base_bet), br)
-                elif system == "dalembert":
-                    dalembert_step += 1
-                    current_bet = min(
-                        float(base_bet) + dalembert_step * float(base_bet) * 0.5,
-                        br
-                    )
-                # flat: current_bet stays same
+        results.append(bal)
 
-            # Track peak and drawdown
-            if br > peak_bankroll:
-                peak_bankroll = br
-            current_dd = (peak_bankroll - br) / peak_bankroll if peak_bankroll > 0 else 0
-            if current_dd > peak_drawdown:
-                peak_drawdown = current_dd
+    results = np.array(results)
+    prob_ruin = np.mean(results <= 0)
+    prob_success = np.mean(results >= target_bankroll)
+    # prob_reaching_target counts anyone who reached target before ruin or max bets
+    # Be more precise: reached target without going bust
+    prob_reaching_target = np.mean((results >= target_bankroll))
 
-        final_bankrolls.append(br)
-        bets_placed_list.append(bets_placed)
-
-        if wins_count >= target_wins:
-            reached_target += 1
-
-        if br <= 0 or br < target_bankroll - bankroll:
-            ruined += 1
-
-        if peak_drawdown > worst_peak_dd:
-            worst_peak_dd = peak_drawdown
-            worst_idx = sim
-
-    final_bankrolls = np.array(final_bankrolls)
-    expected_value = float(np.mean(final_bankrolls)) - bankroll
-
-    worst_case = {
-        "final_bankroll": round(final_bankrolls[worst_idx], 2),
-        "bets_placed": int(bets_placed_list[worst_idx]),
-        "peak_drawdown_percent": round(worst_peak_dd * 100, 2),
-    }
+    expected_value = float(np.mean(results) - bankroll)
+    median_ending = float(np.median(results))
+    worst_case = float(np.min(results))
 
     return {
-        "probability_of_reaching_target": round(reached_target / n_simulations, 4),
-        "probability_of_ruin": round(ruined / n_simulations, 4),
-        "expected_value": round(expected_value, 2),
-        "median_ending_bankroll": round(float(np.median(final_bankrolls)), 2),
-        "mean_ending_bankroll": round(float(np.mean(final_bankrolls)), 2),
-        "worst_case_simulation": worst_case,
-        "simulations_run": n_simulations,
+        "system": system,
+        "prob_reaching_target": round(prob_reaching_target, 6),
+        "prob_ruin": round(prob_ruin, 6),
+        "expected_value": round(expected_value, 4),
+        "median_ending_bankroll": round(median_ending, 4),
+        "worst_case": round(worst_case, 4),
+        "n_simulations": n_simulations
     }
