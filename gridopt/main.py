@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime, timezone
+
 from config import settings
+from models.schemas import HealthResponse
 from routes import tariffs, schedule, carbon
+
 
 app = FastAPI(
     title=settings.app_name,
@@ -9,6 +13,7 @@ app = FastAPI(
     description=settings.description,
 )
 
+# CORS for developer convenience
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,20 +23,30 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(tariffs.router, prefix=settings.api_prefix)
-app.include_router(schedule.router, prefix=settings.api_prefix)
-app.include_router(carbon.router, prefix=settings.api_prefix)
+app.include_router(tariffs.router)
+app.include_router(schedule.router)
+app.include_router(carbon.router)
 
 
-@app.get("/api/v1/health")
-async def health_check():
-    return {"status": "healthy", "service": settings.app_name, "version": settings.version}
+@app.get("/health", response_model=HealthResponse)
+def health():
+    """Health check endpoint."""
+    return HealthResponse(
+        status="healthy",
+        version=settings.version,
+        timestamp=datetime.now(timezone.utc).isoformat(),
+    )
 
 
 @app.get("/")
-async def root():
+def root():
     return {
-        "service": settings.app_name,
+        "name": settings.app_name,
         "version": settings.version,
         "docs": "/docs",
     }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

@@ -1,140 +1,328 @@
-"""Bundled TOU tariff data for sample US utilities."""
+from datetime import time
+
+# 10 US utilities with realistic TOU tariff data
+# Prices in $/kWh, times in local standard time (simplified)
 
 TARIFFS = {
     "pge": {
-        "utility_id": "pge",
-        "utility_name": "Pacific Gas & Electric",
-        "state": "California",
-        "timezone": "America/Los_Angeles",
+        "name": "Pacific Gas & Electric",
+        "state": "CA",
+        "description": "PG&E E-TOU-C Residential Time-of-Use",
         "periods": [
-            {"name": "off-peak", "start_hour": 0, "end_hour": 7, "price_per_kwh": 0.22},
-            {"name": "partial-peak", "start_hour": 7, "end_hour": 14, "price_per_kwh": 0.34},
-            {"name": "peak", "start_hour": 14, "end_hour": 21, "price_per_kwh": 0.52},
-            {"name": "partial-peak", "start_hour": 21, "end_hour": 24, "price_per_kwh": 0.34},
+            {
+                "name": "off-peak",
+                "start_hour": 0,
+                "end_hour": 14,
+                "price": 0.045,
+                "days": "all",
+            },
+            {
+                "name": "partial-peak",
+                "start_hour": 14,
+                "end_hour": 21,
+                "price": 0.068,
+                "days": "all",
+            },
+            {
+                "name": "peak",
+                "start_hour": 21,
+                "end_hour": 24,
+                "price": 0.095,
+                "days": "all",
+            },
         ],
+        "flat_rate": 0.073,
     },
     "sce": {
-        "utility_id": "sce",
-        "utility_name": "Southern California Edison",
-        "state": "California",
-        "timezone": "America/Los_Angeles",
+        "name": "Southern California Edison",
+        "state": "CA",
+        "description": "SCE Time-of-Use (TOU-D) Residential",
         "periods": [
-            {"name": "off-peak", "start_hour": 0, "end_hour": 8, "price_per_kwh": 0.21},
-            {"name": "on-peak", "start_hour": 8, "end_hour": 20, "price_per_kwh": 0.48},
-            {"name": "off-peak", "start_hour": 20, "end_hour": 24, "price_per_kwh": 0.21},
+            {
+                "name": "off-peak",
+                "start_hour": 0,
+                "end_hour": 16,
+                "price": 0.043,
+                "days": "all",
+            },
+            {
+                "name": "peak",
+                "start_hour": 16,
+                "end_hour": 21,
+                "price": 0.102,
+                "days": "all",
+            },
+            {
+                "name": "off-peak",
+                "start_hour": 21,
+                "end_hour": 24,
+                "price": 0.043,
+                "days": "all",
+            },
         ],
+        "flat_rate": 0.078,
     },
     "sdge": {
-        "utility_id": "sdge",
-        "utility_name": "San Diego Gas & Electric",
-        "state": "California",
-        "timezone": "America/Los_Angeles",
+        "name": "San Diego Gas & Electric",
+        "state": "CA",
+        "description": "SDG&E Power Residential TOU",
         "periods": [
-            {"name": "off-peak", "start_hour": 0, "end_hour": 6, "price_per_kwh": 0.24},
-            {"name": "mid-peak", "start_hour": 6, "end_hour": 16, "price_per_kwh": 0.36},
-            {"name": "peak", "start_hour": 16, "end_hour": 21, "price_per_kwh": 0.58},
-            {"name": "off-peak", "start_hour": 21, "end_hour": 24, "price_per_kwh": 0.24},
+            {
+                "name": "off-peak",
+                "start_hour": 0,
+                "end_hour": 14,
+                "price": 0.052,
+                "days": "all",
+            },
+            {
+                "name": "peak",
+                "start_hour": 14,
+                "end_hour": 21,
+                "price": 0.118,
+                "days": "all",
+            },
+            {
+                "name": "off-peak",
+                "start_hour": 21,
+                "end_hour": 24,
+                "price": 0.052,
+                "days": "all",
+            },
         ],
+        "flat_rate": 0.085,
     },
     "coned": {
-        "utility_id": "coned",
-        "utility_name": "Consolidated Edison",
-        "state": "New York",
-        "timezone": "America/New_York",
+        "name": "Consolidated Edison",
+        "state": "NY",
+        "description": "ConEd Time-of-Use Residential",
         "periods": [
-            {"name": "off-peak", "start_hour": 0, "end_hour": 7, "price_per_kwh": 0.19},
-            {"name": "peak", "start_hour": 7, "end_hour": 22, "price_per_kwh": 0.38},
-            {"name": "off-peak", "start_hour": 22, "end_hour": 24, "price_per_kwh": 0.19},
+            {
+                "name": "off-peak",
+                "start_hour": 0,
+                "end_hour": 15,
+                "price": 0.032,
+                "days": "all",
+            },
+            {
+                "name": "peak",
+                "start_hour": 15,
+                "end_hour": 19,
+                "price": 0.098,
+                "days": "all",
+            },
+            {
+                "name": "off-peak",
+                "start_hour": 19,
+                "end_hour": 24,
+                "price": 0.032,
+                "days": "all",
+            },
         ],
+        "flat_rate": 0.065,
     },
     "dominion": {
-        "utility_id": "dominion",
-        "utility_name": "Dominion Energy",
-        "state": "Virginia",
-        "timezone": "America/New_York",
+        "name": "Dominion Energy",
+        "state": "VA",
+        "description": "Dominion Residential Time-of-Use",
         "periods": [
-            {"name": "off-peak", "start_hour": 0, "end_hour": 6, "price_per_kwh": 0.18},
-            {"name": "on-peak", "start_hour": 6, "end_hour": 22, "price_per_kwh": 0.32},
-            {"name": "off-peak", "start_hour": 22, "end_hour": 24, "price_per_kwh": 0.18},
+            {
+                "name": "off-peak",
+                "start_hour": 0,
+                "end_hour": 15,
+                "price": 0.028,
+                "days": "all",
+            },
+            {
+                "name": "peak",
+                "start_hour": 15,
+                "end_hour": 21,
+                "price": 0.076,
+                "days": "all",
+            },
+            {
+                "name": "off-peak",
+                "start_hour": 21,
+                "end_hour": 24,
+                "price": 0.028,
+                "days": "all",
+            },
         ],
+        "flat_rate": 0.052,
     },
     "duke": {
-        "utility_id": "duke",
-        "utility_name": "Duke Energy",
-        "state": "North Carolina",
-        "timezone": "America/New_York",
+        "name": "Duke Energy",
+        "state": "NC",
+        "description": "Duke Energy Carolinas Residential TOU",
         "periods": [
-            {"name": "off-peak", "start_hour": 0, "end_hour": 7, "price_per_kwh": 0.17},
-            {"name": "peak", "start_hour": 7, "end_hour": 11, "price_per_kwh": 0.31},
-            {"name": "off-peak", "start_hour": 11, "end_hour": 17, "price_per_kwh": 0.22},
-            {"name": "peak", "start_hour": 17, "end_hour": 21, "price_per_kwh": 0.36},
-            {"name": "off-peak", "start_hour": 21, "end_hour": 24, "price_per_kwh": 0.17},
+            {
+                "name": "off-peak",
+                "start_hour": 0,
+                "end_hour": 12,
+                "price": 0.025,
+                "days": "all",
+            },
+            {
+                "name": "partial-peak",
+                "start_hour": 12,
+                "end_hour": 17,
+                "price": 0.045,
+                "days": "all",
+            },
+            {
+                "name": "peak",
+                "start_hour": 17,
+                "end_hour": 21,
+                "price": 0.085,
+                "days": "all",
+            },
+            {
+                "name": "partial-peak",
+                "start_hour": 21,
+                "end_hour": 24,
+                "price": 0.045,
+                "days": "all",
+            },
         ],
+        "flat_rate": 0.055,
     },
-    "austin": {
-        "utility_id": "austin",
-        "utility_name": "Austin Energy",
-        "state": "Texas",
-        "timezone": "America/Chicago",
+    "austin_energy": {
+        "name": "Austin Energy",
+        "state": "TX",
+        "description": "Austin Energy Residential Time-of-Use",
         "periods": [
-            {"name": "off-peak", "start_hour": 0, "end_hour": 8, "price_per_kwh": 0.12},
-            {"name": "on-peak", "start_hour": 8, "end_hour": 20, "price_per_kwh": 0.28},
-            {"name": "off-peak", "start_hour": 20, "end_hour": 24, "price_per_kwh": 0.12},
+            {
+                "name": "off-peak",
+                "start_hour": 0,
+                "end_hour": 13,
+                "price": 0.031,
+                "days": "all",
+            },
+            {
+                "name": "peak",
+                "start_hour": 13,
+                "end_hour": 19,
+                "price": 0.085,
+                "days": "all",
+            },
+            {
+                "name": "off-peak",
+                "start_hour": 19,
+                "end_hour": 24,
+                "price": 0.031,
+                "days": "all",
+            },
         ],
+        "flat_rate": 0.058,
     },
     "smud": {
-        "utility_id": "smud",
-        "utility_name": "Sacramento Municipal Utility District",
-        "state": "California",
-        "timezone": "America/Los_Angeles",
+        "name": "Sacramento Municipal Utility District",
+        "state": "CA",
+        "description": "SMUD Time-of-Use Residential",
         "periods": [
-            {"name": "off-peak", "start_hour": 0, "end_hour": 7, "price_per_kwh": 0.19},
-            {"name": "peak", "start_hour": 7, "end_hour": 19, "price_per_kwh": 0.42},
-            {"name": "off-peak", "start_hour": 19, "end_hour": 24, "price_per_kwh": 0.19},
+            {
+                "name": "off-peak",
+                "start_hour": 0,
+                "end_hour": 17,
+                "price": 0.038,
+                "days": "all",
+            },
+            {
+                "name": "peak",
+                "start_hour": 17,
+                "end_hour": 21,
+                "price": 0.088,
+                "days": "all",
+            },
+            {
+                "name": "off-peak",
+                "start_hour": 21,
+                "end_hour": 24,
+                "price": 0.038,
+                "days": "all",
+            },
         ],
+        "flat_rate": 0.063,
     },
     "aps": {
-        "utility_id": "aps",
-        "utility_name": "Arizona Public Service",
-        "state": "Arizona",
-        "timezone": "America/Phoenix",
+        "name": "Arizona Public Service",
+        "state": "AZ",
+        "description": "APS Time-of-Use Residential",
         "periods": [
-            {"name": "off-peak", "start_hour": 0, "end_hour": 6, "price_per_kwh": 0.16},
-            {"name": "mid-peak", "start_hour": 6, "end_hour": 18, "price_per_kwh": 0.29},
-            {"name": "peak", "start_hour": 18, "end_hour": 22, "price_per_kwh": 0.44},
-            {"name": "off-peak", "start_hour": 22, "end_hour": 24, "price_per_kwh": 0.16},
+            {
+                "name": "off-peak",
+                "start_hour": 0,
+                "end_hour": 15,
+                "price": 0.034,
+                "days": "all",
+            },
+            {
+                "name": "peak",
+                "start_hour": 15,
+                "end_hour": 21,
+                "price": 0.092,
+                "days": "all",
+            },
+            {
+                "name": "off-peak",
+                "start_hour": 21,
+                "end_hour": 24,
+                "price": 0.034,
+                "days": "all",
+            },
         ],
+        "flat_rate": 0.063,
     },
     "xcel": {
-        "utility_id": "xcel",
-        "utility_name": "Xcel Energy",
-        "state": "Colorado",
-        "timezone": "America/Denver",
+        "name": "Xcel Energy",
+        "state": "CO",
+        "description": "Xcel Energy Colorado Residential TOU",
         "periods": [
-            {"name": "off-peak", "start_hour": 0, "end_hour": 7, "price_per_kwh": 0.15},
-            {"name": "on-peak", "start_hour": 7, "end_hour": 21, "price_per_kwh": 0.35},
-            {"name": "off-peak", "start_hour": 21, "end_hour": 24, "price_per_kwh": 0.15},
+            {
+                "name": "off-peak",
+                "start_hour": 0,
+                "end_hour": 12,
+                "price": 0.029,
+                "days": "all",
+            },
+            {
+                "name": "partial-peak",
+                "start_hour": 12,
+                "end_hour": 17,
+                "price": 0.048,
+                "days": "all",
+            },
+            {
+                "name": "peak",
+                "start_hour": 17,
+                "end_hour": 21,
+                "price": 0.078,
+                "days": "all",
+            },
+            {
+                "name": "partial-peak",
+                "start_hour": 21,
+                "end_hour": 24,
+                "price": 0.048,
+                "days": "all",
+            },
         ],
+        "flat_rate": 0.055,
     },
 }
 
 
-def get_all_tariffs():
-    return TARIFFS
-
-
-def get_tariff(utility_id: str):
+def get_tariff(utility_id: str) -> dict | None:
     return TARIFFS.get(utility_id.lower())
 
 
-def search_tariffs(query: str):
+def search_tariffs(query: str) -> list[dict]:
     q = query.lower()
     results = []
-    for uid, tariff in TARIFFS.items():
-        if q in tariff["utility_name"].lower():
-            results.append({
-                "utility_id": uid,
-                "utility_name": tariff["utility_name"],
-                "state": tariff["state"],
-            })
+    for key, tariff in TARIFFS.items():
+        if q in tariff["name"].lower() or q in tariff["state"].lower() or q in key:
+            results.append({"id": key, **tariff})
     return results
+
+
+def get_all_tariffs() -> list[dict]:
+    return [{"id": key, **tariff} for key, tariff in TARIFFS.items()]

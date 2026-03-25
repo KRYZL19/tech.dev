@@ -1,40 +1,28 @@
-from fastapi import APIRouter
-from models.schemas import ScheduleRequest, ScheduleResponse, ScheduledItem
-from utils.optimizer import optimize_schedule
+from fastapi import APIRouter, HTTPException
+from models.schemas import OptimizeScheduleRequest, ScheduleResponse
+from utils.optimizer import greedy_optimize
 
-router = APIRouter(prefix="/optimize", tags=["optimization"])
+
+router = APIRouter(prefix="/api/v1/optimize", tags=["optimize"])
 
 
 @router.post("/schedule", response_model=ScheduleResponse)
-async def optimize_schedule_endpoint(request: ScheduleRequest):
-    min_hour = 0
-    max_hour = 24
-
-    if request.options:
-        if request.options.min_start_hour is not None:
-            min_hour = request.options.min_start_hour
-        if request.options.max_start_hour is not None:
-            max_hour = request.options.max_start_hour
-
-    schedule_result = optimize_schedule(
-        request.appliances,
-        request.tariff,
-        min_hour,
-        max_hour
-    )
-
-    schedule_items = [
-        ScheduledItem(appliance=name, start_hour=start, end_hour=end, cost=cost)
-        for name, start, end, cost in schedule_result
-    ]
-
-    total_cost = sum(item.cost for item in schedule_items)
-    total_duration = sum(
-        app.duration_hours for app in request.appliances
-    )
-
-    return ScheduleResponse(
-        schedule=schedule_items,
-        total_cost=round(total_cost, 4),
-        total_duration=total_duration
-    )
+def optimize_schedule(request: OptimizeScheduleRequest):
+    """
+    Optimize device scheduling for a given utility.
+    
+    Uses a greedy algorithm to schedule devices during off-peak hours.
+    """
+    try:
+        devices = [d.model_dump() for d in request.devices]
+        result = greedy_optimize(
+            utility_id=request.utility_id,
+            devices=devices,
+            start_hour=request.start_hour,
+            end_hour=request.end_hour,
+        )
+        return result
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Optimization failed: {str(e)}")

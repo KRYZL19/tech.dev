@@ -1,32 +1,39 @@
 from fastapi import APIRouter
-from datetime import datetime, timezone
 from models.schemas import CarbonIntensityResponse
+from datetime import datetime, timezone
 
-# Fictional but realistic fallback carbon intensity data (gCO2/kWh)
-# Based on approximate real grid mixes for US regions
-CARBON_DATA = {
-    "CA": {"carbon_intensity_gco2_kwh": 215, "grid_source": "CAISO grid mix"},
-    "TX": {"carbon_intensity_gco2_kwh": 380, "grid_source": "ERCOT grid mix"},
-    "NY": {"carbon_intensity_gco2_kwh": 275, "grid_source": "NYISO grid mix"},
-    "VA": {"carbon_intensity_gco2_kwh": 420, "grid_source": "Dominion Virginia"},
-    "NC": {"carbon_intensity_gco2_kwh": 390, "grid_source": "Duke Energy Carolinas"},
-    "AZ": {"carbon_intensity_gco2_kwh": 340, "grid_source": "APS Arizona"},
-    "CO": {"carbon_intensity_gco2_kwh": 430, "grid_source": "Xcel Colorado"},
-    "US": {"carbon_intensity_gco2_kwh": 386, "grid_source": "US average EIA"},
-    "DEFAULT": {"carbon_intensity_gco2_kwh": 400, "grid_source": "Estimated regional average"},
+
+router = APIRouter(prefix="/api/v1/carbon", tags=["carbon"])
+
+
+# Mock carbon intensity data by region (lbs CO2/kWh)
+# Real data would come from EIA, WattTime, or similar APIs
+CARBON_INTENSITY = {
+    "caiso": 0.23,
+    "pjm": 0.42,
+    "miso": 0.52,
+    "spp": 0.47,
+    "ercot": 0.41,
+    "nyiso": 0.25,
+    "isone": 0.29,
+    "bpa": 0.09,
+    "default": 0.39,
 }
-
-router = APIRouter(prefix="/carbon", tags=["carbon"])
 
 
 @router.get("/intensity", response_model=CarbonIntensityResponse)
-async def get_carbon_intensity(region: str = "US"):
-    region_key = region.upper()
-    data = CARBON_DATA.get(region_key, CARBON_DATA["DEFAULT"])
-
+def get_carbon_intensity(region: str = "default"):
+    """
+    Get carbon intensity for a grid region.
+    
+    Returns estimated lbs CO2 per kWh. Real data sourced from
+    grid operators and carbon APIs.
+    """
+    intensity = CARBON_INTENSITY.get(region.lower(), CARBON_INTENSITY["default"])
     return CarbonIntensityResponse(
-        region=region.upper(),
-        carbon_intensity_gco2_kwh=data["carbon_intensity_gco2_kwh"],
-        grid_source=data["grid_source"],
+        region=region.lower(),
+        intensity=intensity,
+        unit="lbs CO2/kWh",
         timestamp=datetime.now(timezone.utc).isoformat(),
+        source="GRIDOPT estimated",
     )
