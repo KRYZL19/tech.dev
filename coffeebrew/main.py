@@ -1,55 +1,28 @@
-"""
-COFFEEBREW — Coffee Extraction Calculator API
-
-Hook: "21g at 200°F, 2:30, 1.42% TDS. Your refractometer says TDS is off. Here's why."
-
-A precision coffee brewing API that calculates extraction metrics,
-optimizes dosing parameters, and provides bean/method intelligence.
-"""
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import extraction, dosing
+import math
 
-app = FastAPI(
-    title="COFFEEBREW",
-    description="Coffee Extraction Calculator API — precision brewing intelligence",
-    version="1.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc"
-)
+app = FastAPI(title="COFFEEBREW", version="1.0.0")
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
-# CORS for all origins (adjust for production)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+def extraction_yield(coffee_g: float, water_ml: float, tds_percent: float) -> dict:
+    dissolved_solids = water_ml * (tds_percent / 100)
+    yield_pct = (dissolved_solids / coffee_g) * 100
+    return {"yield_pct": round(yield_pct, 2), "dissolved_solids_g": round(dissolved_solids, 2), "status": "under" if yield_pct < 18 else "over" if yield_pct > 22 else "optimal"}
 
-# Include routers
-app.include_router(extraction.router)
-app.include_router(dosing.router)
+def ratio_check(coffee_g: float, water_ml: float) -> dict:
+    ratio = water_ml / coffee_g
+    return {"ratio": f"1:{round(ratio, 1)}", "assessment": "weak" if ratio > 18 else "strong" if ratio < 12 else "optimal"}
 
-
-@app.get("/", tags=["health"])
-def root():
-    """API root with info."""
-    return {
-        "name": "COFFEEBREW",
-        "tagline": "21g at 200°F, 2:30, 1.42% TDS. Your refractometer says TDS is off. Here's why.",
-        "version": "1.0.0",
-        "docs": "/docs"
-    }
-
-
-@app.get("/health", tags=["health"])
-def health():
-    """Health check."""
-    return {"status": "healthy"}
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+@app.get("/")
+def read_root(): return {"coffeebrew": "coffee extraction API", "endpoints": ["/extract", "/ratio"]}
+@app.get("/health")
+def health(): return {"status": "ok", "version": "1.0.0"}
+@app.get("/api/v1/extract")
+def extract(coffee_g: float, water_ml: float, tds_percent: float):
+    result = extraction_yield(coffee_g, water_ml, tds_percent)
+    result["ratio"] = ratio_check(coffee_g, water_ml)
+    return result
+@app.get("/api/v1/ratio")
+def ratio(coffee_g: float, water_ml: float):
+    return ratio_check(coffee_g, water_ml)
