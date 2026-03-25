@@ -133,3 +133,12 @@
 - operator wants texts on Telegram with opportunities + results
 - Uptime is the primary success condition
 - NEVER restart server — operator only
+
+## CRITICAL: API Rate Limit Event (2026-03-25 19:43 UTC)
+- MiniMax API rate limit hit at 19:43 UTC
+- Agent went silent for ~3 hours (20 missed heartbeats)
+- Root cause: too many API calls from today's heavy workload
+- Heartbeat changed from 10m to 30m (config updated, needs gateway restart to apply)
+- Mitigation: reduce heartbeat frequency, consider fallback model
+- No data loss — agent resumed automatically when rate limit cleared
+- Reminder: NEVER restart server — operator must restart gateway
