@@ -1,88 +1,65 @@
-# AMMODEX API
+# AMMODEX — Ballistic Properties API
 
-**"Every reloader I know has a spreadsheet with powder data from 6 different PDF manuals. This shouldn't be a spreadsheet."**
+*The math for muzzle energy, penetration, and terminal ballistics. Without the Wikipedia rabbit hole.*
 
-AMMODEX is a FastAPI-powered ammunition database and reloading reference API. Get muzzle velocities, ballistic coefficients, powder load data, and reloading calculations — all in one place.
+## Hook
+Every ammo manufacturer has different specs for the same caliber. AMMODEX gives developers and re-loaders instant access to NIST-standard ballistic data — grain weights, velocities, energies, gel test simulations — via one clean API.
 
-## Features
-
-- **Ammunition Search** — Search by caliber, get bullet weights, types, and muzzle velocities
-- **Ballistic Data** — G1 ballistic coefficients for hundreds of loads
-- **Bullet Database** — BC values, weights, and styles by caliber
-- **Powder Reference** — Max/min loads and burn rate indices for popular powders
-- **Reload Calculator** — Get starting loads, max loads, and velocity estimates
-
-## API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/ammo/search?q={caliber}` | Search ammo by caliber |
-| GET | `/api/v1/ammo/{caliber}/{weight}` | Get specific ammo details |
-| GET | `/api/v1/bullet/{caliber}` | List bullets with BC values |
-| GET | `/api/v1/powder/{powder_name}` | Get powder data |
-| POST | `/api/v1/reload/calculate` | Calculate loads for caliber/bullet/powder combo |
-
-## Example Requests
+## Use it
 
 ```bash
-# Search for 9mm ammunition
-curl "http://localhost:8000/api/v1/ammo/search?q=9mm"
+# Get full ballistic data for 5.56 NATO
+curl https://api.ammodex.io/v1/ammo/556_nato_62gr
 
-# Get specific ammo details
-curl "http://localhost:8000/api/v1/ammo/9mm/124"
+# Calculate energy at custom velocity
+curl "https://api.ammodex.io/v1/energy-calc?caliber_id=308_win_168gr&velocity_fps=2700"
 
-# Get bullets for .223 Rem
-curl "http://localhost:8000/api/v1/bullet/.223%20Rem"
+# Search by caliber
+curl "https://api.ammodex.io/v1/search?q=9mm"
 
-# Get powder data for Varget
-curl "http://localhost:8000/api/v1/powder/Varget"
-
-# Calculate reloading charges
-curl -X POST "http://localhost:8000/api/v1/reload/calculate" \
+# Ballistic gel simulation
+curl -X POST https://api.ammodex.io/v1/ballistics/gel-test \
   -H "Content-Type: application/json" \
-  -d '{"caliber": "9mm", "bullet_weight": 124, "powder_type": "Bullseye"}'
+  -d '{"caliber_id":"223_rem_55gr","velocity_fps":3100}'
 ```
+
+## Example response
+
+```json
+{
+  "name": "5.56x45mm NATO (62gr FMJ)",
+  "type": "rifle",
+  "caliber": "5.56x45mm NATO",
+  "grains": 62,
+  "muzzle_velocity_fps": 3100,
+  "muzzle_energy_ftlbs": 1324,
+  "penetration_in_gel": 12,
+  "expansion_mm": 8,
+  "pressure_nato_psi": 58000
+}
+```
+
+## What it does
+
+- **Ballistic data** — muzzle velocity, energy, pressure, penetration for 14+ common calibers
+- **Energy calculator** — override velocity or grain to model handloads
+- **Gel test simulation** — penetration and expansion based on velocity delta
+- **NATO compliance** — pressure data for military-spec comparison
+- **Caliber search** — find ammunition by name or caliber string
 
 ## Pricing
 
-| Tier | Price | Daily Calls |
-|------|-------|-------------|
-| **Free** | $0 | 100 |
-| **Dev** | $19/month | 5,000 |
-| **Pro** | $59/month | Unlimited |
-
-## Quick Start
-
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the server
-uvicorn main:app --reload
-
-# API docs available at http://localhost:8000/docs
-```
+| Tier | Calls/day | Price |
+|------|-----------|-------|
+| Free | 100 | $0 |
+| Dev | 10,000 | $19/mo |
+| Pro | 100,000 | $79/mo |
 
 ## Deploy
 
-### Render
 ```bash
-render.yaml included for Render.com deployment
+pip install -r requirements.txt
+uvicorn main:app --host 0.0.0.0 --port $PORT
 ```
 
-### Railway
-```bash
-railway.toml included for Railway.app deployment
-```
-
-## Supported Calibers
-
-9mm, .223 Rem, .308 Win, .45 ACP, .300 Blackout, .38 Spl, .357 Mag, .30-06, 5.56 NATO, .22 LR, .40 S&W, 12ga, 20ga, .270 Win, .243 Win, 6.5 Creedmoor, .30-30, .44 Mag, .380 ACP, .38 Super
-
-## Supported Powders
-
-Bullseye, Unique, HP-38, CFE Pistol, 4227, Varget, CFE 223, H335, IMR 4895, AA2230
-
-## Disclaimer
-
-Load data provided is for reference only. Always verify with manufacturer-published data and start at the lowest listed charge before working up.
+Render: `render.yaml` included. Railway: `railway.toml` included.
