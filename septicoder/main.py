@@ -1,46 +1,49 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes import design, permit
+app = FastAPI(title="SEPTICODER", version="1.0.0")
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
-app = FastAPI(
-    title="SEPTICODE",
-    description="Septic System Design Validator API — Calculate percolation rates, size systems, and generate permit checklists instantly.",
-    version="1.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
-)
-
-# CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Include routers
-app.include_router(design.router)
-app.include_router(permit.router)
-
-
-@app.get("/")
-async def root():
+def drainfield_size(bedrooms: int, gal_per_day: int = 450, soil_percolation_min: int = 60) -> dict:
+    """Size a drain field based on bedrooms and soil percolation.
+    Standard: 120-150 sqft/gallon/day for conventional systems."""
+    flow_gpd = bedrooms * gal_per_day
+    # Loading rate based on percolation (NRL 89-3 table)
+    if soil_percolation_min < 1:
+        rate = 5.0  # very fast — limit loading
+    elif soil_percolation_min <= 10:
+        rate = 1.2
+    elif soil_percolation_min <= 30:
+        rate = 0.9
+    elif soil_percolation_min <= 45:
+        rate = 0.6
+    elif soil_percolation_min <= 60:
+        rate = 0.45
+    elif soil_percolation_min <= 90:
+        rate = 0.3
+    else:
+        rate = 0.2  # very slow — needs large field
+    sqft_needed = max(flow_gpd * rate, bedrooms * 100)
+    lines = int(math.ceil(sqft_needed / 100))
     return {
-        "name": "SEPTICODE",
-        "version": "1.0.0",
-        "tagline": "Perc tests are the #1 reason rural property deals fall through. This API does it in 3 seconds.",
-        "docs": "/docs",
-        "endpoints": {
-            "percolate": "POST /api/v1/percolate",
-            "system_size": "POST /api/v1/system/size",
-            "soil_data": "GET /api/v1/permit/soil/{county_name}",
-            "permit_checklist": "POST /api/v1/permit/checklist",
-        },
+        "bedrooms": bedrooms, "flow_gpd": flow_gpd,
+        "soil_percolation_min": soil_percolation_min,
+        "loading_rate_sqft_per_gal": rate,
+        "drainfield_sqft": round(sqft_needed, 1),
+        "trenches_recommended": lines,
+        "absorption_area_sqft": round(sqft_needed, 1),
+        "tank_size_gallons": bedrooms * 300,
+        "note": "verify with local health department — codes vary by state"
     }
 
+@app.get("/")
+def read_root():
+    return {"septicoder": "septic system sizing API", "endpoints": ["/drainfield"]}
 
 @app.get("/health")
-async def health():
-    return {"status": "healthy"}
+def health(): return {"status": "ok", "version": "1.0.0"}
+
+import math
+@app.get("/api/v1/drainfield")
+def drainfield(bedrooms: int, soil_percolation_min: int = 60, gal_per_bedroom: int = 450):
+    return drainfield_size(bedrooms, gal_per_bedroom, soil_percolation_min)
