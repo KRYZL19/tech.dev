@@ -1,110 +1,65 @@
-# BREWCRUNCH API 🍺
+# BREWCRUNCH — Coffee Extraction API
 
-> _"I spent more time doing math than brewing. ABV, IBU, OG, attenuation — none of this should require a calculator app that shows ads."_
+*Your refractometer says 1.42% TDS. What does that actually mean? BREWCRUNCH tells you.*
 
-A FastAPI backend for homebrew beer calculations and BJCP style matching. No ads. No subscriptions required for basic use.
+## Hook
+Every specialty coffee professional has a refractometer sitting on the bench. Most of them don't know what to do with the TDS reading. BREWCRUNCH turns that number into an extraction yield — the SCA standard — and tells you what to adjust.
 
-## Features
-
-- **ABV Calculator** — Original Gravity + Final Gravity → ABV + Attenuation
-- **IBU Calculator** — Tinseth formula for accurate hop bitterness
-- **OG Calculator** — Estimate gravity from grain bill
-- **Style Checker** — Match your recipe against 25 BJCP styles
-- **Hop Database** — 20 varieties with AA%, type, and typical use
-- **Grain Database** — 25 varieties with PPG and Lovibond ratings
-
-## Quick Start
+## Use it
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the server
-python main.py
-
-# Or with uvicorn directly
-uvicorn main:app --reload --port 8000
-```
-
-API available at `http://localhost:8000`  
-Docs at `http://localhost:8000/docs`
-
-## API Endpoints
-
-### Calculators
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/v1/calculate/abv` | POST | Calculate ABV from OG/FG |
-| `/api/v1/calculate/ibu` | POST | Calculate IBU (Tinseth formula) |
-| `/api/v1/calculate/og` | POST | Estimate OG from grain bill |
-
-### Recipe
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/v1/recipe/check-style` | POST | Match recipe to BJCP styles |
-| `/api/v1/styles` | GET | List all BJCP styles |
-
-### Data
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/v1/hops/{variety}` | GET | Get hop details |
-| `/api/v1/hops` | GET | List all hops |
-| `/api/v1/grains/{variety}` | GET | Get grain details |
-| `/api/v1/grains` | GET | List all grains |
-
-## Example Usage
-
-### Calculate ABV
-
-```bash
-curl -X POST http://localhost:8000/api/v1/calculate/abv \
+# Calculate extraction yield from TDS reading
+curl -X POST https://api.brewcrunch.io/v1/extract \
   -H "Content-Type: application/json" \
-  -d '{"og": 1.055, "fg": 1.012}'
+  -d '{"coffee_g": 21, "water_ml": 340, "tds_percent": 1.38}'
+
+# Estimate extraction without refractometer
+curl "https://api.brewcrunch.io/v1/extract/estimate?coffee_g=21&water_ml=340&temp_f=205&brew_time_s=150"
+
+# Check your brew ratio
+curl "https://api.brewcrunch.io/v1/ratio?coffee_g=21&water_ml=340"
+
+# Grind recommendations for V60
+curl "https://api.brewcrunch.io/v1/grind/v60?coffee_g=22&water_ml=330"
 ```
 
-Response:
+## Example response
+
 ```json
-{"abv": 5.64, "attenuation": 78.18}
+{
+  "input": {"coffee_g": 21, "water_ml": 340, "tds_percent": 1.38},
+  "extraction": {
+    "extraction_yield_percent": 20.8,
+    "status": "optimal",
+    "ideal_range": "18.0 – 22.0%"
+  },
+  "ratio": {
+    "ratio": "1:16.2",
+    "assessment": "optimal",
+    "sca_ideal": "1:15 to 1:17"
+  }
+}
 ```
 
-### Calculate IBU
+## What it does
 
-```bash
-curl -X POST http://localhost:8000/api/v1/calculate/ibu \
-  -H "Content-Type: application/json" \
-  -d '{"oz_hops": 1.0, "aa_percent": 5.5, "boil_time_minutes": 60, "og": 1.050, "volume_gallons": 5.0}'
-```
-
-Response:
-```json
-{"ibu": 29.4}
-```
-
-### Check Style Match
-
-```bash
-curl -X POST http://localhost:8000/api/v1/recipe/check-style \
-  -H "Content-Type: application/json" \
-  -d '{"og": 1.065, "fg": 1.015, "ibu": 55, "abv": 6.5}'
-```
+- **Extraction yield** — converts TDS% to SCA extraction %, with under/over/optimal status
+- **Ratio checker** — tells you if your coffee:water ratio is pulling weak or strong
+- **Grind recommendations** — by brew method, with correct ratios and times
+- **Estimate mode** — when you don't have a refractometer, estimate from parameters
+- **6 methods** — V60, Chemex, French Press, Aeropress, Espresso, Moka
 
 ## Pricing
 
-| Tier | Calls/Day | Price |
+| Tier | Calls/day | Price |
 |------|-----------|-------|
-| Free | 200 | $0 |
-| Dev | Unlimited | $9/month |
-| Pro | Unlimited | $29/month |
+| Free | 100 | $0 |
+| Dev | 10,000 | $9/mo |
+| Pro | 100,000 | $29/mo |
 
-## Tech Stack
+## Deploy
 
-- **FastAPI** — Modern Python web framework
-- **Pydantic** — Data validation
-- **Uvicorn** — ASGI server
-
-## License
-
-MIT
+```bash
+pip install -r requirements.txt
+uvicorn main:app --host 0.0.0.0 --port $PORT
+```
