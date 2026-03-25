@@ -555,7 +555,7 @@
                 <p>Telegram's Bot API supports IPv6 webhooks. As carriers and enterprises migrate to IPv6-only environments, bots without AAAA records become unreachable. Native IPv6 also simplifies integration with modern LLM APIs and reduces DNS resolution latency. DigitalOcean dropped IPv6 for new Droplets in 2024 — a material gap for bot developers.</p>
 
                 <h3 id="faq-4">How do I keep my AI agent running 24/7?</h3>
-                <p>Use a systemd service to run your agent as a background process that restarts on failure and starts on boot. Pair it with a process manager (PM2 for Node.js agents) or container (Docker). Add monitoring via UptimeRobot or Uptime Kuma. For a complete walkthrough, see our <a href="/articles/host-openclaw-247-setup-guide/">OpenClaw 24/7 setup guide</a>.</p>
+                <p>Use a systemd service to run your agent as a background process that restarts on failure and starts on boot. Pair it with a process manager (PM2 for Node.js agents) or container (Docker). Add monitoring via UptimeRobot or Uptime Kuma. For a complete walkthrough, see our <a href="/articles/host-openclaw-247-setup-guide.html">OpenClaw 24/7 setup guide</a>.</p>
 
                 <h3 id="faq-5">What uptime should I expect from a VPS?</h3>
                 <p>Reputable providers advertise 99.9%–99.99% uptime SLAs. Hetzner, Contabo, Vultr, DigitalOcean, and Linode all deliver 99.95%+ in practice (independent monitoring data). The SLA matters because 99.9% downtime equals ~8.7 hours per year; 99.99% equals ~52 minutes. For autonomous agents that must respond to user messages at any hour, that gap is significant.</p>
