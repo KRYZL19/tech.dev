@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPS Security Hardening for AI Agents in 2026: Complete Guide — TechStack</title>
+    <meta name="description" content="Running AI agents on a VPS? This 2026 security guide covers SSH hardening, firewall rules, secret management, Docker sandboxing, and OWASP agentic risks — with real examples.">
+    <meta name="keywords" content="VPS security hardening AI agents, secure AI agent VPS, AI agent server security, AI agent security best practices, OpenClaw VPS security, autonomous agent security">
+    <link rel="canonical" href="https://techstack.dev/articles/vps-security-hardening-ai-agents-2026/">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="VPS Security Hardening for AI Agents in 2026: Complete Guide">
+    <meta property="og:description" content="SSH hardening, firewall rules, secret management, Docker sandboxing, and OWASP agentic risks — with real examples.">
+    <meta property="og:url" content="https://techstack.dev/articles/vps-security-hardening-ai-agents-2026/">
+    <meta property="og:site_name" content="TechStack">
+    <meta property="article:published_time" content="2026-03-25T00:00:00Z">
+    <meta property="article:modified_time" content="2026-03-25T00:00:00Z">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VPS Security Hardening for AI Agents in 2026">
+    <meta name="twitter:description" content="SSH hardening, firewall, Docker sandboxing, and OWASP agentic risks covered.">
+    <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #f5f0e8; --surface: #fffdf9; --border: #ddd8cf; --text: #1a1a18; --text-muted: #6b6560; --accent: #b5451b; --accent-hover: #8c3415; --code-bg: #e8e2d9; }
+    body { font-family: Georgia, 'Times New Roman', serif; background: var(--bg); color: var(--text); line-height: 1.75; font-size: 17px; }
+    .container { max-width: 680px; margin: 0 auto; padding: 0 1.5rem; }
+    header { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+    .site-name { font-size: 1.1rem; font-weight: 700; color: var(--text); text-decoration: none; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+    .site-name:hover { color: var(--accent); }
+    .back-link { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.8rem; color: var(--text-muted); text-decoration: none; }
+    .back-link:hover { color: var(--accent); }
+    .back-link::before { content: '← '; }
+    .article-header { padding: 2.5rem 0 2rem; border-bottom: 1px solid var(--border); }
+    .article-header h1 { font-size: 1.75rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.75rem; }
+    .article-header .meta { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.8rem; color: var(--text-muted); }
+    .article-header .meta span { margin-right: 1rem; }
+    .article-body { padding: 2.5rem 0; }
+    .article-body h2 { font-size: 1.3rem; font-weight: 700; margin: 2rem 0 0.75rem; }
+    .article-body h3 { font-size: 1.1rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
+    .article-body p { margin-bottom: 1.1rem; }
+    .article-body ul, .article-body ol { margin: 0 0 1.1rem 1.5rem; }
+    .article-body li { margin-bottom: 0.4rem; }
+    .article-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .article-body a:hover { color: var(--accent-hover); }
+    pre { background: var(--code-bg); padding: 1rem 1.25rem; border-radius: 4px; overflow-x: auto; font-size: 0.85rem; line-height: 1.6; font-family: 'Courier New', monospace; margin: 1.25rem 0; border: 1px solid var(--border); }
+    code { background: var(--code-bg); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85em; font-family: 'Courier New', monospace; border: 1px solid var(--border); }
+    pre code { background: none; padding: 0; border: none; }
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; font-family: -apple-system, sans-serif; }
+    th { background: var(--text); color: var(--surface); padding: 0.6rem 0.75rem; text-align: left; font-weight: 600; font-size: 0.8rem; }
+    td { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+    .highlight-box { background: var(--surface); border: 2px solid var(--accent); border-radius: 4px; padding: 1.25rem; margin: 2rem 0; }
+    .highlight-box h3 { margin-top: 0; font-size: 1.1rem; }
+    .highlight-box p { margin-bottom: 0.75rem; }
+    .highlight-box p:last-child { margin-bottom: 0; }
+    .callout { background: var(--surface); border-left: 3px solid var(--accent); padding: 0.75rem 1rem; margin: 1.25rem 0; font-size: 0.95rem; }
+    .callout.info { border-left-color: #2563eb; }
+    .callout.warning { border-left-color: #d97706; }
+    .callout strong { display: block; margin-bottom: 0.25rem; font-family: -apple-system, sans-serif; font-size: 0.8rem; }
+    .disclaimer { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1rem 1.25rem; margin: 2rem 0; font-size: 0.9rem; }
+    .disclaimer strong { display: block; margin-bottom: 0.25rem; font-family: -apple-system, sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+    .threat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+    .threat-item { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1rem; }
+    .threat-item h4 { font-family: -apple-system, sans-serif; font-size: 0.85rem; margin-bottom: 0.3rem; color: var(--accent); }
+    .threat-item p { font-size: 0.85rem; margin-bottom: 0.3rem; color: var(--text-muted); }
+    .threat-item code { font-size: 0.8rem; }
+    .faq-item { margin-bottom: 1.5rem; }
+    .faq-item h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+    .faq-item p { margin-bottom: 0; }
+    footer { border-top: 1px solid var(--border); padding: 2rem 0; font-family: -apple-system, sans-serif; font-size: 0.8rem; color: var(--text-muted); text-align: center; }
+    footer a { color: var(--text-muted); text-decoration: underline; }
+    @media (max-width: 600px) { body { font-size: 16px; } .article-header h1 { font-size: 1.5rem; } table { font-size: 0.8rem; } .threat-grid { grid-template-columns: 1fr; } }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "VPS Security Hardening for AI Agents in 2026: Complete Guide",
+      "description": "SSH hardening, firewall rules, secret management, Docker sandboxing, and OWASP agentic risks covered.",
+      "datePublished": "2026-03-25",
+      "dateModified": "2026-03-25",
+      "author": { "@type": "Organization", "name": "TechStack" },
+      "publisher": { "@type": "Organization", "name": "TechStack", "url": "https://techstack.dev" }
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="site-name">TechStack</a>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="article-header">
+                <h1>VPS Security Hardening for AI Agents in 2026: Complete Guide</h1>
+                <div class="meta">
+                    <span>Published March 25, 2026</span>
+                    <span>12 min read</span>
+                    <span>Security</span>
+                </div>
+            </div>
+            <div class="article-body">
+                <p>You're running an AI agent on a VPS — maybe it's handling your emails, managing your calendar, executing commands on your server, or talking to external APIs. That's powerful. It's also a target.</p>
+
+                <p>Most VPS hardening guides focus on generic server security: SSH keys, firewall rules, fail2ban. Those matter. But AI agents introduce a whole new threat surface that those guides don't cover. Your agent has access to APIs, can execute shell commands, reads files, and might be connected to payment systems or sensitive data. One misconfigured permission is all it takes.</p>
+
+                <p>This guide covers both: the standard VPS hardening that applies to any server, plus the AI-agent-specific risks that most security guides ignore entirely.</p>
+
+                <h2>Why AI Agents Need Special Security Considerations</h2>
+
+                <p>Traditional server security assumes the attacker is external. With AI agents, the threat model is different — and more complicated:</p>
+
+                <ul>
+                    <li><strong>Prompt injection:</strong> External input (emails, messages, scraped web pages) can inject malicious instructions into your agent's context</li>
+                    <li><strong>Tool misuse:</strong> An agent with shell access can execute commands — but so can an attacker who tricks the agent into running their commands instead</li>
+                    <li><strong>Context leakage:</strong> Your agent's system prompt, memory, and conversation history may contain secrets, API keys, or sensitive business logic</li>
+                    <li><strong>Supply chain risk:</strong> Skills and plugins your agent uses are code running with the same privileges as the agent itself</li>
+                    <li><strong>Localhost trust:</strong> Many agents trust localhost by default — but anything running on the same server can call the agent's API</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h3>The Agentic OWASP Top 10</h3>
+                    <p>The OWASP Foundation released a draft framework for agentic application security. The biggest risks identified for AI agents:</p>
+                    <ol>
+                        <li><strong>MB01: Mission Hoisting</strong> — Agent loses sight of its core objective due to injected subgoals</li>
+                        <li><strong>MB02: Tool Call Injection</strong> — Malicious input tricks the agent into calling dangerous tools</li>
+                        <li><strong>MB03: Context Injection</strong> — Sensitive data from prior conversations leaks into new sessions</li>
+                        <li><strong>MB04: Memory Poisoning</strong> — Corrupted context/memory degrades agent judgment</li>
+                        <li><strong>MB05: Agent Theft</strong> — Unauthorized party gains control of the agent</li>
+                        <li><strong>MB06: State Corruption</strong> — Agent reaches invalid or unsafe internal state</li>
+                        <li><strong>MB07: Cascading Failures</strong> — One agent's failure triggers chain reaction across connected systems</li>
+                        <li><strong>MB08: Overreliance</strong> — Human oversight fails to catch agent errors in time</li>
+                        <li><strong>MB09: Agency Overgrant</strong> — Agent given more autonomy than intended or safe</li>
+                        <li><strong>MB10:羊毛logging</strong> — Agent repeatedly exploits a resource or service without limits</li>
+                    </ol>
+                </div>
+
+                <h2>Part 1: VPS Hardening (Standard Server Security)</h2>
+
+                <h3>SSH Hardening</h3>
+
+                <p>SSH is your server's front door. Most VPSes come with password authentication enabled — turn that off immediately.</p>
+
+                <pre><code># Edit SSH config
+sudo nano /etc/ssh/sshd_config
+
+# Required settings:
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+MaxAuthTries 3
+ClientAliveInterval 300
+ClientAliveCountMax 2
+X11Forwarding no
+AllowUsers tim  # replace with your username
+
+# Reload SSH
+sudo systemctl reload sshd</code></pre>
+
+                <p>Use SSH key pair authentication only. Generate a strong key on your local machine:</p>
+
+                <pre><code># Generate ed25519 key (recommended over RSA)
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# Copy public key to server
+ssh-copy-id -i ~/.ssh/id_ed25519.pub user@your-vps-ip</code></pre>
+
+                <p>Consider using a non-standard SSH port — it reduces automated brute-force noise by about 95%.</p>
+
+                <pre><code># Change SSH port (pick something above 1024)
+Port 3456</code></pre>
+
+                <h3>Firewall Setup with UFW</h3>
+
+                <p>Ubuntu's Uncomplicated Firewall (UFW) makes firewall management straightforward. Default deny everything, then explicitly allow only what you need.</p>
+
+                <pre><code># Check status
+sudo ufw status verbose
+
+# Default deny incoming, allow outgoing
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# Allow SSH on your custom port
+sudo ufw allow 3456/tcp
+
+# Allow HTTP/HTTPS for web interfaces
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Allow OpenClaw gateway (if exposing)
+# Only if you've configured authentication and understand the risk
+# sudo ufw allow 18789/tcp proto tcp from YOUR_IP only
+
+# Enable firewall
+sudo ufw enable
+
+# Check rules
+sudo ufw status numbered</code></pre>
+
+                <div class="callout warning">
+                    <strong>Warning</strong>
+                    Make sure you've tested passwordless SSH access BEFORE enabling the firewall. Locking yourself out of your own server is frustrating and sometimes requires provider console access to fix.
+                </div>
+
+                <h3>Automatic Security Updates</h3>
+
+                <pre><code># Install unattended-upgrades
+sudo apt install unattended-upgrades
+
+# Enable automatic security updates
+sudo dpkg-reconfigure -plow unattended-upgrades
+
+# Or configure manually
+sudo nano /etc/apt/apt.conf.d/50unattended-upgrades</code></pre>
+
+                <h3>Fail2Ban</h3>
+
+                <p>Fail2Ban automatically blocks IPs that repeatedly fail authentication. Essential for any internet-facing server.</p>
+
+                <pre><code># Install and enable
+sudo apt install fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+
+# Config file (don't edit the defaults)
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+sudo nano /etc/fail2ban/jail.local
+
+# Recommended settings:
+[sshd]
+enabled = true
+port = 3456
+maxretry = 3
+bantime = 3600
+findtime = 600</code></pre>
+
+                <h3>VPS Provider Security Features</h3>
+
+                <p>Check your VPS control panel for additional security layers:</p>
+
+                <table>
+                    <tr><th>Feature</th><th>What It Does</th><th>Recommended</th></tr>
+                    <tr><td>Cloud Firewall</td><td>Network-level filtering before traffic hits your server</td><td>Enable, deny all by default</td></tr>
+                    <tr><td>SSH Key in Panel</td><td>Provider-managed key injected at server creation</td><td>Use alongside local keys</td></tr>
+                    <tr><td>Private Networking</td><td>Isolated network between your VPSes</td><td>Use for multi-server setups</td></tr>
+                    <tr><td>DDoS Protection</td><td>Automatic traffic filtering</td><td>Enable if available</td></tr>
+                    <tr><td>Snapshot Backups</td><td>Point-in-time disk images</td><td>Enable weekly snapshots</td></tr>
+                </table>
+
+                <h2>Part 2: AI Agent-Specific Security</h2>
+
+                <h3>Don't Trust Localhost</h3>
+
+                <p>Here's a scenario most AI agent operators don't think about: anything running on the same VPS can call your agent's API — including malicious scripts, compromised dependencies, or other containers.</p>
+
+                <p>If your agent listens on <code>localhost</code> only, that's good. But check what else is running:</p>
+
+                <pre><code># Check what ports your agent is listening on
+ss -tlnp | grep -E '18789|3000|8080'
+
+# Check for any unexpected services
+sudo netstat -tlnp
+
+# Review running processes
+ps aux | grep -v grep</code></pre>
+
+                <p>If you run other services on the same VPS (a web server, database, etc.), consider network-isolating them from the agent using Linux namespaces or separate users with strict permissions.</p>
+
+                <h3>API Key and Secret Management</h3>
+
+                <p>Never hardcode API keys, tokens, or credentials in your agent's configuration, system prompt, or skill files. Use environment variables:</p>
+
+                <pre><code># Good: environment variable
+export OPENAI_API_KEY="sk-..."
+
+# Better: secret manager
+# Use a tool like 1Password CLI, HashiCorp Vault,
+# or at minimum a .env file NOT committed to git
+nano ~/.env
+# Add: OPENAI_API_KEY=sk-...
+# Then in your agent config:
+# envFiles: [/home/user/.env]
+
+# Never do this (in any config file):
+# apiKey: "sk-actual-key-here"</code></pre>
+
+                <div class="callout warning">
+                    <strong>Critical</strong>
+                    Check your agent's configuration files, skill YAMLs, and memory files for hardcoded API keys. Use <code>grep -r "sk-" ~/.openclaw/</code> to scan your config directory for any exposed keys.
+                </div>
+
+                <h3>Sandboxing Agent Tool Execution</h3>
+
+                <p>If your agent uses shell execution tools, consider restricting what those tools can do. Use limited, non-root users for agent processes:</p>
+
+                <pre><code># Create a dedicated user for your agent (don't run as root)
+sudo useradd -m -s /bin/bash openclaw-agent
+
+# Give it limited sudo only where absolutely needed
+# Edit sudoers file:
+sudo visudo
+# Add this line (replace with exact commands needed):
+openclaw-agent ALL=(ALL) /usr/bin/apt-get update, /usr/bin/apt-get install, /usr/bin/systemctl restart openclaw
+
+# Run your agent as this user:
+sudo -u openclaw-agent openclaw gateway start</code></pre>
+
+                <p>For agents running Docker containers, use the principle of least privilege:</p>
+
+                <pre><code># Run agent container with restricted privileges
+docker run \
+  --read-only \
+  --no-new-privileges \
+  --security-opt=no-new-privileges \
+  --cap-drop ALL \
+  -v /path/to/config:/config:ro \
+  openclaw-agent-image
+
+# Better: use a seccomp profile to limit syscalls
+docker run --security-opt=seccomp=/path/to/seccomp-profile.json ...</code></pre>
+
+                <h3>Audit Logs for Agent Actions</h3>
+
+                <p>Enable comprehensive logging for your agent's actions. When something goes wrong — or when you need to investigate an incident — you'll want a paper trail.</p>
+
+                <pre><code># Enable OpenClaw verbose logging
+openclaw config set logging.level verbose
+
+# Or via config file (~/.openclaw/config.yaml):
+logging:
+  level: debug
+  file: /var/log/openclaw/agent.log
+
+# Rotate logs to prevent disk exhaustion
+sudo nano /etc/logrotate.d/openclaw
+# Add:
+# /var/log/openclaw/*.log {
+#   daily
+#   rotate 14
+#   compress
+#   delaycompress
+#   notifempty
+#   create 0640 openclaw-agent adm
+# }</code></pre>
+
+                <p>For high-stakes deployments, consider piping agent logs to a separate logging service (syslog, Loki, CloudWatch) that the agent process itself can't modify or delete.</p>
+
+                <h3>Rate Limiting and Output Guardrails</h3>
+
+                <p>Protect against agents that can make costly repeated calls to external services (M03: Overreliance, M10:羊毛logging from the OWASP list):</p>
+
+                <table>
+                    <tr><th>Risk</th><th>Mitigation</th></tr>
+                    <tr><td>Agent spam-calling a paid API</td><td>Set per-minute rate limits in your API gateway or firewall</td></tr>
+                    <tr><td>Agent sending hundreds of emails</td><td>Configure your email provider's daily send limits</td></tr>
+                    <tr><td>Agent burning through API budget</td><td>Use OpenClaw's cost tracking skill + budget alerts</td></tr>
+                    <tr><td>Infinite loop of tool calls</td><td>Set max_turns or max_depth in agent config</td></tr>
+                </table>
+
+                <h3>Context and Memory Isolation</h3>
+
+                <p>An agent that remembers everything is a liability if that context leaks. Audit what your agent remembers:</p>
+
+                <ul>
+                    <li>What data is stored in your agent's memory files?</li>
+                    <li>Could a prompt injection attack retrieve sensitive data from memory?</li>
+                    <li>Do conversation logs contain API keys, passwords, or business secrets?</li>
+                    <li>Are memory files protected with filesystem permissions?</li>
+                </ul>
+
+                <pre><code># Check who can read your agent's memory files
+ls -la ~/.openclaw/memory/
+ls -la ~/.openclaw/workspace/memory/
+
+# Restrict to your user only
+chmod 700 ~/.openclaw/memory/
+chmod 700 ~/.openclaw/workspace/memory/</code></pre>
+
+                <h2>Security Checklist</h2>
+
+                <p>Run through this checklist before going live with any AI agent on a VPS:</p>
+
+                <pre><code># SSH Hardening
+[ ] Password authentication disabled in /etc/ssh/sshd_config
+[ ] SSH keys only, strong key type (ed25519)
+[ ] Root login disabled
+[ ] Non-standard SSH port configured
+[ ] MaxAuthTries set to 3 or lower
+
+# Firewall
+[ ] UFW enabled with default deny incoming
+[ ] Only necessary ports open (SSH, 80/443 if needed)
+[ ] Cloud firewall from provider also configured
+
+# System Updates
+[ ] Unattended upgrades enabled
+[ ] Recent security patches applied
+
+# Fail2Ban
+[ ] Fail2Ban installed and enabled
+[ ] SSH jail active on correct port
+
+# Agent Security
+[ ] Agent runs as non-root user
+[ ] API keys in environment variables, not hardcoded
+[ ] Agent's localhost API not exposed to internet
+[ ] Memory files have restrictive permissions (700)
+[ ] Audit logs enabled and rotating
+[ ] Rate limiting configured on external API calls
+[ ] max_turns limit set in agent config
+[ ] Reviewed skills/plugins for supply chain risk</code></pre>
+
+                <h2>What to Do If Something Goes Wrong</h2>
+
+                <p>Despite all precautions, incidents happen. Here's a response playbook:</p>
+
+                <ol>
+                    <li><strong>Isolate immediately</strong> — Block the agent's network access or shut down the process: <code>sudo systemctl stop openclaw</code></li>
+                    <li><strong>Check the logs</strong> — <code>sudo journalctl -u openclaw -n 100</code> or your log file</li>
+                    <li><strong>Rotate any exposed credentials</strong> — API keys, tokens, passwords that were in context or config</li>
+                    <li><strong>Audit what the agent did</strong> — Check for unauthorized API calls, file access, or command execution</li>
+                    <li><strong>Take a snapshot</strong> — Before fixing anything, snapshot the VPS state for forensic analysis</li>
+                    <li><strong>Patch the hole</strong> — Identify the root cause and close it</li>
+                    <li><strong>Resume with additional monitoring</strong> — Watch closely for a few days after</li>
+                </ol>
+
+                <div class="highlight-box">
+                    <h3>The One Rule</h3>
+                    <p>Give your AI agent only the minimum privileges it needs to do its job. A Telegram bot that just sends messages doesn't need shell access. A code-review agent doesn't need access to your email. The principle of least privilege applies to AI agents more than anywhere else — because unlike traditional software, an AI agent can surprise you with how creatively it uses the access you've given it.</p>
+                </div>
+
+                <h2>Conclusion</h2>
+
+                <p>AI agent security isn't a solved problem — the OWASP agentic Top 10 is still evolving, new attack vectors are discovered regularly, and the intersection of LLMs with existing infrastructure creates novel risks that neither traditional security nor traditional AI guidance fully addresses.</p>
+
+                <p>That said, most AI agent security incidents come from the same root causes as traditional server incidents: misconfigured access controls, exposed secrets, and excessive privileges. Get the fundamentals right — SSH hardening, firewall, least privilege, secret management — and you're already ahead of most deployments.</p>
+
+                <p>The AI-agent-specific additions — audit logging, output guardrails, context isolation, and awareness of prompt injection — are the layer that makes your deployment production-ready for autonomous operation.</p>
+
+                <p>Your VPS is only as secure as its weakest operator. Treat it accordingly.</p>
+
+                <div class="faq-item">
+                    <h3>Can I run my AI agent and a web server on the same VPS?</h3>
+                    <p>Yes, but isolate them. Use Linux user permissions to restrict what the agent can access. Better yet, run the agent in a Docker container with no network access to the host's other services.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Should I expose my agent's API port to the internet?</h3>
+                    <p>No. Keep it on localhost only. If you need external access, use a reverse proxy (nginx) with authentication, or use a VPN tunnel. An unauthenticated agent API on the public internet is an open proxy waiting to be abused.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>How do I know if my agent has been compromised?</h3>
+                    <p>Watch for: unexpected API calls in your provider logs, commands in shell history you don't recognize, files modified or created without your knowledge, or outbound network traffic to unknown IPs. Enable OpenClaw's verbose logging and check it regularly.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>Do I need a separate VPS just for my AI agent?</h3>
+                    <p>For anything production or sensitive: yes. Shared infrastructure means shared risk. If other services on the VPS are compromised, they can potentially access your agent's context and credentials. Dedicated VPS pricing starts at $4-6/month from providers like Hetzner — worth it for peace of mind.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3>What about the OWASP agentic security framework — is it finalized?</h3>
+                    <p>As of 2026, the OWASP agentic application security work is ongoing and in draft/experimental stage. The categories (MB01-MB10) are a useful framework for thinking about risks even if the specific numbering and definitions will evolve. Check <a href="https://owasp.org">owasp.org</a> for the latest version.</p>
+                </div>
+
+            </div>
+            <footer>
+                <p>&copy; 2026 TechStack. <a href="/">Home</a> · <a href="/articles/">All Articles</a></p>
+            </footer>
+        </div>
+    </main>
+</body>
+</html>
