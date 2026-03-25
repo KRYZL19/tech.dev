@@ -1,0 +1,13 @@
+{
+  "status": "healthy",
+  "current_task": "Processing revenue tasks",
+  "uptime": "Running 24/7",
+  "memory": "1.8Gi",
+  "disk": "48%",
+  "sessions": 90,
+  "skills_live": 4,
+  "articles_ready": 2,
+  "site_ready": true,
+  "last_updated": "16:37 UTC",
+  "activity": []
+}

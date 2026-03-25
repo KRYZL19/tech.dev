@@ -1,0 +1,125 @@
+"""Hop variety data with AA% values and characteristics."""
+
+HOP_DATA = {
+    "cascade": {
+        "aa": 5.5,
+        "type": "Aroma",
+        "typical_use": "Dry Hop, Boil",
+        "notes": "Floral, citrus, grapefruit",
+        "替代": ["centennial", "columbus"],
+    },
+    "centennial": {
+        "aa": 9.5,
+        "type": "Dual",
+        "typical_use": "Boil, Dry Hop",
+        "notes": "Citrus, floral, pine",
+    },
+    "chinook": {
+        "aa": 12.0,
+        "type": "Bittering",
+        "typical_use": "Boil, Dry Hop",
+        "notes": "Pine, resin, grapefruit",
+    },
+    "citra": {
+        "aa": 11.0,
+        "type": "Aroma",
+        "typical_use": "Dry Hop, Boil",
+        "notes": "Tropical fruit, citrus, berry",
+    },
+    "columbus": {
+        "aa": 14.0,
+        "type": "Bittering",
+        "typical_use": "Boil",
+        "notes": "Pine, citrus, earthy",
+    },
+    "mosaic": {
+        "aa": 11.5,
+        "type": "Aroma",
+        "typical_use": "Dry Hop, Boil",
+        "notes": "Tropical, stone fruit, berry",
+    },
+    "simcoe": {
+        "aa": 12.0,
+        "type": "Dual",
+        "typical_use": "Boil, Dry Hop",
+        "notes": "Pine, citrus, earthy",
+    },
+    "amarillo": {
+        "aa": 8.0,
+        "type": "Aroma",
+        "typical_use": "Dry Hop, Boil",
+        "notes": "Orange, citrus, floral",
+    },
+    "magnum": {
+        "aa": 14.0,
+        "type": "Bittering",
+        "typical_use": "Boil",
+        "notes": "Clean, floral, pine",
+    },
+    "northern brewer": {
+        "aa": 8.0,
+        "type": "Dual",
+        "typical_use": "Boil",
+        "notes": "Mint, pine, earthy",
+    },
+    "fuggle": {
+        "aa": 4.5,
+        "type": "Aroma",
+        "typical_use": "Boil, Dry Hop",
+        "notes": "Earth, wood, mild fruit",
+    },
+    "willamette": {
+        "aa": 5.0,
+        "type": "Aroma",
+        "typical_use": "Boil, Dry Hop",
+        "notes": "Floral, earth, mild spice",
+    },
+    "saaz": {
+        "aa": 3.5,
+        "type": "Aroma",
+        "typical_use": "Boil, Dry Hop",
+        "notes": "Spice, floral, earthy",
+    },
+    "tettnang": {
+        "aa": 4.5,
+        "type": "Aroma",
+        "typical_use": "Boil, Dry Hop",
+        "notes": "Spice, floral, light citrus",
+    },
+    "hallertau": {
+        "aa": 4.0,
+        "type": "Aroma",
+        "typical_use": "Boil, Dry Hop",
+        "notes": "Floral, earthy, mild",
+    },
+    "crystal": {
+        "aa": 3.5,
+        "type": "Aroma",
+        "typical_use": "Dry Hop, Boil",
+        "notes": "Floral, light citrus, melon",
+    },
+    "goldings": {
+        "aa": 5.0,
+        "type": "Aroma",
+        "typical_use": "Boil, Dry Hop",
+        "notes": "Floral, earth, lemon",
+    },
+    "bravo": {
+        "aa": 14.0,
+        "type": "Bittering",
+        "typical_use": "Boil",
+        "notes": "Citrus, floral, sweet fruit",
+    },
+    "el dorado": {
+        "aa": 13.0,
+        "type": "Dual",
+        "typical_use": "Boil, Dry Hop",
+        "notes": "Stone fruit, pear, candy",
+    },
+    "idaho 7": {
+        "aa": 11.5,
+        "type": "Aroma",
+        "typical_use": "Dry Hop, Boil",
+        "notes": "Tropical, pine, herbal",
+    },
+}

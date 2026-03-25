@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strd's Notebook — VPS, Agents & Automation</title>
+    <meta name="description" content="Real notes on running VPS servers, setting up autonomous agents, and automating things that used to take forever.">
+    <link rel="canonical" href="https://kryzl19.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Strd's Notebook — VPS, Agents & Automation">
+    <meta property="og:description" content="Real notes on running VPS servers and automating things.">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.85em' font-size='85'>📡</text></svg>">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #f5f0e8;
+            --surface: #fffdf9;
+            --border: #ddd8cf;
+            --text: #1a1a18;
+            --text-muted: #6b6560;
+            --accent: #b5451b;
+            --accent-hover: #8c3415;
+            --code-bg: #e8e2d9;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            padding: 3rem 0 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .site-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .site-name:hover { color: var(--accent); }
+
+        .tagline {
+            margin-top: 0.4rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .hero {
+            padding: 3.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 520px;
+        }
+
+        .hero p a {
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .hero p a:hover { color: var(--accent-hover); }
+
+        /* Article list */
+        .articles {
+            padding: 3rem 0;
+        }
+
+        .articles-heading {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        article {
+            margin-bottom: 2.5rem;
+        }
+
+        article h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+            line-height: 1.3;
+        }
+
+        article h2 a {
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        article h2 a:hover { color: var(--accent); }
+
+        article .excerpt {
+            font-size: 0.925rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+            line-height: 1.6;
+        }
+
+        article .meta {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        article .meta span { margin-right: 0.75rem; }
+
+        /* No bullshit list */
+        .note-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .note-section h3 {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .note-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .note-section li {
+            font-size: 0.9rem;
+            padding: 0.3rem 0;
+            color: var(--text-muted);
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .note-section li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        footer a { color: var(--text-muted); text-decoration: underline; }
+        footer a:hover { color: var(--accent); }
+
+        /* Code blocks */
+        pre {
+            background: var(--code-bg);
+            padding: 1rem 1.25rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+
+        code {
+            background: var(--code-bg);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-family: 'Courier New', Courier, monospace;
+            border: 1px solid var(--border);
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.6rem; }
+            body { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="site-name">📡 Strd's Notebook</a>
+            <p class="tagline">Real notes on VPS, agents & getting things to run by themselves</p>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>I run servers so you don't have to figure everything out from scratch.</h1>
+                <p>Notes on VPS hosting, autonomous agents (mostly <a href="#">OpenClaw</a>), and the stuff I've actually got working. No fluff. Updated when I find something worth writing about.</p>
+            </div>
+        </section>
+
+        <section class="articles">
+            <div class="container">
+                <p class="articles-heading">What's here</p>
+
+                <article>
+                    <h2><a href="/articles/best-vps-ai-agents-autonomous-bots-2026.html">Best VPS for AI Agents and Autonomous Bots in 2026</a></h2>
+                    <p class="excerpt">Decent comparison of VPS providers if you're running something 24/7. Hetzner keeps winning in my experience. Here's what matters and what doesn't.</p>
+                    <p class="meta"><span>March 2026</span><span>~12 min read</span></p>
+                </article>
+
+                <article>
+                    <h2><a href="/articles/host-openclaw-247-setup-guide.html">How to Host OpenClaw 24/7: Complete Setup Guide</a></h2>
+                    <p class="excerpt">What I actually did to get OpenClaw running on a VPS and keeping it alive. Systemd, nginx, SSL, firewall — the works.</p>
+                    <p class="meta"><span>March 2026</span><span>~15 min read</span></p>
+                </article>
+
+                <article>
+                    <h2><a href="/articles/make-money-autonomous-ai-agents-2026.html">Making Money with Autonomous AI Agents in 2026</a></h2>
+                    <p class="excerpt">Tried a few things. Here's what actually worked and what didn't. Real numbers, no hype.</p>
+                    <p class="meta"><span>March 2026</span><span>~10 min read</span></p>
+                </article>
+
+                <div class="note-section">
+                    <h3>This site is a work in progress</h3>
+                    <ul>
+                        <li>More guides coming as I test things</li>
+                        <li>If something's outdated, check the date</li>
+                        <li>Built with GitHub Pages — no tracking, no cookies, no BS</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 strd. No rights reserved — copy what you find useful.</p>
+        </div>
+    </footer>
+</body>
+</html>

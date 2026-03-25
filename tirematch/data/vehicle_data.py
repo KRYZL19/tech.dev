@@ -1,0 +1,830 @@
+"""Bundled vehicle data for TIREMATCH API."""
+
+VEHICLES = {
+    # Toyota Camry (2018-2024)
+    "toyota_camry_2018": {
+        "id": "toyota_camry_2018",
+        "year": 2018, "make": "Toyota", "model": "Camry",
+        "trims": ["LE", "SE", "XSE"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 55, "rim_diameter": 16},
+            {"width_mm": 215, "aspect_ratio": 55, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3",
+        "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45},
+        "lug_thread": "12x1.5",
+    },
+    "toyota_camry_2019": {
+        "id": "toyota_camry_2019", "year": 2019, "make": "Toyota", "model": "Camry",
+        "trims": ["LE", "SE", "XSE", "XLE"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 55, "rim_diameter": 16},
+            {"width_mm": 215, "aspect_ratio": 55, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "toyota_camry_2020": {
+        "id": "toyota_camry_2020", "year": 2020, "make": "Toyota", "model": "Camry",
+        "trims": ["LE", "SE", "XSE", "XLE", "TRD"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 55, "rim_diameter": 16},
+            {"width_mm": 215, "aspect_ratio": 55, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 19},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "toyota_camry_2021": {
+        "id": "toyota_camry_2021", "year": 2021, "make": "Toyota", "model": "Camry",
+        "trims": ["LE", "SE", "XSE", "XLE", "TRD"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 55, "rim_diameter": 16},
+            {"width_mm": 215, "aspect_ratio": 55, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 19},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "toyota_camry_2022": {
+        "id": "toyota_camry_2022", "year": 2022, "make": "Toyota", "model": "Camry",
+        "trims": ["LE", "SE", "XSE", "XLE", "TRD"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 55, "rim_diameter": 16},
+            {"width_mm": 215, "aspect_ratio": 55, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "toyota_camry_2023": {
+        "id": "toyota_camry_2023", "year": 2023, "make": "Toyota", "model": "Camry",
+        "trims": ["LE", "SE", "XSE", "XLE", "TRD"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 55, "rim_diameter": 16},
+            {"width_mm": 215, "aspect_ratio": 55, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "toyota_camry_2024": {
+        "id": "toyota_camry_2024", "year": 2024, "make": "Toyota", "model": "Camry",
+        "trims": ["LE", "SE", "XSE", "XLE", "TRD"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 55, "rim_diameter": 16},
+            {"width_mm": 215, "aspect_ratio": 55, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    # Honda Civic (2016-2024)
+    "honda_civic_2016": {
+        "id": "honda_civic_2016", "year": 2016, "make": "Honda", "model": "Civic",
+        "trims": ["LX", "EX", "EX-T", "EX-L", "Si"],
+        "factory_tires": [
+            {"width_mm": 195, "aspect_ratio": 65, "rim_diameter": 15},
+            {"width_mm": 215, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.1,
+        "offset_range_mm": {"min": 40, "max": 50}, "lug_thread": "12x1.5",
+    },
+    "honda_civic_2017": {
+        "id": "honda_civic_2017", "year": 2017, "make": "Honda", "model": "Civic",
+        "trims": ["LX", "EX", "EX-T", "EX-L", "Si", "Type R"],
+        "factory_tires": [
+            {"width_mm": 195, "aspect_ratio": 65, "rim_diameter": 15},
+            {"width_mm": 215, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 35, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.1,
+        "offset_range_mm": {"min": 40, "max": 50}, "lug_thread": "12x1.5",
+    },
+    "honda_civic_2018": {
+        "id": "honda_civic_2018", "year": 2018, "make": "Honda", "model": "Civic",
+        "trims": ["LX", "EX", "EX-T", "EX-L", "Si", "Type R"],
+        "factory_tires": [
+            {"width_mm": 195, "aspect_ratio": 65, "rim_diameter": 15},
+            {"width_mm": 215, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 35, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.1,
+        "offset_range_mm": {"min": 40, "max": 50}, "lug_thread": "12x1.5",
+    },
+    "honda_civic_2019": {
+        "id": "honda_civic_2019", "year": 2019, "make": "Honda", "model": "Civic",
+        "trims": ["LX", "EX", "EX-T", "EX-L", "Si", "Type R"],
+        "factory_tires": [
+            {"width_mm": 195, "aspect_ratio": 65, "rim_diameter": 15},
+            {"width_mm": 215, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 35, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.1,
+        "offset_range_mm": {"min": 40, "max": 50}, "lug_thread": "12x1.5",
+    },
+    "honda_civic_2020": {
+        "id": "honda_civic_2020", "year": 2020, "make": "Honda", "model": "Civic",
+        "trims": ["LX", "EX", "EX-T", "EX-L", "Si", "Type R"],
+        "factory_tires": [
+            {"width_mm": 195, "aspect_ratio": 65, "rim_diameter": 15},
+            {"width_mm": 215, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 35, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.1,
+        "offset_range_mm": {"min": 40, "max": 50}, "lug_thread": "12x1.5",
+    },
+    "honda_civic_2021": {
+        "id": "honda_civic_2021", "year": 2021, "make": "Honda", "model": "Civic",
+        "trims": ["LX", "EX", "EX-T", "EX-L", "Si", "Type R"],
+        "factory_tires": [
+            {"width_mm": 195, "aspect_ratio": 65, "rim_diameter": 15},
+            {"width_mm": 215, "aspect_ratio": 55, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 35, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.1,
+        "offset_range_mm": {"min": 40, "max": 50}, "lug_thread": "12x1.5",
+    },
+    "honda_civic_2022": {
+        "id": "honda_civic_2022", "year": 2022, "make": "Honda", "model": "Civic",
+        "trims": ["LX", "EX", "Sport", "Touring", "Si", "Type R"],
+        "factory_tires": [
+            {"width_mm": 195, "aspect_ratio": 65, "rim_diameter": 15},
+            {"width_mm": 215, "aspect_ratio": 55, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 35, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.1,
+        "offset_range_mm": {"min": 40, "max": 50}, "lug_thread": "12x1.5",
+    },
+    "honda_civic_2023": {
+        "id": "honda_civic_2023", "year": 2023, "make": "Honda", "model": "Civic",
+        "trims": ["LX", "EX", "Sport", "Touring", "Si", "Type R"],
+        "factory_tires": [
+            {"width_mm": 195, "aspect_ratio": 65, "rim_diameter": 15},
+            {"width_mm": 215, "aspect_ratio": 55, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 35, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.1,
+        "offset_range_mm": {"min": 40, "max": 50}, "lug_thread": "12x1.5",
+    },
+    "honda_civic_2024": {
+        "id": "honda_civic_2024", "year": 2024, "make": "Honda", "model": "Civic",
+        "trims": ["LX", "EX", "Sport", "Touring", "Si", "Type R"],
+        "factory_tires": [
+            {"width_mm": 195, "aspect_ratio": 65, "rim_diameter": 15},
+            {"width_mm": 215, "aspect_ratio": 55, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 35, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.1,
+        "offset_range_mm": {"min": 40, "max": 50}, "lug_thread": "12x1.5",
+    },
+    # Ford F-150 (2018-2024)
+    "ford_f150_2018": {
+        "id": "ford_f150_2018", "year": 2018, "make": "Ford", "model": "F-150",
+        "trims": ["XL", "XLT", "Lariat", "King Ranch", "Platinum", "Raptor"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 315, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "6x135", "center_bore_mm": 87.1,
+        "offset_range_mm": {"min": 20, "max": 44}, "lug_thread": "14x2.0",
+    },
+    "ford_f150_2019": {
+        "id": "ford_f150_2019", "year": 2019, "make": "Ford", "model": "F-150",
+        "trims": ["XL", "XLT", "Lariat", "King Ranch", "Platinum", "Raptor", "Tremor"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 315, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "6x135", "center_bore_mm": 87.1,
+        "offset_range_mm": {"min": 20, "max": 44}, "lug_thread": "14x2.0",
+    },
+    "ford_f150_2020": {
+        "id": "ford_f150_2020", "year": 2020, "make": "Ford", "model": "F-150",
+        "trims": ["XL", "XLT", "Lariat", "King Ranch", "Platinum", "Raptor", "Tremor"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 315, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "6x135", "center_bore_mm": 87.1,
+        "offset_range_mm": {"min": 20, "max": 44}, "lug_thread": "14x2.0",
+    },
+    "ford_f150_2021": {
+        "id": "ford_f150_2021", "year": 2021, "make": "Ford", "model": "F-150",
+        "trims": ["XL", "XLT", "Lariat", "King Ranch", "Platinum", "Raptor", "Tremor"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 315, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "6x135", "center_bore_mm": 87.1,
+        "offset_range_mm": {"min": 20, "max": 44}, "lug_thread": "14x2.0",
+    },
+    "ford_f150_2022": {
+        "id": "ford_f150_2022", "year": 2022, "make": "Ford", "model": "F-150",
+        "trims": ["XL", "XLT", "Lariat", "King Ranch", "Platinum", "Raptor", "Tremor"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 315, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "6x135", "center_bore_mm": 87.1,
+        "offset_range_mm": {"min": 20, "max": 44}, "lug_thread": "14x2.0",
+    },
+    "ford_f150_2023": {
+        "id": "ford_f150_2023", "year": 2023, "make": "Ford", "model": "F-150",
+        "trims": ["XL", "XLT", "Lariat", "King Ranch", "Platinum", "Raptor", "Tremor"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 315, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "6x135", "center_bore_mm": 87.1,
+        "offset_range_mm": {"min": 20, "max": 44}, "lug_thread": "14x2.0",
+    },
+    "ford_f150_2024": {
+        "id": "ford_f150_2024", "year": 2024, "make": "Ford", "model": "F-150",
+        "trims": ["XL", "XLT", "Lariat", "King Ranch", "Platinum", "Raptor", "Tremor"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 315, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "6x135", "center_bore_mm": 87.1,
+        "offset_range_mm": {"min": 20, "max": 44}, "lug_thread": "14x2.0",
+    },
+    # Chevrolet Silverado (2019-2024)
+    "chevrolet_silverado_2019": {
+        "id": "chevrolet_silverado_2019", "year": 2019, "make": "Chevrolet", "model": "Silverado",
+        "trims": ["WT", "Custom", "LT", "RST", "LTZ", "High Country"],
+        "factory_tires": [
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 60, "rim_diameter": 20},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.1,
+        "offset_range_mm": {"min": 24, "max": 40}, "lug_thread": "14x1.5",
+    },
+    "chevrolet_silverado_2020": {
+        "id": "chevrolet_silverado_2020", "year": 2020, "make": "Chevrolet", "model": "Silverado",
+        "trims": ["WT", "Custom", "LT", "RST", "LTZ", "High Country"],
+        "factory_tires": [
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 60, "rim_diameter": 20},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.1,
+        "offset_range_mm": {"min": 24, "max": 40}, "lug_thread": "14x1.5",
+    },
+    "chevrolet_silverado_2021": {
+        "id": "chevrolet_silverado_2021", "year": 2021, "make": "Chevrolet", "model": "Silverado",
+        "trims": ["WT", "Custom", "Custom Trail Boss", "LT", "RST", "LTZ", "High Country", "ZR2"],
+        "factory_tires": [
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 60, "rim_diameter": 20},
+            {"width_mm": 285, "aspect_ratio": 65, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.1,
+        "offset_range_mm": {"min": 24, "max": 40}, "lug_thread": "14x1.5",
+    },
+    "chevrolet_silverado_2022": {
+        "id": "chevrolet_silverado_2022", "year": 2022, "make": "Chevrolet", "model": "Silverado",
+        "trims": ["WT", "Custom", "Custom Trail Boss", "LT", "RST", "LTZ", "High Country", "ZR2"],
+        "factory_tires": [
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 60, "rim_diameter": 20},
+            {"width_mm": 285, "aspect_ratio": 65, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.1,
+        "offset_range_mm": {"min": 24, "max": 40}, "lug_thread": "14x1.5",
+    },
+    "chevrolet_silverado_2023": {
+        "id": "chevrolet_silverado_2023", "year": 2023, "make": "Chevrolet", "model": "Silverado",
+        "trims": ["WT", "Custom", "Custom Trail Boss", "LT", "RST", "LTZ", "High Country", "ZR2"],
+        "factory_tires": [
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 60, "rim_diameter": 20},
+            {"width_mm": 285, "aspect_ratio": 65, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.1,
+        "offset_range_mm": {"min": 24, "max": 40}, "lug_thread": "14x1.5",
+    },
+    "chevrolet_silverado_2024": {
+        "id": "chevrolet_silverado_2024", "year": 2024, "make": "Chevrolet", "model": "Silverado",
+        "trims": ["WT", "Custom", "Custom Trail Boss", "LT", "RST", "LTZ", "High Country", "ZR2"],
+        "factory_tires": [
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 265, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 275, "aspect_ratio": 60, "rim_diameter": 20},
+            {"width_mm": 285, "aspect_ratio": 65, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.1,
+        "offset_range_mm": {"min": 24, "max": 40}, "lug_thread": "14x1.5",
+    },
+    # BMW 3-series (2017-2024)
+    "bmw_3series_2017": {
+        "id": "bmw_3series_2017", "year": 2017, "make": "BMW", "model": "3-series",
+        "trims": ["320i", "330i", "340i", "M3"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 60, "rim_diameter": 16},
+            {"width_mm": 225, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x120", "center_bore_mm": 72.6,
+        "offset_range_mm": {"min": 25, "max": 40}, "lug_thread": "12x1.5",
+    },
+    "bmw_3series_2018": {
+        "id": "bmw_3series_2018", "year": 2018, "make": "BMW", "model": "3-series",
+        "trims": ["320i", "330i", "340i", "M3"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 60, "rim_diameter": 16},
+            {"width_mm": 225, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x120", "center_bore_mm": 72.6,
+        "offset_range_mm": {"min": 25, "max": 40}, "lug_thread": "12x1.5",
+    },
+    "bmw_3series_2019": {
+        "id": "bmw_3series_2019", "year": 2019, "make": "BMW", "model": "3-series",
+        "trims": ["320i", "330i", "340i", "M340i", "M3"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 60, "rim_diameter": 16},
+            {"width_mm": 225, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x120", "center_bore_mm": 72.6,
+        "offset_range_mm": {"min": 25, "max": 40}, "lug_thread": "12x1.5",
+    },
+    "bmw_3series_2020": {
+        "id": "bmw_3series_2020", "year": 2020, "make": "BMW", "model": "3-series",
+        "trims": ["320i", "330i", "M340i", "M3"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 60, "rim_diameter": 16},
+            {"width_mm": 225, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x120", "center_bore_mm": 72.6,
+        "offset_range_mm": {"min": 25, "max": 40}, "lug_thread": "12x1.5",
+    },
+    "bmw_3series_2021": {
+        "id": "bmw_3series_2021", "year": 2021, "make": "BMW", "model": "3-series",
+        "trims": ["320i", "330i", "M340i", "M3"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 60, "rim_diameter": 16},
+            {"width_mm": 225, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x120", "center_bore_mm": 72.6,
+        "offset_range_mm": {"min": 25, "max": 40}, "lug_thread": "12x1.5",
+    },
+    "bmw_3series_2022": {
+        "id": "bmw_3series_2022", "year": 2022, "make": "BMW", "model": "3-series",
+        "trims": ["320i", "330i", "M340i", "M3"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 60, "rim_diameter": 16},
+            {"width_mm": 225, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x120", "center_bore_mm": 72.6,
+        "offset_range_mm": {"min": 25, "max": 40}, "lug_thread": "12x1.5",
+    },
+    "bmw_3series_2023": {
+        "id": "bmw_3series_2023", "year": 2023, "make": "BMW", "model": "3-series",
+        "trims": ["320i", "330i", "M340i", "M3"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 60, "rim_diameter": 16},
+            {"width_mm": 225, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x120", "center_bore_mm": 72.6,
+        "offset_range_mm": {"min": 25, "max": 40}, "lug_thread": "12x1.5",
+    },
+    "bmw_3series_2024": {
+        "id": "bmw_3series_2024", "year": 2024, "make": "BMW", "model": "3-series",
+        "trims": ["320i", "330i", "M340i", "M3"],
+        "factory_tires": [
+            {"width_mm": 205, "aspect_ratio": 60, "rim_diameter": 16},
+            {"width_mm": 225, "aspect_ratio": 50, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x120", "center_bore_mm": 72.6,
+        "offset_range_mm": {"min": 25, "max": 40}, "lug_thread": "12x1.5",
+    },
+    # Tesla Model 3 (2017-2024)
+    "tesla_model3_2017": {
+        "id": "tesla_model3_2017", "year": 2017, "make": "Tesla", "model": "Model 3",
+        "trims": ["Standard Range", "Long Range", "Performance"],
+        "factory_tires": [
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.4,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "tesla_model3_2018": {
+        "id": "tesla_model3_2018", "year": 2018, "make": "Tesla", "model": "Model 3",
+        "trims": ["Standard Range", "Long Range", "Performance"],
+        "factory_tires": [
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.4,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "tesla_model3_2019": {
+        "id": "tesla_model3_2019", "year": 2019, "make": "Tesla", "model": "Model 3",
+        "trims": ["Standard Range Plus", "Long Range", "Performance"],
+        "factory_tires": [
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.4,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "tesla_model3_2020": {
+        "id": "tesla_model3_2020", "year": 2020, "make": "Tesla", "model": "Model 3",
+        "trims": ["Standard Range Plus", "Long Range", "Performance"],
+        "factory_tires": [
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 19},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 20},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.4,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "tesla_model3_2021": {
+        "id": "tesla_model3_2021", "year": 2021, "make": "Tesla", "model": "Model 3",
+        "trims": ["Standard Range Plus", "Long Range", "Performance"],
+        "factory_tires": [
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 19},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 20},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.4,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "tesla_model3_2022": {
+        "id": "tesla_model3_2022", "year": 2022, "make": "Tesla", "model": "Model 3",
+        "trims": ["RWD", "Long Range", "Performance"],
+        "factory_tires": [
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 19},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 20},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.4,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "tesla_model3_2023": {
+        "id": "tesla_model3_2023", "year": 2023, "make": "Tesla", "model": "Model 3",
+        "trims": ["RWD", "Long Range", "Performance"],
+        "factory_tires": [
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 19},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 20},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.4,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "tesla_model3_2024": {
+        "id": "tesla_model3_2024", "year": 2024, "make": "Tesla", "model": "Model 3",
+        "trims": ["RWD", "Long Range", "Performance"],
+        "factory_tires": [
+            {"width_mm": 235, "aspect_ratio": 45, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 40, "rim_diameter": 19},
+            {"width_mm": 265, "aspect_ratio": 35, "rim_diameter": 20},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 64.4,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    # Jeep Wrangler (2018-2024)
+    "jeep_wrangler_2018": {
+        "id": "jeep_wrangler_2018", "year": 2018, "make": "Jeep", "model": "Wrangler",
+        "trims": ["Sport", "Sport S", "Sahara", "Rubicon"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 75, "rim_diameter": 17},
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 285, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "5x127", "center_bore_mm": 71.5,
+        "offset_range_mm": {"min": 15, "max": 35}, "lug_thread": "1/2\"-20",
+    },
+    "jeep_wrangler_2019": {
+        "id": "jeep_wrangler_2019", "year": 2019, "make": "Jeep", "model": "Wrangler",
+        "trims": ["Sport", "Sport S", "Sahara", "Rubicon"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 75, "rim_diameter": 17},
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 285, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "5x127", "center_bore_mm": 71.5,
+        "offset_range_mm": {"min": 15, "max": 35}, "lug_thread": "1/2\"-20",
+    },
+    "jeep_wrangler_2020": {
+        "id": "jeep_wrangler_2020", "year": 2020, "make": "Jeep", "model": "Wrangler",
+        "trims": ["Sport", "Sport S", "Sahara", "Rubicon", "4xe"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 75, "rim_diameter": 17},
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 285, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "5x127", "center_bore_mm": 71.5,
+        "offset_range_mm": {"min": 15, "max": 35}, "lug_thread": "1/2\"-20",
+    },
+    "jeep_wrangler_2021": {
+        "id": "jeep_wrangler_2021", "year": 2021, "make": "Jeep", "model": "Wrangler",
+        "trims": ["Sport", "Sport S", "Sahara", "Rubicon", "4xe"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 75, "rim_diameter": 17},
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 285, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "5x127", "center_bore_mm": 71.5,
+        "offset_range_mm": {"min": 15, "max": 35}, "lug_thread": "1/2\"-20",
+    },
+    "jeep_wrangler_2022": {
+        "id": "jeep_wrangler_2022", "year": 2022, "make": "Jeep", "model": "Wrangler",
+        "trims": ["Sport", "Sport S", "Sahara", "Rubicon", "4xe", "Unlimited"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 75, "rim_diameter": 17},
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 285, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "5x127", "center_bore_mm": 71.5,
+        "offset_range_mm": {"min": 15, "max": 35}, "lug_thread": "1/2\"-20",
+    },
+    "jeep_wrangler_2023": {
+        "id": "jeep_wrangler_2023", "year": 2023, "make": "Jeep", "model": "Wrangler",
+        "trims": ["Sport", "Sport S", "Sahara", "Rubicon", "4xe", "Unlimited"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 75, "rim_diameter": 17},
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 285, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "5x127", "center_bore_mm": 71.5,
+        "offset_range_mm": {"min": 15, "max": 35}, "lug_thread": "1/2\"-20",
+    },
+    "jeep_wrangler_2024": {
+        "id": "jeep_wrangler_2024", "year": 2024, "make": "Jeep", "model": "Wrangler",
+        "trims": ["Sport", "Sport S", "Sahara", "Rubicon", "4xe", "Unlimited"],
+        "factory_tires": [
+            {"width_mm": 245, "aspect_ratio": 75, "rim_diameter": 17},
+            {"width_mm": 255, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 285, "aspect_ratio": 70, "rim_diameter": 17},
+        ],
+        "bolt_pattern": "5x127", "center_bore_mm": 71.5,
+        "offset_range_mm": {"min": 15, "max": 35}, "lug_thread": "1/2\"-20",
+    },
+    # Subaru Outback (2019-2024)
+    "subaru_outback_2019": {
+        "id": "subaru_outback_2019", "year": 2019, "make": "Subaru", "model": "Outback",
+        "trims": ["Base", "Premium", "Limited", "Touring", "Onyx XT", "XT Limited"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 245, "aspect_ratio": 55, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x100", "center_bore_mm": 56.1,
+        "offset_range_mm": {"min": 38, "max": 48}, "lug_thread": "12x1.5",
+    },
+    "subaru_outback_2020": {
+        "id": "subaru_outback_2020", "year": 2020, "make": "Subaru", "model": "Outback",
+        "trims": ["Base", "Premium", "Limited", "Touring", "Onyx XT", "XT Limited"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 245, "aspect_ratio": 55, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x100", "center_bore_mm": 56.1,
+        "offset_range_mm": {"min": 38, "max": 48}, "lug_thread": "12x1.5",
+    },
+    "subaru_outback_2021": {
+        "id": "subaru_outback_2021", "year": 2021, "make": "Subaru", "model": "Outback",
+        "trims": ["Base", "Premium", "Limited", "Touring", "Onyx XT", "XT Limited"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 245, "aspect_ratio": 55, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x100", "center_bore_mm": 56.1,
+        "offset_range_mm": {"min": 38, "max": 48}, "lug_thread": "12x1.5",
+    },
+    "subaru_outback_2022": {
+        "id": "subaru_outback_2022", "year": 2022, "make": "Subaru", "model": "Outback",
+        "trims": ["Base", "Premium", "Limited", "Touring", "Onyx XT", "XT Limited"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 245, "aspect_ratio": 55, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x100", "center_bore_mm": 56.1,
+        "offset_range_mm": {"min": 38, "max": 48}, "lug_thread": "12x1.5",
+    },
+    "subaru_outback_2023": {
+        "id": "subaru_outback_2023", "year": 2023, "make": "Subaru", "model": "Outback",
+        "trims": ["Base", "Premium", "Limited", "Touring", "Onyx XT", "XT Limited"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 245, "aspect_ratio": 55, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x100", "center_bore_mm": 56.1,
+        "offset_range_mm": {"min": 38, "max": 48}, "lug_thread": "12x1.5",
+    },
+    "subaru_outback_2024": {
+        "id": "subaru_outback_2024", "year": 2024, "make": "Subaru", "model": "Outback",
+        "trims": ["Base", "Premium", "Limited", "Touring", "Onyx XT", "XT Limited"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 225, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 245, "aspect_ratio": 55, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "5x100", "center_bore_mm": 56.1,
+        "offset_range_mm": {"min": 38, "max": 48}, "lug_thread": "12x1.5",
+    },
+    # Ram 1500 (2019-2024)
+    "ram_1500_2019": {
+        "id": "ram_1500_2019", "year": 2019, "make": "Ram", "model": "1500",
+        "trims": ["Tradesman", "HFE", "Big Horn", "Laramie", "Longhorn", "Rebel", "TRX"],
+        "factory_tires": [
+            {"width_mm": 265, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 275, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 285, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 325, "aspect_ratio": 70, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.2,
+        "offset_range_mm": {"min": 20, "max": 40}, "lug_thread": "14x1.5",
+    },
+    "ram_1500_2020": {
+        "id": "ram_1500_2020", "year": 2020, "make": "Ram", "model": "1500",
+        "trims": ["Tradesman", "HFE", "Big Horn", "Laramie", "Longhorn", "Rebel", "TRX"],
+        "factory_tires": [
+            {"width_mm": 265, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 275, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 285, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 325, "aspect_ratio": 70, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.2,
+        "offset_range_mm": {"min": 20, "max": 40}, "lug_thread": "14x1.5",
+    },
+    "ram_1500_2021": {
+        "id": "ram_1500_2021", "year": 2021, "make": "Ram", "model": "1500",
+        "trims": ["Tradesman", "HFE", "Big Horn", "Laramie", "Longhorn", "Rebel", "TRX"],
+        "factory_tires": [
+            {"width_mm": 265, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 275, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 285, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 325, "aspect_ratio": 70, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.2,
+        "offset_range_mm": {"min": 20, "max": 40}, "lug_thread": "14x1.5",
+    },
+    "ram_1500_2022": {
+        "id": "ram_1500_2022", "year": 2022, "make": "Ram", "model": "1500",
+        "trims": ["Tradesman", "HFE", "Big Horn", "Laramie", "Longhorn", "Rebel", "TRX"],
+        "factory_tires": [
+            {"width_mm": 265, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 275, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 285, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 325, "aspect_ratio": 70, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.2,
+        "offset_range_mm": {"min": 20, "max": 40}, "lug_thread": "14x1.5",
+    },
+    "ram_1500_2023": {
+        "id": "ram_1500_2023", "year": 2023, "make": "Ram", "model": "1500",
+        "trims": ["Tradesman", "HFE", "Big Horn", "Laramie", "Longhorn", "Rebel", "TRX"],
+        "factory_tires": [
+            {"width_mm": 265, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 275, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 285, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 325, "aspect_ratio": 70, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.2,
+        "offset_range_mm": {"min": 20, "max": 40}, "lug_thread": "14x1.5",
+    },
+    "ram_1500_2024": {
+        "id": "ram_1500_2024", "year": 2024, "make": "Ram", "model": "1500",
+        "trims": ["Tradesman", "HFE", "Big Horn", "Laramie", "Longhorn", "Rebel", "TRX"],
+        "factory_tires": [
+            {"width_mm": 265, "aspect_ratio": 70, "rim_diameter": 17},
+            {"width_mm": 275, "aspect_ratio": 65, "rim_diameter": 18},
+            {"width_mm": 285, "aspect_ratio": 55, "rim_diameter": 20},
+            {"width_mm": 325, "aspect_ratio": 70, "rim_diameter": 18},
+        ],
+        "bolt_pattern": "6x139.7", "center_bore_mm": 78.2,
+        "offset_range_mm": {"min": 20, "max": 40}, "lug_thread": "14x1.5",
+    },
+    # Toyota RAV4 (2019-2024)
+    "toyota_rav4_2019": {
+        "id": "toyota_rav4_2019", "year": 2019, "make": "Toyota", "model": "RAV4",
+        "trims": ["LE", "XLE", "XLE Premium", "Adventure", "Limited", "TRD Off-Road"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 55, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "toyota_rav4_2020": {
+        "id": "toyota_rav4_2020", "year": 2020, "make": "Toyota", "model": "RAV4",
+        "trims": ["LE", "XLE", "XLE Premium", "Adventure", "Limited", "TRD Off-Road"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 55, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "toyota_rav4_2021": {
+        "id": "toyota_rav4_2021", "year": 2021, "make": "Toyota", "model": "RAV4",
+        "trims": ["LE", "XLE", "XLE Premium", "Adventure", "Limited", "TRD Off-Road", "XSE Hybrid"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 55, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "toyota_rav4_2022": {
+        "id": "toyota_rav4_2022", "year": 2022, "make": "Toyota", "model": "RAV4",
+        "trims": ["LE", "XLE", "XLE Premium", "Adventure", "Limited", "TRD Off-Road", "XSE Hybrid"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 55, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "toyota_rav4_2023": {
+        "id": "toyota_rav4_2023", "year": 2023, "make": "Toyota", "model": "RAV4",
+        "trims": ["LE", "XLE", "XLE Premium", "Adventure", "Limited", "TRD Off-Road", "XSE Hybrid"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 55, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+    "toyota_rav4_2024": {
+        "id": "toyota_rav4_2024", "year": 2024, "make": "Toyota", "model": "RAV4",
+        "trims": ["LE", "XLE", "XLE Premium", "Adventure", "Limited", "TRD Off-Road", "XSE Hybrid"],
+        "factory_tires": [
+            {"width_mm": 225, "aspect_ratio": 65, "rim_diameter": 17},
+            {"width_mm": 235, "aspect_ratio": 60, "rim_diameter": 18},
+            {"width_mm": 235, "aspect_ratio": 55, "rim_diameter": 19},
+        ],
+        "bolt_pattern": "5x114.3", "center_bore_mm": 60.1,
+        "offset_range_mm": {"min": 35, "max": 45}, "lug_thread": "12x1.5",
+    },
+}
+
+
+def get_vehicle(year: int, make: str, model: str):
+    """Find a vehicle by year, make, model."""
+    key = f"{make.lower().replace(' ', '_')}_{model.lower().replace(' ', '_')}_{year}"
+    return VEHICLES.get(key)
+
+
+def get_all_vehicles():
+    """Return all vehicles as a list."""
+    return list(VEHICLES.values())

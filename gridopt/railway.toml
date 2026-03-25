@@ -1,0 +1,18 @@
+{
+  "build": {
+    "builder": "python",
+    "buildCommand": "pip install -r requirements.txt",
+    "startCommand": "uvicorn main:app --host 0.0.0.0 --port $PORT"
+  },
+  "routes": [
+    {
+      "path": "/"
+    }
+  ],
+  "environments": {
+    "web": {
+      "memory": 512,
+      "cpu": 0.5
+    }
+  }
+}

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy-First Analytics: A Complete Guide to Plausible Analytics — TechStack</title>
+    <meta name="description" content="Plausible Analytics is a GDPR-compliant, cookieless alternative to Google Analytics. Setup guide, pricing comparison, and honest assessment for bloggers and developers.">
+    <meta name="keywords" content="Plausible Analytics alternative, GDPR analytics, cookieless analytics, privacy-first analytics, Google Analytics alternative, privacy focused website analytics">
+    <link rel="canonical" href="https://techstack.dev/articles/privacy-first-analytics-plausible-guide/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Privacy-First Analytics: A Complete Guide to Plausible Analytics">
+    <meta property="og:description" content="Plausible Analytics is a GDPR-compliant, cookieless alternative to Google Analytics. Setup guide, pricing comparison, and honest assessment.">
+    <meta property="og:url" content="https://techstack.dev/articles/privacy-first-analytics-plausible-guide/">
+    <meta property="og:site_name" content="TechStack">
+    <meta property="article:published_time" content="2026-03-25T00:00:00Z">
+    <meta property="article:modified_time" content="2026-03-25T00:00:00Z">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Privacy-First Analytics: A Complete Guide to Plausible Analytics">
+    <meta name="twitter:description" content="Plausible Analytics is a GDPR-compliant, cookieless alternative to Google Analytics. Setup guide, pricing comparison, and honest assessment.">
+    
+    <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #f5f0e8; --surface: #fffdf9; --border: #ddd8cf; --text: #1a1a18; --text-muted: #6b6560; --accent: #b5451b; --accent-hover: #8c3415; --code-bg: #e8e2d9; }
+    body { font-family: Georgia, 'Times New Roman', serif; background: var(--bg); color: var(--text); line-height: 1.75; font-size: 17px; }
+    .container { max-width: 680px; margin: 0 auto; padding: 0 1.5rem; }
+    header { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+    .site-name { font-size: 1.1rem; font-weight: 700; color: var(--text); text-decoration: none; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+    .site-name:hover { color: var(--accent); }
+    .back-link { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.8rem; color: var(--text-muted); text-decoration: none; }
+    .back-link:hover { color: var(--accent); }
+    .back-link::before { content: '← '; }
+    .article-header { padding: 2.5rem 0 2rem; border-bottom: 1px solid var(--border); }
+    .article-header h1 { font-size: 1.75rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.75rem; }
+    .article-header .meta { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 0.8rem; color: var(--text-muted); }
+    .article-header .meta span { margin-right: 1rem; }
+    .article-body { padding: 2.5rem 0; }
+    .article-body h2 { font-size: 1.3rem; font-weight: 700; margin: 2rem 0 0.75rem; }
+    .article-body h3 { font-size: 1.1rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
+    .article-body p { margin-bottom: 1.1rem; }
+    .article-body ul, .article-body ol { margin: 0 0 1.1rem 1.5rem; }
+    .article-body li { margin-bottom: 0.4rem; }
+    .article-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .article-body a:hover { color: var(--accent-hover); }
+    pre { background: var(--code-bg); padding: 1rem 1.25rem; border-radius: 4px; overflow-x: auto; font-size: 0.85rem; line-height: 1.6; font-family: 'Courier New', monospace; margin: 1.25rem 0; border: 1px solid var(--border); }
+    code { background: var(--code-bg); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.85em; font-family: 'Courier New', monospace; border: 1px solid var(--border); }
+    pre code { background: none; padding: 0; border: none; }
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; font-family: -apple-system, sans-serif; }
+    th { background: var(--text); color: var(--surface); padding: 0.6rem 0.75rem; text-align: left; font-weight: 600; font-size: 0.8rem; }
+    td { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
+    blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; margin: 1.5rem 0; color: var(--text-muted); font-style: italic; }
+    .disclaimer { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1rem 1.25rem; margin: 2rem 0; font-size: 0.9rem; }
+    .disclaimer strong { display: block; margin-bottom: 0.25rem; font-family: -apple-system, sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+    footer { border-top: 1px solid var(--border); padding: 2rem 0; font-family: -apple-system, sans-serif; font-size: 0.8rem; color: var(--text-muted); text-align: center; }
+    footer a { color: var(--text-muted); text-decoration: underline; }
+    @media (max-width: 600px) { body { font-size: 16px; } .article-header h1 { font-size: 1.5rem; } table { font-size: 0.8rem; } }
+</style>
+    
+    <!-- Schema.org Article -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Privacy-First Analytics: A Complete Guide to Plausible Analytics",
+        "description": "Plausible Analytics is a GDPR-compliant, cookieless alternative to Google Analytics. Setup guide, pricing comparison, and honest assessment.",
+        "url": "https://techstack.dev/articles/privacy-first-analytics-plausible-guide/",
+        "datePublished": "2026-03-25T00:00:00Z",
+        "dateModified": "2026-03-25T00:00:00Z",
+        "author": {
+            "@type": "Organization",
+            "name": "TechStack"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "TechStack",
+            "url": "https://techstack.dev/"
+        }
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="site-name">📡 Strd's Notebook</a>
+            <br><a href="/" class="back-link">Back to all notes</a>
+        </div>
+    </header>
+    
+    <article>
+        <div class="container">
+            <header class="article-header">
+                <p class="breadcrumb"><a href="/">Home</a> / <a href="/articles/">Guides</a> / Privacy</p>
+                <h1>Privacy-First Analytics: A Complete Guide to Plausible Analytics</h1>
+                <div class="article-meta">
+                    <span>📅 March 25, 2026</span>
+                    <span>⏱️ 8 min read</span>
+                    <span>📁 Privacy</span>
+                </div>
+            </header>
+            
+            <div class="article-content">
+                <h2 id="why-privacy-analytics">Why Privacy Analytics Matters for Your Website</h2>
+                <p>Google Analytics is the default choice for website analytics. It's free, it's familiar, and it tells you a lot. What it doesn't tell you is what it does with the data it collects — and the answer is: a lot. GA4 tracks users across sessions, builds behavioral profiles, shares data with Google's advertising network, and stores it in ways that have gotten multiple companies hit with GDPR fines.</p>
+                <p>The legal risk is real. In 2023 alone, publishers across the EU received enforcement letters requiring them to either get proper consent for GA4, block it for EU visitors, or switch to a compliant alternative. Meta (Facebook) was fined €390 million in 2023 for using "essential cookies" as a blanket consent justification for advertising tracking. Google Analytics isn't immune to this scrutiny.</p>
+                <p>Beyond legal compliance, there's a philosophical case. When you install Google Analytics on your site, you're giving Google a window into your visitors' behavior. For a personal blog, this might be an acceptable trade-off. For a business site handling customer data, or a developer tool with enterprise clients, handing that data to a competitor's advertising ecosystem is at best awkward and at worst a dealbreaker for privacy-conscious buyers.</p>
+
+                <blockquote>Plausible Analytics is built on a fundamentally different premise: analytics should tell you about your website's performance without surveilling your visitors.</blockquote>
+
+                <h2 id="what-is-plausible">What Is Plausible Analytics?</h2>
+                <p><a href="https://plausible.io" target="_blank" rel="noopener noreferrer">Plausible Analytics</a> is an open-source, privacy-first web analytics service. It tracks just enough data to be genuinely useful — pageviews, unique visitors, bounce rate, session duration, page停留时间, referral sources, and goals/conversions. It does this without:</p>
+                <ul>
+                    <li><strong>Using cookies:</strong> Plausible is cookieless by design. It doesn't create any persistent identifier. This means no cookie banner required under ePrivacy rules, and no GDPR consent friction for basic analytics.</li>
+                    <li><strong>Tracking across sessions:</strong> Without cookies, there's no way to track the same visitor across multiple visits. What you get instead is a count of unique pageviews — anonymous, non-identifying, and statistically useful.</li>
+                    <li><strong>Personal data collection:</strong> IP addresses are processed but not stored. No names, emails, or behavioral profiles.</li>
+                    <li><strong>Data sharing:</strong> Plausible doesn't sell or share your data. It doesn't use it for any purpose beyond providing you with your own analytics dashboard.</li>
+                    <li><strong>Cross-site tracking:</strong> Without cookies, there's no way to build cross-site behavioral profiles. This is the feature that makes GA4 valuable for advertising retargeting — and the feature that makes it legally problematic.</li>
+                </ul>
+
+                <h2 id="ga4-comparison">Plausible vs Google Analytics 4: Honest Comparison</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Plausible Analytics</th>
+                                <th>Google Analytics 4</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cookie requirement</td>
+                                <td>No cookies (cookieless)</td>
+                                <td>Uses cookies + Client ID</td>
+                            </tr>
+                            <tr>
+                                <td>GDPR consent needed</td>
+                                <td>No (non-essential by default)</td>
+                                <td>Yes — requires explicit consent in EU</td>
+                            </tr>
+                            <tr>
+                                <td>IP address storage</td>
+                                <td>Processed, not stored</td>
+                                <td>Stored and used for geolocation</td>
+                            </tr>
+                            <tr>
+                                <td>Data used for advertising</td>
+                                <td>Never</td>
+                                <td>Yes — integrated with Google Ads</td>
+                            </tr>
+                            <tr>
+                                <td>Cross-site tracking</td>
+                                <td>No</td>
+                                <td>Yes (Google Signals)</td>
+                            </tr>
+                            <tr>
+                                <td>Personal data collected</td>
+                                <td>None</td>
+                                <td>User ID, device fingerprinting signals</td>
+                            </tr>
+                            <tr>
+                                <td>Self-hosted option</td>
+                                <td>Yes (open source)</td>
+                                <td>No</td>
+                            </tr>
+                            <tr>
+                                <td>Dashboard simplicity</td>
+                                <td>Clean, focused, fast</td>
+                                <td>Complex, many features, slow UI</td>
+                            </tr>
+                            <tr>
+                                <td>Custom events</td>
+                                <td>Yes (4 pageview events free)</td>
+                                <td>Yes (extensive)</td>
+                            </tr>
+                            <tr>
+                                <td>Starting price</td>
+                                <td>$9/month (10k pageviews)</td>
+                                <td>Free (but legal risk)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>The GA4 "free" price is deceptive. When you factor in the cost of GDPR cookie consent tooling (typically $10–$50/month for a proper CMP), the legal risk of getting enforcement wrong, and the value of your visitors' data not being fed to Google's advertising network, the calculus changes. Plausible at $9–$49/month is genuinely competitive when you account for full cost of ownership.</p>
+
+                <h2 id="who-should-use">Who Should Use Plausible Analytics?</h2>
+                <div class="highlight-box">
+                    <h3>Use Plausible if you are a:</h3>
+                    <ul>
+                        <li><strong>Blogger or personal site</strong> who wants basic traffic data without installing Google's surveillance infrastructure</li>
+                        <li><strong>Developer or indie hacker</strong> building tools and wants clean, focused metrics without GDPR consent banners</li>
+                        <li><strong>Small business website owner</strong> who needs stats for 1–5 sites without enterprise GA4 complexity</li>
+                        <li><strong>EU-based publisher</strong> who has been burned by GDPR enforcement or wants to avoid it entirely</li>
+                        <li><strong>Enterprise marketing team</strong> that wants to demonstrate privacy credentials to privacy-conscious buyers</li>
+                        <li><strong>Open-source project maintainer</strong> who wants transparent, ethical analytics for their project landing page</li>
+                    </ul>
+                </div>
+
+                <h3>Stick with Google Analytics if you:</h3>
+                <ul>
+                    <li>Need cross-device, cross-session user journey tracking (e-commerce with login accounts, SaaS product analytics)</li>
+                    <li>Depend on advanced attribution modeling for paid advertising spend optimization</li>
+                    <li>Have a large team that already knows GA4 deeply and you have budget for consent management</li>
+                    <li>Need the integrations that only GA4 connects to (Google Ads, BigQuery export, Data Studio)</li>
+                </ul>
+
+                <h2 id="setup-steps">Plausible Analytics Setup: Step by Step</h2>
+                <p>Setting up Plausible takes about 15 minutes for a single site. Here's how.</p>
+
+                <h3 id="step-1-create-account">Step 1: Create a Plausible Account</h3>
+                <p>Go to <a href="https://plausible.io" target="_blank" rel="noopener noreferrer">plausible.io</a> and sign up. You can start with a 30-day free trial, no credit card required. Plausible offers monthly and annual billing — annual saves about 20%.</p>
+
+                <h3 id="step-2-add-site">Step 2: Add Your Website</h3>
+                <p>In your Plausible dashboard, click "Add website" and enter your domain (e.g., <code>techstack.dev</code> or <code>blog.example.com</code>). Choose your subscription plan based on expected pageview volume.</p>
+
+                <h3 id="step-3-install-script">Step 3: Install the Tracking Script</h3>
+                <p>Plausible will give you a tracking script. It looks like this:</p>
+<pre><code>&lt;script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"&gt;&lt;/script&gt;</code></pre>
+                <p>Add this to the <code>&lt;head&gt;</code> of your website, just before the closing <code>&lt;/head&gt;</code> tag. This is the only installation step for most static HTML or WordPress sites.</p>
+
+                <h3 id="step-4-wordpress-guide">WordPress Installation</h3>
+                <p>For WordPress, the easiest approach is the official Plausible Analytics plugin:</p>
+                <ol>
+                    <li>Install "Insert Headers and Footers" plugin (or any plugin that lets you inject scripts into <code>&lt;head&gt;</code>)</li>
+                    <li>Go to Settings → Insert Headers and Footers</li>
+                    <li>Paste the Plausible script into the "Scripts in Header" box</li>
+                    <li>Save</li>
+                </ol>
+                <p>Alternatively, many lightweight WordPress themes have a dedicated "Custom Code" or "Analytics" field in their settings panel.</p>
+
+                <h3 id="step-5-static-site">Static Site / HTML Installation</h3>
+                <p>For a plain HTML site, just paste the script directly into your template's <code>&lt;head&gt;</code>. For static site generators (Hugo, Jekyll, Gatsby, Next.js), add the script to your base template. Most SSGs have a dedicated partial or component for head elements.</p>
+
+                <h3 id="step-6-verify">Step 4: Verify Installation</h3>
+                <p>After adding the script, visit your site and refresh your Plausible dashboard. You should see a pageview appear within seconds. Plausible also shows a "Data not receiving yet" indicator if the script isn't firing correctly.</p>
+
+                <h3 id="step-7-custom-events">Step 5: Set Up Custom Events (Optional)</h3>
+                <p>Plausible supports custom events. To track a button click as a goal:</p>
+<pre><code>&lt;button onclick="plausible('Sign Up Clicked')"&gt;Sign Up&lt;/button&gt;</code></pre>
+                <p>Or via the script extension for more control:</p>
+<pre><code>&lt;script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }
+&lt;/script&gt;</code></pre>
+
+                <h2 id="pricing">Plausible Pricing Breakdown</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Plan</th>
+                                <th>Monthly Price</th>
+                                <th>Annual Price</th>
+                                <th>Monthly Pageviews</th>
+                                <th>Sites Included</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Starter</td>
+                                <td>$9</td>
+                                <td>$7</td>
+                                <td>10,000</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>Growth</td>
+                                <td>$19</td>
+                                <td>$15</td>
+                                <td>50,000</td>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>Business</td>
+                                <td>$49</td>
+                                <td>$39</td>
+                                <td>200,000</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>Enterprise</td>
+                                <td>Custom</td>
+                                <td>Custom</td>
+                                <td>Unlimited</td>
+                                <td>Unlimited</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p>For context: 10,000 pageviews per month is enough for a personal blog with moderate traffic. A site averaging 300–500 visitors/day (roughly 10,000–15,000 pageviews/month) fits comfortably in the Starter plan. Most small business sites never outgrow the Starter plan.</p>
+
+                <h3 id="self-hosted">Self-Hosted Plausible: Free and Open Source</h3>
+                <p>Plausible offers a self-hosted version under an AGPL license. This is genuinely free — no pageview limits, no per-site costs. You run it on your own server (a $5–10/month VPS handles modest traffic easily). The tradeoff is that you're responsible for uptime, maintenance, and updates.</p>
+                <p>Self-hosting is worth it if you have multiple sites with high traffic volumes, need complete data residency (no data leaving your infrastructure), or want to customize the analytics server. The setup requires Docker, a database (PostgreSQL), and some comfort with server administration.</p>
+
+                <h2 id="limitations">Plausible Limitations to Know</h2>
+                <p>Plausible isn't trying to be GA4, and that's intentional. Here are the genuine limitations:</p>
+                <ul>
+                    <li><strong>No user journey tracking:</strong> Without cookies, you can't see that the same visitor read 5 articles over 3 sessions. You just see 5 pageviews.</li>
+                    <li><strong>No advanced attribution:</strong> Plausible shows you referral sources (Google, Twitter, direct) but can't tell you which paid ad click converted. No UTM-level attribution for paid campaigns.</li>
+                    <li><strong>No audience segmentation beyond basic:</strong> You can't segment by user behavior, device type, or custom dimensions in the free/self-hosted version.</li>
+                    <li><strong>No real-time precision:</strong> Plausible's real-time dashboard shows approximate live visitors, not exact counts. This is by design — it's a privacy feature, not a bug.</li>
+                </ul>
+
+                <div class="disclaimer">
+                    <strong>Disclaimer:</strong> This guide contains affiliate links. We earn a commission at no extra cost to you if you sign up through our links.
+                </div>
+            </div>
+        </div>
+    </article>
+    
+    <footer>
+        <div class="container">
+            <p>© 2026 strd. No rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

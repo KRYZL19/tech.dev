@@ -1,0 +1,10 @@
+[project]
+name = "hvaccalc"
+version = "1.0.0"
+description = "HVAC System Sizing Calculator API"
+requires-python = ">=3.10"
+dependencies = ["fastapi>=0.109.0", "uvicorn[standard]>=0.27.0", "pydantic>=2.5.0"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["data", "routes", "models"]
