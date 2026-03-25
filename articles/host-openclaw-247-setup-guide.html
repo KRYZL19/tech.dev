@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Host OpenClaw 24/7: Complete Setup Guide — TechStack</title>
+    <meta name="description" content="Complete step-by-step guide to hosting OpenClaw on a VPS 24/7. Covers systemd setup, nginx reverse proxy, SSL certificates, and monitoring.">
+    <meta name="keywords" content="OpenClaw hosting, host OpenClaw VPS, OpenClaw setup guide, autonomous agent VPS, OpenClaw systemd">
+    <link rel="canonical" href="https://techstack.dev/articles/host-openclaw-247-setup-guide/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How to Host OpenClaw 24/7: Complete Setup Guide">
+    <meta property="og:description" content="Complete step-by-step guide to hosting OpenClaw on a VPS 24/7 with systemd, nginx, and SSL.">
+    <meta property="og:url" content="https://techstack.dev/articles/host-openclaw-247-setup-guide/">
+    <meta property="og:site_name" content="TechStack">
+    <meta property="article:published_time" content="2026-03-25T00:00:00Z">
+    <meta property="article:modified_time" content="2026-03-25T00:00:00Z">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Host OpenClaw 24/7: Complete Setup Guide">
+    <meta name="twitter:description" content="Complete step-by-step guide to hosting OpenClaw on a VPS 24/7 with systemd, nginx, and SSL.">
+    
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --border: #1e1e2e;
+            --text: #e4e4e7;
+            --text-muted: #71717a;
+            --accent: #6366f1;
+            --accent-hover: #818cf8;
+            --code-bg: #1a1a24;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+        
+        header { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .logo span { color: var(--accent); }
+        nav { margin-top: 1rem; display: flex; gap: 1.5rem; }
+        nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        nav a:hover { color: var(--accent); }
+        
+        article { padding: 3rem 0; }
+        
+        .article-header { margin-bottom: 2rem; }
+        .breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--accent); }
+        
+        h1 { font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 700; line-height: 1.25; margin-bottom: 1rem; }
+        .article-meta { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .article-meta span { display: flex; align-items: center; gap: 0.3rem; }
+        
+        .article-content { font-size: 1.05rem; }
+        .article-content h2 { font-size: 1.4rem; font-weight: 600; margin: 2.5rem 0 1rem; color: var(--text); }
+        .article-content h3 { font-size: 1.15rem; font-weight: 600; margin: 2rem 0 0.75rem; color: var(--text); }
+        .article-content p { margin-bottom: 1.25rem; color: #d4d4d8; }
+        .article-content a { color: var(--accent); text-decoration: none; }
+        .article-content a:hover { text-decoration: underline; }
+        .article-content ul, .article-content ol { margin: 1.25rem 0; padding-left: 1.5rem; }
+        .article-content li { margin-bottom: 0.5rem; color: #d4d4d8; }
+        .article-content strong { color: var(--text); }
+        
+        .article-content code {
+            background: var(--code-bg);
+            padding: 0.2em 0.5em;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: 'SF Mono', Consolas, monospace;
+        }
+        
+        .article-content pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .callout {
+            background: var(--surface);
+            border-left: 3px solid var(--accent);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .callout.info { border-left-color: #3b82f6; }
+        .callout.warning { border-left-color: #f59e0b; }
+        
+        .toc {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 2rem 0;
+        }
+        
+        .toc-title { font-weight: 600; margin-bottom: 0.75rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+        .toc ol, .toc ul { margin: 0; padding-left: 1.25rem; }
+        .toc li { margin-bottom: 0.4rem; }
+        .toc a { color: var(--text); text-decoration: none; font-size: 0.95rem; }
+        .toc a:hover { color: var(--accent); }
+        
+        .disclaimer {
+            background: var(--surface);
+            border-left: 3px solid var(--accent);
+            padding: 1rem 1.25rem;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        footer { border-top: 1px solid var(--border); padding: 2rem 0; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
+        
+        @media (max-width: 600px) {
+            nav { gap: 1rem; flex-wrap: wrap; }
+            .article-meta { flex-wrap: wrap; gap: 0.75rem; }
+        }
+    </style>
+    
+    <!-- Schema.org Article -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "How to Host OpenClaw 24/7: Complete Setup Guide",
+        "description": "Complete step-by-step guide to hosting OpenClaw on a VPS 24/7 with systemd, nginx, and SSL.",
+        "url": "https://techstack.dev/articles/host-openclaw-247-setup-guide/",
+        "datePublished": "2026-03-25T00:00:00Z",
+        "dateModified": "2026-03-25T00:00:00Z",
+        "author": {
+            "@type": "Organization",
+            "name": "TechStack"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "TechStack",
+            "url": "https://techstack.dev/"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://techstack.dev/articles/host-openclaw-247-setup-guide/"
+        }
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="logo">⚡ Tech<span>Stack</span></a>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/articles/">Guides</a>
+                <a href="/about/">About</a>
+            </nav>
+        </div>
+    </header>
+    
+    <article>
+        <div class="container">
+            <header class="article-header">
+                <p class="breadcrumb"><a href="/">Home</a> / <a href="/articles/">Guides</a> / OpenClaw</p>
+                <h1>How to Host OpenClaw 24/7: Complete Setup Guide</h1>
+                <div class="article-meta">
+                    <span>📅 March 25, 2026</span>
+                    <span>⏱️ 15 min read</span>
+                    <span>📁 OpenClaw</span>
+                </div>
+            </header>
+            
+            <div class="article-content">
+                <nav class="toc">
+                    <p class="toc-title">Table of Contents</p>
+                    <ol>
+                        <li><a href="#prerequisites">Prerequisites</a></li>
+                        <li><a href="#install-dependencies">Install Dependencies</a></li>
+                        <li><a href="#create-service">Create Systemd Service</a></li>
+                        <li><a href="#configure-nginx">Configure Nginx Reverse Proxy</a></li>
+                        <li><a href="#ssl-certificate">SSL Certificate with Certbot</a></li>
+                        <li><a href="#monitoring">Monitoring & Logs</a></li>
+                        <li><a href="#troubleshooting">Troubleshooting</a></li>
+                    </ol>
+                </nav>
+                
+                <h2 id="introduction">Introduction</h2>
+                <p>OpenClaw is an autonomous operator agent designed to run 24/7 on a VPS — handling tasks, monitoring systems, and executing workflows without human intervention. This guide walks you through the complete setup: from provisioning a Hetzner VPS to systemd service configuration, nginx reverse proxy, SSL, and firewall hardening. By the end, you'll have OpenClaw running as a resilient system service that survives reboots, recovers from crashes, and stays online indefinitely.</p>
+
+                <div class="callout info">
+                    <strong>What you'll need:</strong> A VPS with Ubuntu 22.04+ (recommended), a domain name with an A record pointing to your server IP, and 10–15 minutes of focused setup time.
+                </div>
+
+                <h2 id="prerequisites">Prerequisites</h2>
+                <p>Before you start, verify these requirements:</p>
+                <ul>
+                    <li><strong>VPS:</strong> Ubuntu 22.04 LTS (or 20.04 LTS) with root or sudo access. Hetzner CX21 or better recommended. See our <a href="/articles/best-vps-ai-agents-autonomous-bots-2026/">VPS comparison guide</a> for recommendations.</li>
+                    <li><strong>Domain:</strong> A domain or subdomain (e.g., <code>openclaw.yourdomain.com</code>) with an A record pointing to your VPS IP. Propagation can take up to 24 hours — set this up before starting.</li>
+                    <li><strong>SSH access:</strong> Connect to your VPS via SSH. Use key-based authentication; password auth should be disabled after setup.</li>
+                    <li><strong>Firewall:</strong> Ports 22 (SSH), 80 (HTTP), 443 (HTTPS) must be accessible.</li>
+                </ul>
+
+                <h2 id="step1-firewall">Step 1: Configure Firewall</h2>
+                <p>Start by hardening your VPS with UFW (Uncomplicated Firewall). This blocks all non-essential ports while allowing SSH, HTTP, and HTTPS.</p>
+                <pre><code># Check UFW status
+sudo ufw status
+
+# Allow SSH (port 22) — don't lock yourself out
+sudo ufw allow 22/tcp comment 'SSH'
+
+# Allow HTTP and HTTPS
+sudo ufw allow 80/tcp comment 'HTTP'
+sudo ufw allow 443/tcp comment 'HTTPS'
+
+# Enable UFW
+sudo ufw enable
+
+# Verify rules
+sudo ufw status verbose</code></pre>
+                <div class="callout warning">
+                    <strong>Critical:</strong> Ensure you have active SSH access before enabling UFW. If you enabled it without allowing port 22, you'd lock yourself out of the server. Use <code>sudo ufw allow 22/tcp</code> first.
+                </div>
+
+                <h2 id="step2-dependencies">Step 2: Install Dependencies</h2>
+                <p>Update your system and install Node.js 22 LTS, nginx, and Certbot.</p>
+                <pre><code># Update package lists and upgrade system
+sudo apt update && sudo apt upgrade -y
+
+# Install Node.js 22 LTS
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Verify Node.js and npm versions
+node --version    # Should output v22.x.x
+npm --version     # Should output 10.x.x
+
+# Install nginx
+sudo apt install -y nginx
+
+# Verify nginx
+nginx -v          # Should output nginx 1.22.x or higher
+
+# Install Certbot for Let's Encrypt SSL
+sudo apt install -y certbot python3-certbot-nginx</code></pre>
+
+                <h2 id="step3-user">Step 3: Create a Dedicated User</h2>
+                <p>Run OpenClaw under a non-root user. This limits damage if the application is compromised.</p>
+                <pre><code># Create a user named 'openclaw'
+sudo adduser openclaw
+
+# Grant sudo privileges (optional — only if you need it)
+sudo usermod -aG sudo openclaw
+
+# Switch to the openclaw user to verify
+sudo su - openclaw
+exit</code></pre>
+
+                <h2 id="step4-install-openclaw">Step 4: Install OpenClaw</h2>
+                <p>Log in as the openclaw user and install the OpenClaw package.</p>
+                <pre><code># Switch to openclaw user
+sudo su - openclaw
+
+# Install OpenClaw globally via npm
+npm install -g openclaw
+
+# Verify installation
+openclaw --version</code></pre>
+                <p>If you prefer installing from source or a specific Git repository, clone it and install dependencies:</p>
+                <pre><code># As openclaw user
+cd ~
+git clone https://github.com/your-repo/openclaw.git
+cd openclaw
+npm install
+npm run build   # if build step required</code></pre>
+
+                <h2 id="step5-systemd">Step 5: Create the Systemd Service</h2>
+                <p>Create a systemd unit file so OpenClaw starts on boot, restarts on crash, and runs in the background.</p>
+                <pre><code># Create the service file
+sudo nano /etc/systemd/system/openclaw.service</code></pre>
+                <p>Paste the following configuration:</p>
+                <pre><code>[Unit]
+Description=OpenClaw Autonomous Agent
+Documentation=https://openclaw.dev/docs
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=openclaw
+Group=openclaw
+WorkingDirectory=/home/openclaw
+# Adjust the ExecStart path if you installed differently
+ExecStart=/usr/bin/node /usr/lib/node_modules/openclaw/index.js
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=openclaw
+Environment=NODE_ENV=production
+Environment=PORT=3000
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/
+ReadWritePaths=/home/openclaw
+CapabilityBoundingSet=
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+                <p>Save and exit (<code>Ctrl+O</code>, <code>Enter</code>, <code>Ctrl+X</code> in nano). Then enable and start the service:</p>
+                <pre><code># Reload systemd to pick up the new unit file
+sudo systemctl daemon-reload
+
+# Enable OpenClaw to start on boot
+sudo systemctl enable openclaw
+
+# Start OpenClaw now
+sudo systemctl start openclaw
+
+# Verify it's running
+sudo systemctl status openclaw</code></pre>
+                <p>You should see <code>Active: active (running)</code> in green. If it failed, check logs with <code>journalctl -u openclaw -n 50</code>.</p>
+
+                <h2 id="step6-nginx">Step 6: Configure Nginx Reverse Proxy</h2>
+                <p>Nginx proxies HTTP/HTTPS traffic from port 80/443 to your OpenClaw instance running on port 3000. This enables SSL termination, efficient static file handling, and protection against basic attacks.</p>
+                <pre><code># Create nginx config for OpenClaw
+sudo nano /etc/nginx/sites-available/openclaw</code></pre>
+                <p>Paste the following configuration:</p>
+                <pre><code>server {
+    listen 80;
+    server_name openclaw.yourdomain.com;
+
+    # Redirect all HTTP to HTTPS (after SSL is configured)
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name openclaw.yourdomain.com;
+
+    # SSL configuration (filled by Certbot)
+    ssl_certificate /etc/letsencrypt/live/openclaw.yourdomain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/openclaw.yourdomain.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    # Proxy configuration
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 86400;
+        proxy_connect_timeout 86400;
+        proxy_send_timeout 86400;
+    }
+
+    # Block access to sensitive files
+    location ~ /\. {
+        deny all;
+    }
+
+    # Logging
+    access_log /var/log/nginx/openclaw_access.log;
+    error_log /var/log/nginx/openclaw_error.log;
+}</code></pre>
+                <p>Enable the configuration and test nginx:</p>
+                <pre><code># Enable the site (symlink)
+sudo ln -s /etc/nginx/sites-available/openclaw /etc/nginx/sites-enabled/
+
+# Remove the default site (avoid conflicts)
+sudo rm /etc/nginx/sites-enabled/default
+
+# Test nginx configuration
+sudo nginx -t
+
+# Reload nginx
+sudo systemctl reload nginx</code></pre>
+
+                <h2 id="step7-ssl">Step 7: Obtain SSL Certificate</h2>
+                <p>Use Certbot with the nginx plugin to automatically obtain and configure a Let's Encrypt certificate. Certbot handles certificate issuance and renewal.</p>
+                <pre><code># Obtain SSL certificate
+sudo certbot --nginx -d openclaw.yourdomain.com
+
+# Follow the interactive prompts:
+# - Enter email for expiry notifications
+# - Agree to Terms of Service
+# - Choose whether to share email (optional)
+# - Select redirect (type 2) to force HTTPS</code></pre>
+                <p>Certbot automatically modifies your nginx config to include SSL settings and sets up a cron job or systemd timer for renewal. Let's Encrypt certificates expire after 90 days; Certbot's renewal runs twice daily and only renews when certificates are within 30 days of expiry.</p>
+                <p>Test the renewal process:</p>
+                <pre><code># Simulate renewal (dry run)
+sudo certbot renew --dry-run</code></pre>
+                <div class="callout info">
+                    <strong>SSL works without a domain?</strong> You can test OpenClaw locally using a self-signed certificate or a tool like <code>localtunnel</code>, but production deployments require a real domain with DNS pointing to your VPS.
+                </div>
+
+                <h2 id="step8-verify">Step 8: Verify Everything Works</h2>
+                <pre><code># Check OpenClaw is running
+sudo systemctl status openclaw
+
+# Check nginx is proxying correctly
+sudo systemctl status nginx
+
+# Test the SSL endpoint
+curl -I https://openclaw.yourdomain.com
+
+# View recent logs
+sudo journalctl -u openclaw -n 20 --no-pager</code></pre>
+                <p>You should see HTTP 200 or a JSON response from OpenClaw at your domain. If you get a 502 Bad Gateway, OpenClaw isn't responding on port 3000 — check that it's running and listening on the correct port.</p>
+
+                <h2 id="step9-hardening">Step 9: SSH Hardening</h2>
+                <p>Secure SSH access to prevent brute-force attacks:</p>
+                <pre><code># Edit SSH config
+sudo nano /etc/ssh/sshd_config</code></pre>
+                <p>Set or verify these settings:</p>
+                <pre><code>Port 22                         # Change from default if desired
+PermitRootLogin no             # Disable root login
+PasswordAuthentication no      # Disable password auth (use keys only)
+PubkeyAuthentication yes       # Enable key-based auth
+MaxAuthTries 3                 # Limit login attempts
+ClientAliveInterval 300        # Disconnect idle sessions
+ClientAliveCountMax 2</code></pre>
+                <p>Add your public key to the openclaw user's authorized_keys:</p>
+                <pre><code># As openclaw user
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+nano ~/.ssh/authorized_keys    # Paste your public key
+chmod 600 ~/.ssh/authorized_keys</code></pre>
+                <pre><code># Restart SSH
+sudo systemctl restart sshd</code></pre>
+                <div class="callout warning">
+                    <strong>Test SSH key access before logging out of your current session.</strong> Open a new terminal and try <code>ssh openclaw@your-vps-ip</code>. If it works without prompting for a password, your key is configured correctly.
+                </div>
+
+                <h2 id="step10-monitoring">Step 10: Set Up Monitoring</h2>
+                <p>Ensure OpenClaw stays online with automated monitoring. UptimeRobot (free tier monitors 50 sites) and Uptime Kuma (self-hosted) are both excellent choices.</p>
+                <h3 id="uptime-robot">UptimeRobot (External Monitoring)</h3>
+                <p>Create a free account at <code>uptimerobot.com</code> and add an HTTP(s) monitor pointing to <code>https://openclaw.yourdomain.com</code>. Set check interval to 5 minutes. UptimeRobot will email you if your VPS goes offline.</p>
+                <h3 id="uptime-kuma">Uptime Kuma (Self-Hosted Monitoring)</h3>
+                <p>Install Uptime Kuma to monitor your VPS alongside OpenClaw:</p>
+                <pre><code># As openclaw user
+npm install -g uptime-kuma
+npx uptime-kuma start</code></pre>
+                <p>Alternatively, run Uptime Kuma in Docker:</p>
+                <pre><code>docker run -d \
+  --name uptime-kuma \
+  -p 3001:3001 \
+  -v /home/openclaw/uptime-kuma:/app/data \
+  --restart unless-stopped \
+  louislam/uptime-kuma:latest</code></pre>
+                <p>Access Uptime Kuma at <code>http://your-vps-ip:3001</code>, set up an admin account, and add a monitor for <code>http://127.0.0.1:3000</code>.</p>
+
+                <h2 id="keeping-online">Keeping OpenClaw Running 24/7</h2>
+                <p>Once your systemd service is configured, OpenClaw is already set to survive reboots and recover from crashes. Here's a summary of what keeps it online:</p>
+                <ul>
+                    <li><strong>systemd Restart policy:</strong> <code>Restart=on-failure</code> and <code>RestartSec=10</code> automatically restart OpenClaw within 10 seconds of any crash</li>
+                    <li><strong>Enable on boot:</strong> <code>systemctl enable openclaw</code> registers the service in the boot sequence</li>
+                    <li><strong>Watchdog:</strong> For critical deployments, enable systemd's watchdog to monitor the service and kill/restart if it becomes unresponsive</li>
+                </ul>
+                <pre><code># Add watchdog support to your service (optional)
+# In /etc/systemd/system/openclaw.service, under [Service]:
+WatchdogSec=60
+Restart=on-failure</code></pre>
+                <pre><code># Reload systemd after changes
+sudo systemctl daemon-reload
+sudo systemctl restart openclaw</code></pre>
+
+                <h2 id="maintenance">Regular Maintenance</h2>
+                <p>Keep your VPS healthy with periodic maintenance:</p>
+                <pre><code># Apply security updates automatically (unattended-upgrades)
+sudo apt install -y unattended-upgrades
+sudo dpkg-reconfigure unattended-upgrades
+
+# Clean up old packages and cached files
+sudo apt autoremove -y
+sudo apt autoclean
+
+# Check disk space
+df -h
+
+# Review OpenClaw logs monthly
+sudo journalctl -u openclaw --since "30 days ago" | tail -100</code></pre>
+
+                <h2 id="troubleshooting">Troubleshooting</h2>
+                <h3 id="trouble-service">OpenClaw service won't start</h3>
+                <pre><code># View detailed logs
+sudo journalctl -u openclaw -n 50 --no-pager
+
+# Common causes:
+# - Port 3000 already in use: check with `sudo lsof -i :3000`
+# - Missing dependencies: run `npm install` in the OpenClaw directory
+# - Permission errors: verify openclaw user owns /home/openclaw</code></pre>
+
+                <h3 id="trouble-502">502 Bad Gateway in nginx</h3>
+                <pre><code># Verify OpenClaw is running and responding
+curl http://127.0.0.1:3000
+
+# Check nginx error logs
+sudo tail -20 /var/log/nginx/openclaw_error.log
+
+# Reload nginx
+sudo systemctl reload nginx</code></pre>
+
+                <h3 id="trouble-ssl">SSL certificate not working</h3>
+                <pre><code># Verify certificate exists
+sudo ls -la /etc/letsencrypt/live/openclaw.yourdomain.com/
+
+# Test SSL configuration
+sudo certbot certificates
+
+# Force renewal if expired
+sudo certbot renew --force-renewal</code></pre>
+
+                <h3 id="trouble-dns">Domain not resolving</h3>
+                <pre><code># Check DNS propagation
+dig openclaw.yourdomain.com A
+nslookup openclaw.yourdomain.com
+
+# Verify A record at your DNS provider
+# Propagation can take up to 24-48 hours for new records</code></pre>
+
+                <h3 id="trouble-permissions">Permission denied errors</h3>
+                <pre><code># Fix OpenClaw directory ownership
+sudo chown -R openclaw:openclaw /home/openclaw
+
+# Verify service file paths exist
+ls -la /usr/lib/node_modules/openclaw/index.js
+ls -la /usr/bin/node</code></pre>
+
+                <div class="disclaimer">
+                    <strong>Disclaimer:</strong> This guide contains affiliate links. We earn a commission at no extra cost to you if you purchase through our links.
+                </div>
+            </div>
+        </div>
+    </article>
+    
+    <footer>
+        <div class="container">
+            <p>© 2026 TechStack. Guides for operators who automate.</p>
+        </div>
+    </footer>
+</body>
+</html>

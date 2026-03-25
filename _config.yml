@@ -1,0 +1,46 @@
+# _config.yml — Jekyll Configuration for TechStack
+
+title: TechStack
+description: "Expert guides on AI tools, VPS hosting, and automation."
+url: "https://techstack.dev"
+baseurl: ""
+
+# Author
+author:
+  name: TechStack
+  email: hello@techstack.dev
+  url: https://techstack.dev
+
+# Social (optional)
+twitter:
+  username: techstackdev
+
+# Jekyll settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Defaults
+defaults:
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      author: "TechStack"
+
+# Exclude from processing
+exclude:
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - .gitignore
+  - .git/
+  - node_modules/
+  - package.json
+  - package-lock.json

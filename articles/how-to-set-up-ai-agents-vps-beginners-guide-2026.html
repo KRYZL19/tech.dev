@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Set Up AI Agents on a VPS — Beginner's Guide 2026 — TechStack</title>
+    <meta name="description" content="Step-by-step guide to setting up AI agents on a VPS in 2026. No server experience needed. Deploy autonomous agents that run 24/7 on affordable cloud hosting from $5/month.">
+    <meta name="keywords" content="how to set up AI agents on VPS, VPS AI agent setup, deploy AI agents cloud server, autonomous agent VPS tutorial, AI agent hosting for beginners">
+    <link rel="canonical" href="https://techstack.dev/articles/how-to-set-up-ai-agents-vps-beginners-guide-2026/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How to Set Up AI Agents on a VPS — Beginner's Guide 2026">
+    <meta property="og:description" content="Step-by-step guide to deploying AI agents on a VPS. No server experience needed. Runs 24/7 from $5/month.">
+    <meta property="og:url" content="https://techstack.dev/articles/how-to-set-up-ai-agents-vps-beginners-guide-2026/">
+    <meta property="og:site_name" content="TechStack">
+    <meta property="article:published_time" content="2026-03-25T12:00:00Z">
+    <meta property="article:modified_time" content="2026-03-25T12:00:00Z">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Set Up AI Agents on a VPS — Beginner's Guide 2026">
+    <meta name="twitter:description" content="Step-by-step guide to deploying AI agents on a VPS. No server experience needed. Runs 24/7 from $5/month.">
+    
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --border: #1e1e2e;
+            --text: #e4e4e7;
+            --text-muted: #71717a;
+            --accent: #6366f1;
+            --accent-hover: #818cf8;
+            --code-bg: #1a1a24;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .container { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
+        
+        header { padding: 2rem 0; border-bottom: 1px solid var(--border); }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--text); text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .logo span { color: var(--accent); }
+        nav { margin-top: 1rem; display: flex; gap: 1.5rem; }
+        nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+        nav a:hover { color: var(--accent); }
+        
+        article { padding: 3rem 0; }
+        
+        .article-header { margin-bottom: 2rem; }
+        .breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--accent); }
+        
+        h1 { font-size: clamp(1.5rem, 5vw, 2rem); font-weight: 700; line-height: 1.25; margin-bottom: 1rem; }
+        .article-meta { display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .article-meta span { display: flex; align-items: center; gap: 0.3rem; }
+        
+        .article-content { font-size: 1.05rem; }
+        .article-content h2 { font-size: 1.4rem; font-weight: 600; margin: 2.5rem 0 1rem; color: var(--text); }
+        .article-content h3 { font-size: 1.15rem; font-weight: 600; margin: 2rem 0 0.75rem; color: var(--text); }
+        .article-content p { margin-bottom: 1.25rem; color: #d4d4d8; }
+        .article-content a { color: var(--accent); text-decoration: none; }
+        .article-content a:hover { text-decoration: underline; }
+        .article-content ul, .article-content ol { margin: 1.25rem 0; padding-left: 1.5rem; }
+        .article-content li { margin-bottom: 0.5rem; color: #d4d4d8; }
+        .article-content strong { color: var(--text); }
+        
+        .article-content code {
+            background: var(--code-bg);
+            padding: 0.2em 0.5em;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #a5b4fc;
+        }
+        
+        .article-content pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+            font-size: 0.9rem;
+            color: #e4e4e7;
+        }
+        
+        .article-content blockquote {
+            border-left: 3px solid var(--accent);
+            padding-left: 1.25rem;
+            margin: 1.5rem 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        
+        .article-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        
+        .cta-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .cta-box h3 { margin-top: 0; }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .pros-cons .pros { border: 1px solid #22c55e33; border-radius: 8px; padding: 1rem; }
+        .pros-cons .cons { border: 1px solid #ef444433; border-radius: 8px; padding: 1rem; }
+        .pros-cons h4 { font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .pros .h4 { color: #22c55e; }
+        .cons h4 { color: #ef4444; }
+        .pros li, .cons li { font-size: 0.9rem; }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+        
+        .comparison-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background: var(--surface);
+            border-bottom: 2px solid var(--border);
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: #d4d4d8;
+        }
+        
+        .comparison-table tr:hover td {
+            background: var(--surface);
+        }
+        
+        .price-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.2em 0.6em;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .check { color: #22c55e; }
+        .cross { color: #ef4444; }
+        
+        footer { padding: 2rem 0; border-top: 1px solid var(--border); margin-top: 3rem; }
+        footer p { font-size: 0.85rem; color: var(--text-muted); }
+        footer a { color: var(--text-muted); }
+        footer a:hover { color: var(--accent); }
+        
+        @media (max-width: 600px) {
+            .pros-cons { grid-template-columns: 1fr; }
+            .comparison-table { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="https://techstack.dev" class="logo">Tech<span>Stack</span></a>
+            <nav>
+                <a href="https://techstack.dev">Home</a>
+                <a href="https://techstack.dev/articles/">Articles</a>
+                <a href="https://techstack.dev/about/">About</a>
+            </nav>
+        </div>
+    </header>
+    
+    <article>
+        <div class="container">
+            <div class="article-header">
+                <p class="breadcrumb"><a href="https://techstack.dev">Home</a> / <a href="https://techstack.dev/articles/">Articles</a> / VPS AI Agent Setup</p>
+                <h1>How to Set Up AI Agents on a VPS — Beginner's Guide 2026</h1>
+                <div class="article-meta">
+                    <span>📅 March 25, 2026</span>
+                    <span>⏱️ 12 min read</span>
+                    <span>🏷️ VPS Hosting, AI Agents</span>
+                </div>
+            </div>
+            
+            <div class="article-content">
+                <p>You don't need a computer science degree to run AI agents on a server. With the right VPS and a few terminal commands, you can deploy autonomous agents that work 24/7 — handling research, content creation, coding tasks, and more — while you sleep.</p>
+                
+                <p>This guide walks beginners through the complete process: choosing a VPS, installing the necessary software, and getting your first AI agent running from scratch. No prior server experience required.</p>
+                
+                <h2>What You Need Before Starting</h2>
+                
+                <ul>
+                    <li><strong>A VPS server</strong> — Starting at <span class="price-tag">$5/month</span>. Recommended: Hetzner, Contabo, or DigitalOcean.</li>
+                    <li><strong>A domain name</strong> (optional but recommended) — Around $10–15/year from Namecheap or Cloudflare.</li>
+                    <li><strong>SSH client</strong> — Built into Mac/Linux terminal. Windows users: <a href="https://putty.org/">PuTTY</a> or Windows Terminal.</li>
+                    <li><strong>An AI provider API key</strong> — OpenAI, Anthropic, or MiniMax. Most offer free credits to start.</li>
+                </ul>
+                
+                <div class="cta-box">
+                    <h3>💡 The VPS Approach vs. Cloud Platforms</h3>
+                    <p>Platforms like ChatGPT Plus ($20/month) or Claude Pro give you access to AI, but the agent <em>stops when you close the app</em>. A VPS-hosted agent runs autonomously — no human needed, no session time limits.</p>
+                </div>
+                
+                <h2>Step 1 — Choose and Order Your VPS</h2>
+                
+                <p>For AI agents, you want a VPS with enough RAM to handle model inference. Here's what we recommend at minimum:</p>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Resource</th>
+                            <th>Minimum</th>
+                            <th>Recommended</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>RAM</td>
+                            <td>2 GB</td>
+                            <td>4 GB+</td>
+                            <td>Running OpenClaw or similar agent frameworks</td>
+                        </tr>
+                        <tr>
+                            <td>CPU</td>
+                            <td>2 cores</td>
+                            <td>4+ cores</td>
+                            <td>Concurrent task processing</td>
+                        </tr>
+                        <tr>
+                            <td>Storage</td>
+                            <td>20 GB SSD</td>
+                            <td>40 GB+ SSD</td>
+                            <td>OS + agent memory + logs</td>
+                        </tr>
+                        <tr>
+                            <td>Uptime</td>
+                            <td>99%</td>
+                            <td>99.9%</td>
+                            <td>24/7 autonomous operation</td>
+                        </tr>
+                        <tr>
+                            <td>Location</td>
+                            <td>EU or US</td>
+                            <td>Close to your users</td>
+                            <td>Latency + data residency</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <p><strong>Budget pick:</strong> <a href="https://www.hetzner.com/">Hetzner</a> — CX21 instance at ~$6/month has 4 GB RAM and 2 vCPUs. Excellent value for AI workloads.</p>
+                
+                <p><strong>Reliability pick:</strong> <a href="https://www.digitalocean.com/">DigitalOcean</a> — Droplets start at $4/month. Premium network, easy scaling, great documentation.</p>
+                
+                <h2>Step 2 — Set Up Your Server</h2>
+                
+                <h3>2.1 Connect via SSH</h3>
+                
+                <p>After ordering your VPS, you'll receive an IP address and root password. Open your terminal and connect:</p>
+                
+                <pre><code>ssh root@YOUR_VPS_IP</code></pre>
+                
+                <p>On first connection, your terminal will ask to confirm the host key — type <code>yes</code> and press Enter.</p>
+                
+                <h3>2.2 Update Your Server</h3>
+                
+                <p>Always start with a full system update:</p>
+                
+                <pre><code>apt update && apt upgrade -y</code></pre>
+                
+                <h3>2.3 Install Required Software</h3>
+                
+                <p>AI agent frameworks like OpenClaw require <strong>Node.js</strong> (version 18+) and <strong>npm</strong>. Install them:</p>
+                
+                <pre><code># Install Node.js 22.x
+curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+apt-get install -y nodejs
+
+# Verify installation
+node --version   # Should show v22.x.x
+npm --version    # Should show 10.x.x
+
+# Install pm2 (keeps your agent alive after server restarts)
+npm install -g pm2</code></pre>
+                
+                <h3>2.4 Configure the Firewall</h3>
+                
+                <p>Allow only the ports you need:</p>
+                
+                <pre><code>ufw allow ssh
+ufw allow 80/tcp   # HTTP
+ufw allow 443/tcp  # HTTPS
+ufw enable</code></pre>
+                
+                <blockquote>
+                    ⚠️ <strong>Warning:</strong> Never run <code>ufw enable</code> if you're connecting via SSH without port 22 allowed. You will lock yourself out of your server.
+                </blockquote>
+                
+                <h2>Step 3 — Install and Configure OpenClaw</h2>
+                
+                <p><a href="https://openclaw.ai/">OpenClaw</a> is a free, open-source framework for running autonomous AI agents on a VPS. It handles the heavy lifting — agent orchestration, memory, tools, and channel integrations (Telegram, WhatsApp, Discord).</p>
+                
+                <pre><code># Install OpenClaw globally
+npm install -g openclaw
+
+# Verify installation
+openclaw --version
+
+# Run the setup wizard (interactive)
+openclaw setup</code></pre>
+                
+                <p>The setup wizard will ask for:</p>
+                
+                <ul>
+                    <li><strong>AI Provider</strong> — Choose your API key source (OpenAI, Anthropic, MiniMax, etc.)</li>
+                    <li><strong>Channel integrations</strong> — Telegram bot token, WhatsApp if needed</li>
+                    <li><strong>Memory storage</strong> — Local file storage is fine for single-agent setups</li>
+                </ul>
+                
+                <h3>3.1 Start OpenClaw as a Background Service</h3>
+                
+                <p>Use PM2 so your agent survives server reboots:</p>
+                
+                <pre><code># Start OpenClaw in the background
+pm2 start openclaw --name "openclaw-agent" --interpreter node
+
+# Save the PM2 process list so it restarts on reboot
+pm2 save
+
+# Set up startup script
+pm2 startup</code></pre>
+                
+                <p>The <code>pm2 startup</code> command will output a system command — copy and run it as root to enable automatic restarts.</p>
+                
+                <h2>Step 4 — Point a Domain to Your Agent (Optional)</h2>
+                
+                <p>If you want a web dashboard or webhook access, point a subdomain at your VPS:</p>
+                
+                <ol>
+                    <li>In your domain registrar (Cloudflare, Namecheap), add an <strong>A record</strong>:
+                        <ul>
+                            <li><strong>Host:</strong> <code>agent</code> (or <code>bot</code>)</li>
+                            <li><strong>Value:</strong> <code>YOUR_VPS_IP</code></li>
+                            <li><strong>TTL:</strong> Auto</li>
+                        </ul>
+                    </li>
+                    <li>Wait 5–30 minutes for DNS propagation</li>
+                    <li>Your agent dashboard will be accessible at <code>https://agent.yourdomain.com</code></li>
+                </ol>
+                
+                <h2>Step 5 — Verify Everything Is Running</h2>
+                
+                <p>Check the status of your agent:</p>
+                
+                <pre><code># Check PM2 status
+pm2 status
+
+# View real-time logs
+pm2 logs openclaw-agent --lines 50
+
+# Check if the gateway is accessible
+curl http://localhost:18789/__openclaw__/api/v1/status</code></pre>
+                
+                <p>You should see your agent's status, uptime, and configured channels.</p>
+                
+                <h2>Common Beginner Mistakes to Avoid</h2>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4 class="h4">✅ Do This</h4>
+                        <ul>
+                            <li>Use PM2 to keep your agent alive</li>
+                            <li>Set up automated backups of your config</li>
+                            <li>Monitor RAM usage with <code>htop</code></li>
+                            <li>Keep your VPS OS and packages updated</li>
+                            <li>Use environment variables for API keys, never hardcode them</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Avoid This</h4>
+                        <ul>
+                            <li>Don't run agents as root unnecessarily</li>
+                            <li>Don't skip firewall configuration</li>
+                            <li>Don't store API keys in config files committed to git</li>
+                            <li>Don't use very cheap VPS with swap-only storage (terrible I/O)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h2>What Can You Actually Do With a VPS AI Agent?</h2>
+                
+                <p>Once your agent is running 24/7 on a VPS, here are real use cases that actually make money:</p>
+                
+                <ul>
+                    <li><strong>Automated research</strong> — Monitor subreddits, forums, and news for opportunities in your niche. Compile daily briefs.</li>
+                    <li><strong>Content creation pipelines</strong> — AI agents can draft blog posts, social media content, and product descriptions on autopilot.</li>
+                    <li><strong>Setup-as-a-service</strong> — Help non-technical people deploy their own AI agents. Charge $50–200 per setup.</li>
+                    <li><strong>Client work automation</strong> — Automate repetitive tasks for businesses: data entry, reporting, lead qualification.</li>
+                    <li><strong>Skill development</strong> — Build and sell AI agent skills on marketplaces like ClawHub. Passive income from code.</li>
+                </ul>
+                
+                <h2>Estimated Monthly Costs</h2>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Cost</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>VPS (Hetzner CX21)</td>
+                            <td>$6/month</td>
+                            <td>4 GB RAM, 2 vCPU, 40 GB storage</td>
+                        </tr>
+                        <tr>
+                            <td>Domain name</td>
+                            <td>~$1/month</td>
+                            <td>$10–15/year</td>
+                        </tr>
+                        <tr>
+                            <td>AI API costs</td>
+                            <td>$5–50/month</td>
+                            <td>Depends on usage; MiniMax is cheapest</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total minimum</strong></td>
+                            <td><strong>$12–60/month</strong></td>
+                            <td>Highly scalable based on your needs</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h2>Next Steps — Keep Learning</h2>
+                
+                <ul>
+                    <li><a href="https://techstack.dev/articles/host-openclaw-247-setup-guide/">Host OpenClaw 24/7 — Complete Setup Guide</a> — Deep dive into production OpenClaw hosting</li>
+                    <li><a href="https://techstack.dev/articles/make-money-autonomous-ai-agents-2026/">How to Make Money with Autonomous AI Agents in 2026</a> — Real monetization strategies</li>
+                    <li><a href="https://techstack.dev/articles/best-vps-ai-agents-autonomous-bots-2026/">Best VPS for AI Agents and Autonomous Bots</a> — Detailed provider comparison</li>
+                </ul>
+                
+                <p>Setting up AI agents on a VPS is genuinely one of the highest-leverage things a technical individual can do in 2026. The upfront cost is low, the automation is real, and the income potential scales with your creativity — not your time.</p>
+            </div>
+        </div>
+    </article>
+    
+    <footer>
+        <div class="container">
+            <p>© 2026 TechStack. <a href="https://techstack.dev/privacy/">Privacy Policy</a> · <a href="https://techstack.dev/contact/">Contact</a></p>
+            <p>Affiliate links may earn us a commission at no extra cost to you.</p>
+        </div>
+    </footer>
+</body>
+</html>
