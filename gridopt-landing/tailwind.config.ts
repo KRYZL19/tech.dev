@@ -2,49 +2,36 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
         cream: {
-          bg: "#FAF7F2",
-          surface: "#FFFFFF",
+          50: "#FAF7F2",
+          100: "#F5F0E8",
+          200: "#EDE5D8",
+          300: "#E0D4C4",
           border: "#E8E2D9",
-          code: "#F0EBE3",
         },
         ink: {
           DEFAULT: "#1A1A18",
           muted: "#6B6560",
+          light: "#3D3D3A",
         },
         terracotta: {
           DEFAULT: "#B5451B",
-          hover: "#8C3415",
+          hover: "#9A3A16",
+          light: "#D4633A",
         },
       },
       fontFamily: {
-        serif: ["Georgia", "Times New Roman", "serif"],
-        sans: [
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "system-ui",
-          "sans-serif",
-        ],
-      },
-      fontSize: {
-        "body-lg": ["18px", { lineHeight: "1.75" }],
-        "body-sm": ["14px", { lineHeight: "1.6" }],
+        serif: ["Georgia", "Cambria", "Times New Roman", "serif"],
       },
       maxWidth: {
         prose: "720px",
-      },
-      boxShadow: {
-        card: "0 2px 12px rgba(0,0,0,0.06)",
-      },
-      borderRadius: {
-        DEFAULT: "6px",
       },
     },
   },
