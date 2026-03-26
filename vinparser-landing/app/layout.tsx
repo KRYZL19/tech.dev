@@ -1,20 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
 export const metadata: Metadata = {
-  title: "VINPARSER — Motorcycle VIN Decoder API",
-  description:
-    "Decode any motorcycle VIN to full specs, ownership history, and recall data before you buy.",
+  title: "VINPARSER — Vehicle Identification Number Decode API",
+  description: "Parse any 17-character VIN. Validation, country of origin, model year, assembly plant, serial number. VINPARSER gives dealers and automotive platforms instant vehicle identification.",
 };
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body className="font-sans antialiased">{children}</body>
-    </html>
-  );
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return <html lang="en"><body className="bg-cream-50 text-ink antialiased min-h-screen">{children}</body></html>;
 }

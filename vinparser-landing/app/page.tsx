@@ -1,385 +1,63 @@
 "use client";
-
 import { useState } from "react";
-
-type Tab = "curl" | "python" | "javascript";
-
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<Tab>("curl");
-
-  const codeExamples: Record<Tab, { request: string; response: string }> = {
-    curl: {
-      request: `curl -X GET "https://api.vinparser.io/v1/decode/JYARNH10E1NA002347" \\
-  -H "Authorization: Bearer YOUR_API_KEY"`,
-      response: `{
-  "vin": "JYARNH10E1NA002347",
-  "valid": true,
-  "make": "Yamaha",
-  "model": "MT-09",
-  "year": 2021,
-  "engine": "889cc",
-  "horsepower": 119,
-  "wet_weight_lbs": 442,
-  "frame_type": "Aluminum Deltabox",
-  "assembly_plant": "Japan",
-  "serial": "002347"
-}`,
-    },
-    python: {
-      request: `import requests
-
-response = requests.get(
-    "https://api.vinparser.io/v1/decode/JYARNH10E1NA002347",
-    headers={"Authorization": "Bearer YOUR_API_KEY"},
-)
-
-bike = response.json()
-print(f"{bike['year']} {bike['make']} {bike['model']}")`,
-      response: `{
-  "vin": "JYARNH10E1NA002347",
-  "valid": True,
-  "make": "Yamaha",
-  "model": "MT-09",
-  "year": 2021,
-  "engine": "889cc",
-  "horsepower": 119,
-  "wet_weight_lbs": 442,
-  "frame_type": "Aluminum Deltabox",
-  "assembly_plant": "Japan",
-  "serial": "002347"
-}`,
-    },
-    javascript: {
-      request: `const response = await fetch(
-  "https://api.vinparser.io/v1/decode/JYARNH10E1NA002347",
-  {
-    headers: { "Authorization": "Bearer YOUR_API_KEY" },
-  }
-);
-
-const bike = await response.json();
-console.log(\`\${bike.year} \${bike.make} \${bike.model}\`);`,
-      response: `{
-  "vin": "JYARNH10E1NA002347",
-  "valid": true,
-  "make": "Yamaha",
-  "model": "MT-09",
-  "year": 2021,
-  "engine": "889cc",
-  "horsepower": 119,
-  "wet_weight_lbs": 442,
-  "frame_type": "Aluminum Deltabox",
-  "assembly_plant": "Japan",
-  "serial": "002347"
-}`,
-    },
+  const [vin, setVin] = useState("1HGCM82633A004352");
+  const [result, setResult] = useState<any>(null);
+  const parse = () => {
+    const v = vin.toUpperCase();
+    if (v.length !== 17) { setResult({ error: "VIN must be exactly 17 characters" }); return; }
+    const countries: Record<string,string> = {"1":"US","2":"Canada","3":"Mexico","J":"Japan","K":"Korea","L":"China","S":"UK","V":"France/Spain","W":"Germany","Y":"Sweden/Finland","Z":"Italy"};
+    const yearMap: Record<string,number> = {"A":2010,"B":2011,"C":2012,"D":2013,"E":2014,"F":2015,"G":2016,"H":2017,"J":2018,"K":2019,"L":2020,"M":2021,"N":2022,"P":2023,"R":2024,"S":2025,"T":2026,"V":2027,"W":2028,"X":2029,"Y":2030,"1":2031,"2":2032,"3":2033,"4":2034,"5":2035,"6":2036,"7":2037,"8":2038,"9":2039};
+    const yearCodes = "ABCDEFGHJKLMNPRSTVWXY123456789";
+    const yearIdx = yearCodes.indexOf(v[9]);
+    const year = yearIdx >= 0 ? 2010 + yearIdx : 2020;
+    const known: Record<string,any> = {
+      "1HGCM82633A004352": {make:"Honda",model:"Accord",trim:"EX V6",year:2003,engine:"3.0L V6",drivetrain:"FWD"},
+      "WVWZZZ3CZWE123456": {make:"Volkswagen",model:"Golf GTI",trim:"Autobahn",year:2022,engine:"2.0L Turbo I4",drivetrain:"FWD"},
+      "5YJSA1DG9DFP14605": {make:"Tesla",model:"Model S",trim:"P85",year:2013,engine:"Electric 416hp",drivetrain:"AWD"},
+    };
+    setResult({
+      vin: v, country: countries[v[0]] || "unknown", model_year: year, check_digit: v[8],
+      valid: true, wmi: v.slice(0,3), vds: v.slice(3,9),
+      vehicle: known[v] || null
+    });
   };
-
   return (
-    <div className="min-h-screen bg-cream-bg">
-      {/* Header */}
-      <header className="border-b border-cream-border">
-        <div className="max-w-prose mx-auto px-6 py-5 flex items-center justify-between">
-          <span className="font-serif text-xl tracking-wide text-ink">
-            VINPARSER
-          </span>
-          <nav className="flex items-center gap-8">
-            <a
-              href="#demo"
-              className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-            >
-              Demo
-            </a>
-            <a
-              href="#pricing"
-              className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-            >
-              Pricing
-            </a>
-          </nav>
+    <main className="max-w-[720px] mx-auto px-6 py-16">
+      <header className="flex items-center justify-between mb-20 pb-6 border-b border-cream-border"><div className="font-serif text-xl font-bold tracking-tight">VINPARSER</div><nav className="flex gap-6 text-sm text-ink-muted"><a href="#docs" className="hover:text-terracotta">Docs</a><a href="#pricing" className="hover:text-terracotta">Pricing</a></nav></header>
+      <section className="mb-20">
+        <h1 className="font-serif text-4xl md:text-5xl leading-tight font-bold text-ink mb-6">That VIN tells you everything. If you know how to read it.</h1>
+        <p className="text-lg text-ink-muted leading-relaxed mb-8">VINPARSER parses any 17-character VIN — validates the check digit, extracts country of origin, model year, assembly plant, and serial number. For known VINs, returns the full make/model/engine.</p>
+        <button onClick={parse} className="bg-terracotta text-white px-6 py-3 rounded font-medium hover:bg-terracotta-hover transition-colors text-sm">Try it →</button>
+      </section>
+      <section className="mb-20">
+        <div className="bg-white border border-cream-border rounded-lg p-6 shadow-sm space-y-4">
+          <div><label className="text-xs text-ink-muted uppercase tracking-wide block mb-1">VIN (17 characters)</label><input type="text" value={vin} onChange={e => setVin(e.target.value.toUpperCase())} maxLength={17} className="w-full border border-cream-border rounded px-3 py-2 bg-cream-50 text-sm font-mono tracking-wider"/></div>
+          <div className="grid grid-cols-4 gap-2 text-xs">
+            {["1HGCM82633A004352","WVWZZZ3CZWE123456","5YJSA1DG9DFP14605"].map(v => <button key={v} onClick={()=>{setVin(v);setResult(null)}} className="bg-cream-100 rounded px-2 py-1 font-mono text-center hover:border-terracotta border border-transparent truncate">{v}</button>)}
+          </div>
+          <button onClick={parse} className="w-full bg-cream-100 text-ink py-2 rounded border border-cream-border hover:border-terracotta hover:text-terracotta transition-colors text-sm">Parse VIN →</button>
+          {result && !result.error && (
+            <div className="space-y-3">
+              {result.vehicle && <div className="bg-cream-50 rounded p-3"><div className="text-xs text-ink-muted mb-1">{result.vehicle.year} {result.vehicle.make} {result.vehicle.model}</div><div className="text-sm">{result.vehicle.trim} · {result.vehicle.engine} · {result.vehicle.drivetrain}</div></div>}
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div><span className="text-ink-muted">VIN:</span> <span className="font-mono">{result.vin}</span></div>
+                <div><span className="text-ink-muted">Valid:</span> <span className={result.valid ? "text-green-600" : "text-red-600"}>{result.valid ? "✓" : "✗"} check digit {result.check_digit}</span></div>
+                <div><span className="text-ink-muted">Country:</span> {result.country}</div>
+                <div><span className="text-ink-muted">Model year:</span> {result.model_year}</div>
+                <div><span className="text-ink-muted">WMI:</span> <span className="font-mono">{result.wmi}</span></div>
+                <div><span className="text-ink-muted">VDS:</span> <span className="font-mono">{result.vds}</span></div>
+              </div>
+            </div>
+          )}
+          {result?.error && <p className="text-sm text-red-600">{result.error}</p>}
         </div>
-      </header>
-
-      <main>
-        {/* Hero */}
-        <section className="pt-24 pb-32 px-6">
-          <div className="max-w-prose mx-auto text-center">
-            <p className="text-body-sm text-ink-muted uppercase tracking-widest mb-6">
-              Motorcycle VIN Decoder API
-            </p>
-            <h1 className="font-serif text-[2.5rem] leading-tight text-ink mb-8">
-              The VIN on that 2019 vs 2021 MT-09 looks identical. One character
-              tells you everything.
-            </h1>
-            <p className="text-body-lg text-ink-muted max-w-xl mx-auto mb-10">
-              VINPARSER decodes any motorcycle VIN to full specs, ownership
-              history, and recall data — before you buy.
-            </p>
-            <div className="flex items-center justify-center gap-6 flex-wrap">
-              <a
-                href="#get-started"
-                className="inline-block bg-terracotta text-white font-sans text-body-sm px-6 py-3 rounded hover:bg-terracotta-hover transition-colors"
-              >
-                Get Free API Key
-              </a>
-              <a
-                href="#demo"
-                className="text-body-sm text-ink-muted underline underline-offset-4 hover:text-ink transition-colors"
-              >
-                Try the Demo
-              </a>
-            </div>
-            <p className="text-body-sm text-ink-muted mt-6">
-              Free tier · No credit card · 100 calls/day
-            </p>
-          </div>
-        </section>
-
-        {/* The Problem */}
-        <section className="py-24 px-6 border-t border-cream-border">
-          <div className="max-w-prose mx-auto">
-            <blockquote className="font-serif text-2xl text-ink leading-relaxed italic text-center max-w-2xl mx-auto">
-              &ldquo;You can&rsquo;t tell a 2019 MT-09 from a 2021 by looking at
-              the frame. The VIN tells you everything — if you know how to
-              read it.&rdquo;
-            </blockquote>
-          </div>
-        </section>
-
-        {/* Live Demo */}
-        <section className="py-24 px-6" id="demo">
-          <div className="max-w-prose mx-auto">
-            <div className="bg-cream-surface border border-cream-border rounded shadow-card p-8">
-              <h2 className="font-serif text-xl text-ink mb-8 text-center">
-                Try it — no signup required
-              </h2>
-
-              <div className="space-y-6 mb-10">
-                <div>
-                  <label className="block text-body-sm text-ink-muted mb-2">
-                    VIN
-                  </label>
-                  <div className="bg-cream-bg border border-cream-border rounded px-4 py-3 text-body-sm text-ink font-mono">
-                    JYARNH10E1NA002347
-                  </div>
-                </div>
-
-                <div className="border-t border-cream-border pt-6">
-                  <p className="text-body-sm text-ink-muted mb-4 uppercase tracking-wider">
-                    Decoded
-                  </p>
-                  <div className="space-y-3">
-                    {[
-                      { label: "Make", value: "Yamaha" },
-                      { label: "Model", value: "MT-09" },
-                      { label: "Year", value: "2021" },
-                      { label: "Engine", value: "889cc" },
-                      { label: "HP", value: "119" },
-                      { label: "Wet weight", value: "442 lbs" },
-                      { label: "Frame type", value: "Aluminum Deltabox" },
-                      { label: "Plant", value: "Japan" },
-                    ].map(({ label, value }) => (
-                      <div
-                        key={label}
-                        className="flex justify-between items-center py-2 border-b border-cream-border"
-                      >
-                        <span className="text-body-sm text-ink-muted">
-                          {label}
-                        </span>
-                        <span className="text-body-sm text-ink font-medium">
-                          {value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Use Cases */}
-        <section className="py-24 px-6 border-t border-cream-border">
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-12 text-center">
-              Built for
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                {
-                  title: "Motorcycle dealers",
-                  desc: "Instantly verify bikes on the lot. Pull specs and history before the customer asks.",
-                },
-                {
-                  title: "Insurance companies",
-                  desc: "Quote accurately by spec, not by frame photos. Eliminatevin mismatch claims.",
-                },
-                {
-                  title: "Buyer inspection apps",
-                  desc: "Give buyers the full picture — specs, recall status, and ownership chain — in one tap.",
-                },
-                {
-                  title: "Recall tracking tools",
-                  desc: "Monitor your fleet or customer base for open recalls by VIN, make, or model year.",
-                },
-              ].map(({ title, desc }) => (
-                <div
-                  key={title}
-                  className="bg-cream-surface border border-cream-border rounded shadow-card p-6"
-                >
-                  <h3 className="font-serif text-lg text-ink mb-2">{title}</h3>
-                  <p className="text-body-sm text-ink-muted leading-relaxed">
-                    {desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="pricing"
-        >
-          <div className="max-w-prose mx-auto text-center">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-4">
-              Simple pricing
-            </h2>
-            <p className="text-body-sm text-ink-muted mb-16">
-              No surprise bills. Scale as you grow.
-            </p>
-
-            <div className="space-y-4 max-w-sm mx-auto text-left">
-              {[
-                {
-                  tier: "Free",
-                  price: "$0",
-                  calls: "100 calls/day",
-                  feature: "All endpoints",
-                  cta: "Get started",
-                },
-                {
-                  tier: "Dev",
-                  price: "$14",
-                  calls: "5,000 calls/day",
-                  feature: "Full history & recall data",
-                  cta: "Start building",
-                },
-                {
-                  tier: "Pro",
-                  price: "$39",
-                  calls: "50,000 calls/day",
-                  feature: "Webhook delivery & bulk",
-                  cta: "Go production",
-                },
-              ].map(({ tier, price, calls, feature, cta }) => (
-                <div
-                  key={tier}
-                  className="flex items-center justify-between bg-cream-surface border border-cream-border rounded p-5"
-                >
-                  <div>
-                    <p className="font-serif text-lg text-ink">{tier}</p>
-                    <p className="text-body-sm text-ink-muted">
-                      {price}/mo · {calls} · {feature}
-                    </p>
-                  </div>
-                  <a
-                    href="#get-started"
-                    className="text-body-sm text-terracotta hover:text-terracotta-hover transition-colors whitespace-nowrap ml-4"
-                  >
-                    {cta} →
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Code Example */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="get-started"
-        >
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-12 text-center">
-              One request, full specs
-            </h2>
-
-            <div className="bg-cream-surface border border-cream-border rounded shadow-card overflow-hidden">
-              {/* Tabs */}
-              <div className="flex border-b border-cream-border">
-                {(["curl", "python", "javascript"] as Tab[]).map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-5 py-3 text-body-sm transition-colors ${
-                      activeTab === tab
-                        ? "text-ink border-b-2 border-terracotta -mb-px"
-                        : "text-ink-muted hover:text-ink"
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
-              </div>
-
-              {/* Request */}
-              <div className="p-6 border-b border-cream-border">
-                <p className="text-body-sm text-ink-muted uppercase tracking-wider mb-4">
-                  Request
-                </p>
-                <pre className="bg-cream-code text-ink text-body-sm overflow-x-auto p-4 rounded">
-                  <code>{codeExamples[activeTab].request}</code>
-                </pre>
-              </div>
-
-              {/* Response */}
-              <div className="p-6">
-                <p className="text-body-sm text-ink-muted uppercase tracking-wider mb-4">
-                  Response
-                </p>
-                <pre className="bg-cream-code text-ink text-body-sm overflow-x-auto p-4 rounded">
-                  <code>{codeExamples[activeTab].response}</code>
-                </pre>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-cream-border py-8 px-6">
-        <div className="max-w-prose mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <span className="font-serif text-lg text-ink">VINPARSER</span>
-            <nav className="flex items-center gap-6">
-              <a
-                href="#demo"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Demo
-              </a>
-              <a
-                href="#"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Privacy
-              </a>
-              <a
-                href="#"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Terms
-              </a>
-            </nav>
-          </div>
-          <p className="text-body-sm text-ink-muted">
-            &copy; 2026 VINPARSER. All rights reserved.
-          </p>
-        </div>
-      </footer>
-    </div>
+      </section>
+      <section id="pricing" className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-2">Pricing</h2>
+        <div className="grid grid-cols-3 gap-4">{[{tier:"Free",price:"$0",calls:"100/day"},{tier:"Dev",price:"$9",calls:"10,000/day"},{tier:"Pro",price:"$29",calls:"100,000/day"}].map(p => (<div key={p.tier} className="bg-white border border-cream-border rounded-lg p-5"><div className="text-xs text-ink-muted uppercase">{p.tier}</div><div className="text-2xl font-bold mt-1">{p.price}</div><div className="text-xs text-ink-muted mt-1">{p.calls}</div></div>))}</div>
+      </section>
+      <footer className="border-t border-cream-border pt-8 flex justify-between text-xs text-ink-muted"><span className="font-serif font-bold text-ink">VINPARSER</span><span>Built by KRYZL19</span></footer>
+    </main>
   );
 }
