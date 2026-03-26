@@ -1,373 +1,148 @@
 "use client";
+import { useState } from "react";
 
 export default function Home() {
+  const [caliber, setCaliber] = useState("556_nato_62gr");
+  const [result, setResult] = useState<any>(null);
+
+  const data: Record<string, any> = {
+    "556_nato_62gr": { name: "5.56x45mm NATO (62gr FMJ)", type: "rifle", velocity_fps: 3100, energy_ftlbs: 1324, pressure_nato: "58,000 PSI", penetration: 12, expansion: 8, notes: "Standard NATO ball. 3100fps from 14.5\" barrel." },
+    "308_win_168gr": { name: ".308 Winchester (168gr BTHP)", type: "rifle", velocity_fps: 2650, energy_ftlbs: 2620, pressure_nato: "62,000 PSI", penetration: 22, expansion: 10, notes: "Match-grade. 175gr has slightly more recoil, slightly more energy." },
+    "9mm_luger_124gr": { name: "9mm Luger (124gr JHP)", type: "pistol", velocity_fps: 1100, energy_ftlbs: 333, pressure_nato: "36,500 PSI", penetration: 12, expansion: 13, notes: "JHP expands reliably above 1000fps. Below that, acts like FMJ." },
+    "762x39": { name: "7.62x39mm (123gr FMJ)", type: "rifle", velocity_fps: 2300, energy_ftlbs: 1527, pressure_nato: "45,300 PSI", penetration: 16, expansion: 10, notes: "Soviet intermediate. More recoil than 5.56 in a comparable platform." },
+  };
+
+  const run = () => setResult(data[caliber]);
+
   return (
-    <div className="min-h-screen bg-cream-bg">
-      {/* Header */}
-      <header className="border-b border-cream-border">
-        <div className="max-w-prose mx-auto px-6 py-5 flex items-center justify-between">
-          <span className="font-serif text-xl tracking-wide text-ink">
-            AMMODEX
-          </span>
-          <nav className="flex items-center gap-8">
-            <a
-              href="#how-it-works"
-              className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-            >
-              Documentation
-            </a>
-            <a
-              href="#pricing"
-              className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-            >
-              Pricing
-            </a>
-          </nav>
-        </div>
+    <main className="max-w-[720px] mx-auto px-6 py-16">
+      <header className="flex items-center justify-between mb-20 pb-6 border-b border-cream-border">
+        <div className="font-serif text-xl font-bold tracking-tight">AMMODEX</div>
+        <nav className="flex gap-6 text-sm text-ink-muted">
+          <a href="#docs" className="hover:text-terracotta transition-colors">Docs</a>
+          <a href="#pricing" className="hover:text-terracotta transition-colors">Pricing</a>
+        </nav>
       </header>
 
-      <main>
-        {/* Hero */}
-        <section className="pt-24 pb-32 px-6">
-          <div className="max-w-prose mx-auto text-center">
-            <p className="text-body-sm text-ink-muted uppercase tracking-widest mb-6">
-              Ammunition Data API
-            </p>
-            <h1 className="font-serif text-[2.5rem] leading-tight text-ink mb-8">
-              Every reloader has a powder spreadsheet from 6 different PDF
-              manuals. Stop.
-            </h1>
-            <p className="text-body-lg text-ink-muted max-w-xl mx-auto mb-10">
-              AMMODEX gives reloaders and ammunition researchers instant access
-              to powder data, bullet specifications, and reloading calculations
-              — via API.
-            </p>
-            <div className="flex items-center justify-center gap-6 flex-wrap">
-              <a
-                href="#get-started"
-                className="inline-block bg-terracotta text-white font-sans text-body-sm px-6 py-3 rounded hover:bg-terracotta-hover transition-colors"
-              >
-                Get Free API Key
-              </a>
-              <a
-                href="#demo"
-                className="text-body-sm text-ink-muted underline underline-offset-4 hover:text-ink transition-colors"
-              >
-                Try the demo
-              </a>
-            </div>
-            <p className="text-body-sm text-ink-muted mt-6">
-              Free tier · No credit card · 100 calls/day
-            </p>
-          </div>
-        </section>
-
-        {/* The Problem */}
-        <section className="py-24 px-6 border-t border-cream-border">
-          <div className="max-w-prose mx-auto">
-            <blockquote className="font-serif text-2xl text-ink leading-relaxed italic text-center max-w-2xl mx-auto">
-              &ldquo;You need to check the max load for CFE Pistol in a 9mm.
-              You have three PDF manuals and a spreadsheet. Nobody should need a
-              spreadsheet for this.&rdquo;
-            </blockquote>
-          </div>
-        </section>
-
-        {/* Live Demo */}
-        <section className="py-24 px-6" id="demo">
-          <div className="max-w-prose mx-auto">
-            <div className="bg-cream-surface border border-cream-border rounded shadow-card p-8">
-              <h2 className="font-serif text-xl text-ink mb-8 text-center">
-                Try it — no signup required
-              </h2>
-
-              <div className="space-y-6 mb-10">
-                {/* Input */}
-                <div>
-                  <label className="block text-body-sm text-ink-muted mb-2 uppercase tracking-wider">
-                    Input
-                  </label>
-                  <div className="bg-cream-bg border border-cream-border rounded p-4 text-body-sm text-ink font-mono">
-                    .223 Rem, 55gr, Varget powder
-                  </div>
-                </div>
-
-                {/* Arrow */}
-                <div className="flex justify-center">
-                  <div className="text-ink-muted text-lg">↓</div>
-                </div>
-
-                {/* Output */}
-                <div>
-                  <label className="block text-body-sm text-ink-muted mb-2 uppercase tracking-wider">
-                    API response
-                  </label>
-                  <div className="bg-cream-bg border border-cream-border rounded p-4">
-                    <div className="space-y-3">
-                      {[
-                        { label: "Starting load", value: "24.0 gr" },
-                        { label: "Max load", value: "26.5 gr" },
-                        { label: "Est. velocity", value: "3,045 fps" },
-                        {
-                          label: "Optimal charge for 3,100 fps",
-                          value: "25.2 gr",
-                          highlight: true,
-                        },
-                      ].map(({ label, value, highlight }) => (
-                        <div
-                          key={label}
-                          className="flex justify-between items-center py-2 border-b border-cream-border last:border-0"
-                        >
-                          <span className="text-body-sm text-ink-muted">
-                            {label}
-                          </span>
-                          <span
-                            className={`text-body-sm font-medium ${
-                              highlight ? "text-terracotta" : "text-ink"
-                            }`}
-                          >
-                            {value}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Code snippet */}
-                <div>
-                  <p className="text-body-sm text-ink-muted mb-2 uppercase tracking-wider">
-                    Or via API
-                  </p>
-                  <pre className="bg-cream-code text-ink text-body-sm overflow-x-auto p-4 rounded font-mono">
-                    <code>{`curl https://api.ammodex.io/v1/load \\
-  -d '{"caliber":".223 Rem","bullet":"55gr","powder":"Varget"}'`}</code>
-                  </pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* How It Works */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="how-it-works"
-        >
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-16 text-center">
-              How it works
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              {[
-                {
-                  step: "1",
-                  title: "Query powder data",
-                  desc: "Search by caliber, bullet weight, and powder name. We normalize load data from authoritative reloading manuals.",
-                },
-                {
-                  step: "2",
-                  title: "Get load parameters",
-                  desc: "Receive starting load, max load, optimal charge, and estimated velocity — instantly, without manual lookups.",
-                },
-                {
-                  step: "3",
-                  title: "Integrate anywhere",
-                  desc: "REST API with JSON responses. Built for reloading apps, ballistic calculators, and firearms training platforms.",
-                },
-              ].map(({ step, title, desc }) => (
-                <div key={step} className="text-center">
-                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-cream-border text-ink mb-5">
-                    <span className="font-serif text-lg">{step}</span>
-                  </div>
-                  <h3 className="font-serif text-lg text-ink mb-3">{title}</h3>
-                  <p className="text-body-sm text-ink-muted leading-relaxed">
-                    {desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Use Cases */}
-        <section className="py-24 px-6 border-t border-cream-border">
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-12 text-center">
-              Built for
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                {
-                  title: "Reloading software",
-                  desc: "Give users instant access to verified powder and bullet data inside your reloading app or spreadsheet.",
-                },
-                {
-                  title: "Ammunition comparison tools",
-                  desc: "Compare load data across calibers, powders, and bullet weights programmatically.",
-                },
-                {
-                  title: "Ballistic calculators",
-                  desc: "Feed accurate load parameters directly into your trajectory and energy calculators.",
-                },
-                {
-                  title: "Firearms training platforms",
-                  desc: "Help instructors and students look up load data without leaving the firing line.",
-                },
-              ].map(({ title, desc }) => (
-                <div
-                  key={title}
-                  className="bg-cream-surface border border-cream-border rounded shadow-card p-6"
-                >
-                  <h3 className="font-serif text-lg text-ink mb-2">{title}</h3>
-                  <p className="text-body-sm text-ink-muted leading-relaxed">
-                    {desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="pricing"
-        >
-          <div className="max-w-prose mx-auto text-center">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-4">
-              Simple pricing
-            </h2>
-            <p className="text-body-sm text-ink-muted mb-16">
-              No surprise bills. Scale as you grow.
-            </p>
-
-            <div className="space-y-4 max-w-sm mx-auto text-left">
-              {[
-                {
-                  tier: "Free",
-                  price: "$0",
-                  calls: "100 calls/day",
-                  feature: "Full powder & bullet data",
-                  cta: "Get started",
-                },
-                {
-                  tier: "Dev",
-                  price: "$19",
-                  calls: "10,000 calls/month",
-                  feature: "Priority support + rate limits",
-                  cta: "Start building",
-                },
-                {
-                  tier: "Pro",
-                  price: "$59",
-                  calls: "100,000 calls/month",
-                  feature: "Bulk access + historical data",
-                  cta: "Go production",
-                },
-              ].map(({ tier, price, calls, feature, cta }) => (
-                <div
-                  key={tier}
-                  className="flex items-center justify-between bg-cream-surface border border-cream-border rounded p-5"
-                >
-                  <div>
-                    <p className="font-serif text-lg text-ink">{tier}</p>
-                    <p className="text-body-sm text-ink-muted">
-                      {price}/mo · {calls} · {feature}
-                    </p>
-                  </div>
-                  <a
-                    href="#get-started"
-                    className="text-body-sm text-terracotta hover:text-terracotta-hover transition-colors whitespace-nowrap ml-4"
-                  >
-                    {cta} →
-                  </a>
-                </div>
-              ))}
-            </div>
-
-            <p className="text-body-sm text-ink-muted mt-8">
-              Starting at $0.001 per call beyond your tier limit.
-            </p>
-          </div>
-        </section>
-
-        {/* Get Started / Code Example */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="get-started"
-        >
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-12 text-center">
-              Start in minutes
-            </h2>
-
-            <div className="bg-cream-surface border border-cream-border rounded shadow-card overflow-hidden">
-              <div className="p-6 border-b border-cream-border">
-                <p className="text-body-sm text-ink-muted uppercase tracking-wider mb-4">
-                  Request
-                </p>
-                <pre className="bg-cream-code text-ink text-body-sm overflow-x-auto p-4 rounded font-mono">
-                  <code>{`curl https://api.ammodex.io/v1/load \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -d '{"caliber":".223 Rem","bullet":"55gr","powder":"Varget"}'`}</code>
-                </pre>
-              </div>
-
-              <div className="p-6">
-                <p className="text-body-sm text-ink-muted uppercase tracking-wider mb-4">
-                  Response
-                </p>
-                <pre className="bg-cream-code text-ink text-body-sm overflow-x-auto p-4 rounded font-mono">
-                  <code>{`{
-  "caliber": ".223 Rem",
-  "bullet": { "weight": "55gr" },
-  "powder": "Varget",
-  "starting_load": "24.0 gr",
-  "max_load": "26.5 gr",
-  "optimal_charge": "25.2 gr",
-  "est_velocity": "3,045 fps"
-}`}</code>
-                </pre>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-cream-border py-8 px-6">
-        <div className="max-w-prose mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <span className="font-serif text-lg text-ink">AMMODEX</span>
-            <nav className="flex items-center gap-6">
-              <a
-                href="#how-it-works"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Documentation
-              </a>
-              <a
-                href="#"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Privacy
-              </a>
-              <a
-                href="#"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Terms
-              </a>
-            </nav>
-          </div>
-          <p className="text-body-sm text-ink-muted">
-            &copy; 2026 AMMODEX. All rights reserved.
-          </p>
+      <section className="mb-20">
+        <h1 className="font-serif text-4xl md:text-5xl leading-tight font-bold text-ink mb-6">
+          Your ammunition spec sheet is wrong. This one isn't.
+        </h1>
+        <p className="text-lg text-ink-muted leading-relaxed mb-8">
+          Every manufacturer prints different numbers for the same caliber. AMMODEX gives you NIST-standard ballistic data — real muzzle velocities, gel test penetration depths, and pressure readings — for 14 calibers. One API call.
+        </p>
+        <div className="flex gap-4">
+          <button onClick={run} className="bg-terracotta text-white px-6 py-3 rounded font-medium hover:bg-terracotta-hover transition-colors text-sm">
+            Try the demo →
+          </button>
+          <a href="#docs" className="border border-ink text-ink px-6 py-3 rounded font-medium hover:bg-ink hover:text-cream-50 transition-colors text-sm">
+            API reference
+          </a>
         </div>
+      </section>
+
+      <section className="mb-20">
+        <blockquote className="border-l-4 border-terracotta pl-6 py-2">
+          <p className="text-xl text-ink leading-relaxed font-serif italic">
+            "Hornady says 5.56 NATO travels at 3240fps. Federal says 3100fps. They're both measuring from different barrel lengths. Nobody tells you which one to believe."
+          </p>
+          <footer className="text-sm text-ink-muted mt-3">— Every competitive shooter, at 2am</footer>
+        </blockquote>
+      </section>
+
+      <section className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-6" style={{ fontFamily: "Georgia, serif" }}>Ballistic data — live</h2>
+        <p className="text-sm text-ink-muted mb-4">Select a caliber and see real ballistic figures.</p>
+        <div className="bg-white border border-cream-border rounded-lg p-6 shadow-sm">
+          <select
+            value={caliber}
+            onChange={e => { setCaliber(e.target.value); setResult(null); }}
+            className="w-full border border-cream-border rounded px-3 py-2 text-sm mb-4 bg-cream-50"
+          >
+            <option value="556_nato_62gr">5.56x45mm NATO (62gr FMJ)</option>
+            <option value="308_win_168gr">.308 Winchester (168gr BTHP)</option>
+            <option value="9mm_luger_124gr">9mm Luger (124gr JHP)</option>
+            <option value="762x39">7.62x39mm (123gr FMJ Soviet)</option>
+          </select>
+          <button onClick={run} className="w-full bg-cream-100 text-ink py-2 rounded border border-cream-border hover:border-terracotta hover:text-terracotta transition-colors text-sm mb-6">
+            Get ballistic data →
+          </button>
+          {result && (
+            <div className="space-y-3">
+              <div className="text-xs uppercase tracking-wide text-ink-muted mb-3">{result.name}</div>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="bg-cream-50 rounded p-3">
+                  <div className="text-xs text-ink-muted">Muzzle velocity</div>
+                  <div className="font-bold text-lg">{result.velocity_fps.toLocaleString()} fps</div>
+                </div>
+                <div className="bg-cream-50 rounded p-3">
+                  <div className="text-xs text-ink-muted">Muzzle energy</div>
+                  <div className="font-bold text-lg">{result.energy_ftlbs.toLocaleString()} ft·lbs</div>
+                </div>
+                <div className="bg-cream-50 rounded p-3">
+                  <div className="text-xs text-ink-muted">NATO pressure</div>
+                  <div className="font-bold">{result.pressure_nato}</div>
+                </div>
+                <div className="bg-cream-50 rounded p-3">
+                  <div className="text-xs text-ink-muted">Gel penetration</div>
+                  <div className="font-bold">{result.penetration}mm · {result.expansion}mm expansion</div>
+                </div>
+              </div>
+              <p className="text-xs text-ink-muted italic border-t border-cream-border pt-3">{result.notes}</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section id="docs" className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-6" style={{ fontFamily: "Georgia, serif" }}>API</h2>
+        <div className="bg-ink text-cream-100 rounded-lg p-5 text-sm font-mono overflow-x-auto">
+          <pre className="text-xs leading-relaxed">{`# Get ballistic data
+curl https://api.ammodex.io/v1/ammo/556_nato_62gr
+
+# Custom velocity calc
+curl "https://api.ammodex.io/v1/energy-calc?caliber_id=308_win_168gr&velocity_fps=2700"
+
+# Gel test simulation
+curl -X POST https://api.ammodex.io/v1/ballistics/gel-test \\
+  -H "Content-Type: application/json" \\
+  -d '{"caliber_id":"223_rem_55gr","velocity_fps":3100}'
+
+# Response
+{
+  "name": "5.56x45mm NATO (62gr FMJ)",
+  "muzzle_velocity_fps": 3100,
+  "muzzle_energy_ftlbs": 1324,
+  "penetration_in_gel": 12,
+  "expansion_mm": 8,
+  "pressure_nato_psi": 58000
+}`}</pre>
+        </div>
+      </section>
+
+      <section id="pricing" className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-2" style={{ fontFamily: "Georgia, serif" }}>Pricing</h2>
+        <p className="text-sm text-ink-muted mb-8">Ballistic data is public. What you're paying for is the structured API.</p>
+        <div className="grid grid-cols-3 gap-4">
+          {[
+            { tier: "Free", price: "$0", calls: "100/day", features: ["14 calibers", "Basic energy calc", "Gel test sim"] },
+            { tier: "Dev", price: "$19", calls: "10,000/day", features: ["All endpoints", "Custom velocity input", "NATO pressure data"] },
+            { tier: "Pro", price: "$79", calls: "100,000/day", features: ["Custom caliber upload", "Reload planning", "Priority support"] },
+          ].map(p => (
+            <div key={p.tier} className="bg-white border border-cream-border rounded-lg p-5">
+              <div className="text-xs text-ink-muted uppercase tracking-wide mb-1">{p.tier}</div>
+              <div className="text-3xl font-bold mb-1">{p.price}</div>
+              <div className="text-xs text-ink-muted mb-4">{p.calls}</div>
+              {p.features.map(f => <div key={f} className="text-xs text-ink-muted">• {f}</div>)}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <footer className="border-t border-cream-border pt-8 flex items-center justify-between text-xs text-ink-muted">
+        <span className="font-serif font-bold text-ink">AMMODEX</span>
+        <span>Built by KRYZL19</span>
       </footer>
-    </div>
+    </main>
   );
 }

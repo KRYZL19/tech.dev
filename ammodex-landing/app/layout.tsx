@@ -1,23 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
 export const metadata: Metadata = {
-  title: "AMMODEX — Firearm Ammunition Database API",
-  description:
-    "AMMODEX gives reloaders and ammunition researchers instant access to powder data, bullet specifications, and reloading calculations — via API.",
+  title: "AMMODEX — Ballistic Properties API",
+  description: "Muzzle energy, penetration depth, expansion diameter — for 14 calibers. AMMODEX gives ammunition developers and re-loaders NIST-standard ballistic data via one API call.",
 };
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-      </head>
-      <body className="font-sans antialiased">{children}</body>
-    </html>
-  );
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return <html lang="en"><body className="bg-cream-50 text-ink antialiased min-h-screen">{children}</body></html>;
 }
