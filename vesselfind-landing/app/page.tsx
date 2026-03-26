@@ -1,390 +1,47 @@
 "use client";
-
 import { useState } from "react";
-
 export default function Home() {
-  const [demoDone, setDemoDone] = useState(false);
-
+  const [vid, setVid] = useState("VESSEL-2024-00047");
+  const [result, setResult] = useState<any>(null);
+  const vessels: Record<string,any> = {
+    "VESSEL-2024-00047":{name:"SEA RAY 310",owner:"J. Martinez",lien:true,lien_amount:22000,holders:"US Bank",prev_owners:2,vtype:"Motor Yacht",length:31,material:"Fiberglass",year:2019,status:"Active"},
+    "VESSEL-2024-00102":{name:"YAMAHA 242X",owner:"S. Rodriguez",lien:false,lien_amount:null,holders:null,prev_owners:0,vtype:"Jet Boat",length:24,material:"Fiberglass",year:2021,status:"Active"},
+    "VESSEL-2023-00888":{name:"JEANNEAU 379",owner:"K. Thompson",lien:true,lien_amount:85000,holders:"Bank of America",prev_owners:1,vtype:"Sailboat",length:37,material:"Fiberglass",year:2017,status:"Active"},
+  };
+  const lookup = () => setResult(vessels[vid] || {error:"Not in demo database"});
   return (
-    <div className="min-h-screen bg-cream-bg">
-      {/* Header */}
-      <header className="border-b border-cream-border">
-        <div className="max-w-prose mx-auto px-6 py-5 flex items-center justify-between">
-          <span className="font-serif text-xl tracking-wide text-ink">
-            VESSELFIND
-          </span>
-          <nav className="flex items-center gap-8">
-            <a
-              href="#demo"
-              className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-            >
-              Demo
-            </a>
-            <a
-              href="#use-cases"
-              className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-            >
-              Use Cases
-            </a>
-            <a
-              href="#pricing"
-              className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-            >
-              Pricing
-            </a>
-          </nav>
-        </div>
-      </header>
-
-      <main>
-        {/* Hero */}
-        <section className="pt-24 pb-32 px-6">
-          <div className="max-w-prose mx-auto text-center">
-            <p className="text-body-sm text-ink-muted uppercase tracking-widest mb-6">
-              USCG Vessel Documentation API
-            </p>
-            <h1 className="font-serif text-[2.5rem] leading-tight text-ink mb-8">
-              That boat has three owners and a lien against it.
-              <br />
-              One API call tells you before you buy.
-            </h1>
-            <p className="text-body-lg text-ink-muted max-w-xl mx-auto mb-10">
-              VESSELFIND gives boat buyers and marine dealers instant access to
-              USCG vessel documentation, ownership history, and lien status.
-            </p>
-            <div className="flex items-center justify-center gap-6 flex-wrap">
-              <a
-                href="#demo"
-                className="inline-block bg-terracotta text-white font-sans text-body-sm px-6 py-3 rounded hover:bg-terracotta-hover transition-colors"
-              >
-                Try the Demo
-              </a>
-              <a
-                href="#pricing"
-                className="text-body-sm text-ink-muted underline underline-offset-4 hover:text-ink transition-colors"
-              >
-                View Pricing
-              </a>
-            </div>
-            <p className="text-body-sm text-ink-muted mt-6">
-              Free tier · No credit card · 100 calls/day
-            </p>
-          </div>
-        </section>
-
-        {/* The Problem */}
-        <section className="py-24 px-6 border-t border-cream-border">
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-10 text-center">
-              The problem
-            </h2>
-            <blockquote className="font-serif text-2xl text-ink leading-relaxed italic text-center max-w-2xl mx-auto">
-              &ldquo;You found a 2019 Sea Ray on Craigslist. The seller says
-              there&rsquo;s no lien. You don&rsquo;t know if the documentation
-              is even current.&rdquo;
-            </blockquote>
-            <p className="text-body-lg text-ink-muted text-center mt-8 max-w-xl mx-auto">
-              Boat fraud is real. Liens survive ownership transfers. Without
-              USCG documentation data, you&rsquo;re buying blind.
-            </p>
-          </div>
-        </section>
-
-        {/* Demo Card */}
-        <section className="py-24 px-6" id="demo">
-          <div className="max-w-prose mx-auto">
-            <div className="bg-cream-surface border border-cream-border rounded shadow-card p-8">
-              <h2 className="font-serif text-xl text-ink mb-8 text-center">
-                Try it — no signup required
-              </h2>
-
-              {!demoDone ? (
-                <div className="space-y-6 mb-10">
-                  <div>
-                    <label className="block text-body-sm text-ink-muted mb-2 uppercase tracking-wider">
-                      Vessel ID
-                    </label>
-                    <div className="bg-cream-bg border border-cream-border rounded p-4 text-body-sm text-ink font-mono">
-                      VESSEL-2024-00047
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => setDemoDone(true)}
-                    className="w-full bg-terracotta text-white font-sans text-body-sm px-6 py-3 rounded hover:bg-terracotta-hover transition-colors"
-                  >
-                    Look up vessel
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-6 mb-10">
-                  <div>
-                    <label className="block text-body-sm text-ink-muted mb-2 uppercase tracking-wider">
-                      Vessel ID
-                    </label>
-                    <div className="bg-cream-bg border border-cream-border rounded p-4 text-body-sm text-ink font-mono">
-                      VESSEL-2024-00047
-                    </div>
-                  </div>
-
-                  <div className="border-t border-cream-border pt-6">
-                    <p className="text-body-sm text-ink-muted mb-4 uppercase tracking-wider">
-                      Response
-                    </p>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center py-2 border-b border-cream-border">
-                        <span className="text-body-sm text-ink-muted">
-                          Status
-                        </span>
-                        <span className="text-body-sm text-ink font-medium">
-                          Active
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-cream-border">
-                        <span className="text-body-sm text-ink-muted">
-                          Length
-                        </span>
-                        <span className="text-body-sm text-ink font-medium">
-                          31 ft
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-cream-border">
-                        <span className="text-body-sm text-ink-muted">
-                          Hull
-                        </span>
-                        <span className="text-body-sm text-ink font-medium">
-                          Fiberglass
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-cream-border">
-                        <span className="text-body-sm text-ink-muted">
-                          Owner
-                        </span>
-                        <span className="text-body-sm text-ink font-medium">
-                          J. Martinez (current)
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-cream-border">
-                        <span className="text-body-sm text-ink-muted">
-                          Lien
-                        </span>
-                        <span className="text-body-sm text-terracotta font-medium">
-                          YES — $22,000 remaining
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-cream-border">
-                        <span className="text-body-sm text-ink-muted">
-                          Lien holder
-                        </span>
-                        <span className="text-body-sm text-ink font-medium">
-                          US Bank
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-body-sm text-ink-muted">
-                          Previous owners
-                        </span>
-                        <span className="text-body-sm text-ink font-medium">
-                          2
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => setDemoDone(false)}
-                    className="w-full text-body-sm text-ink-muted hover:text-ink transition-colors py-2"
-                  >
-                    Try another →
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* Use Cases */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="use-cases"
-        >
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-12 text-center">
-              Built for
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                {
-                  title: "Boat dealers",
-                  desc: "Verify liens and ownership before you close. One lookup saves a six-figure mistake.",
-                },
-                {
-                  title: "Marine insurance",
-                  desc: "Underwrite with confidence. Know the vessel&rsquo;s documentation history and any encumbrances.",
-                },
-                {
-                  title: "Coast Guard documentation",
-                  desc: "Automate documentation lookups for compliance workflows and regulatory reporting.",
-                },
-                {
-                  title: "Buyer due diligence",
-                  desc: "Private buyers deserve the same data dealers have. VESSELFIND makes it available to everyone.",
-                },
-              ].map(({ title, desc }) => (
-                <div
-                  key={title}
-                  className="bg-cream-surface border border-cream-border rounded shadow-card p-6"
-                >
-                  <h3 className="font-serif text-lg text-ink mb-2">{title}</h3>
-                  <p
-                    className="text-body-sm text-ink-muted leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: desc }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="pricing"
-        >
-          <div className="max-w-prose mx-auto text-center">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-4">
-              Simple pricing
-            </h2>
-            <p className="text-body-sm text-ink-muted mb-16">
-              No surprise bills. Scale as you grow.
-            </p>
-
-            <div className="space-y-4 max-w-sm mx-auto text-left">
-              {[
-                {
-                  tier: "Free",
-                  price: "$0",
-                  calls: "100 calls/day",
-                  feature: "Full vessel lookup",
-                  cta: "Get started",
-                },
-                {
-                  tier: "Dev",
-                  price: "$19",
-                  calls: "10,000 calls/month",
-                  feature: "Priority support + bulk",
-                  cta: "Start building",
-                },
-                {
-                  tier: "Pro",
-                  price: "$49",
-                  calls: "100,000 calls/month",
-                  feature: "Webhooks + team access",
-                  cta: "Go production",
-                },
-              ].map(({ tier, price, calls, feature, cta }) => (
-                <div
-                  key={tier}
-                  className="flex items-center justify-between bg-cream-surface border border-cream-border rounded p-5"
-                >
-                  <div>
-                    <p className="font-serif text-lg text-ink">{tier}</p>
-                    <p className="text-body-sm text-ink-muted">
-                      {price}/mo · {calls} · {feature}
-                    </p>
-                  </div>
-                  <a
-                    href="#demo"
-                    className="text-body-sm text-terracotta hover:text-terracotta-hover transition-colors whitespace-nowrap ml-4"
-                  >
-                    {cta} →
-                  </a>
-                </div>
-              ))}
-            </div>
-
-            <p className="text-body-sm text-ink-muted mt-8">
-              Enterprise plans available. Contact us for volume pricing.
-            </p>
-          </div>
-        </section>
-
-        {/* API Snippet */}
-        <section className="py-24 px-6 border-t border-cream-border" id="api">
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-12 text-center">
-              One call. Full vessel picture.
-            </h2>
-
-            <div className="bg-cream-surface border border-cream-border rounded shadow-card overflow-hidden">
-              <div className="p-6 border-b border-cream-border">
-                <p className="text-body-sm text-ink-muted uppercase tracking-wider mb-4">
-                  Request
-                </p>
-                <pre className="bg-cream-code text-ink text-body-sm overflow-x-auto p-4 rounded">
-                  <code>{`curl https://api.vesselfind.io/v1/vessel \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -d '{"vessel_id": "VESSEL-2024-00047"}'`}</code>
-                </pre>
+    <main className="max-w-[720px] mx-auto px-6 py-16">
+      <header className="flex items-center justify-between mb-20 pb-6 border-b border-cream-border"><div className="font-serif text-xl font-bold tracking-tight">VESSELFIND</div><nav className="flex gap-6 text-sm text-ink-muted"><a href="#docs" className="hover:text-terracotta">Docs</a></nav></header>
+      <section className="mb-20">
+        <h1 className="font-serif text-4xl md:text-5xl leading-tight font-bold text-ink mb-6">That boat has three owners and a lien against it. One API call.</h1>
+        <p className="text-lg text-ink-muted leading-relaxed mb-8">VESSELFIND gives boat dealers and marine insurance platforms USCG vessel documentation — ownership history, lien status, documentation renewal — without filing a abstract of title request.</p>
+        <button onClick={lookup} className="bg-terracotta text-white px-6 py-3 rounded font-medium hover:bg-terracotta-hover transition-colors text-sm">Try it →</button>
+      </section>
+      <section className="mb-20">
+        <div className="bg-white border border-cream-border rounded-lg p-6 shadow-sm space-y-4">
+          <div><label className="text-xs text-ink-muted uppercase block mb-1">Vessel ID</label><input type="text" value={vid} onChange={e=>setVid(e.target.value)} className="w-full border border-cream-border rounded px-3 py-2 bg-cream-50 text-sm font-mono"/></div>
+          <div className="grid grid-cols-3 gap-2 text-xs">{Object.keys(vessels).map(v=><button key={v} onClick={()=>{setVid(v);setResult(vessels[v])}} className="bg-cream-100 rounded px-2 py-1.5 font-mono text-center hover:border-terracotta border border-transparent">{v.slice(-5)}</button>)}</div>
+          <button onClick={lookup} className="w-full bg-cream-100 text-ink py-2 rounded border border-cream-border hover:border-terracotta hover:text-terracotta transition-colors text-sm">Lookup →</button>
+          {result && !result.error && (
+            <div className="space-y-3">
+              <div className="text-sm font-medium">{result.year} {result.name} · {result.length}ft {result.vtype}</div>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div><span className="text-ink-muted">Owner:</span> {result.owner}</div>
+                <div><span className="text-ink-muted">Status:</span> <span className={result.status==="Active"?"text-green-600":"text-red-600"}>{result.status}</span></div>
+                <div><span className="text-ink-muted">Lien:</span> <span className={result.lien?"text-red-600 font-medium":"text-green-600"}>{result.lien?"YES — $"+result.lien_amount.toLocaleString()+" — "+result.holders:"None"}</span></div>
+                <div><span className="text-ink-muted">Previous owners:</span> {result.prev_owners}</div>
               </div>
-
-              <div className="p-6">
-                <p className="text-body-sm text-ink-muted uppercase tracking-wider mb-4">
-                  Response
-                </p>
-                <pre className="bg-cream-code text-ink text-body-sm overflow-x-auto p-4 rounded">
-                  <code>{`{
-  "vessel_id": "VESSEL-2024-00047",
-  "status": "Active",
-  "length": "31 ft",
-  "hull": "Fiberglass",
-  "owner": "J. Martinez",
-  "owner_current": true,
-  "lien": true,
-  "lien_amount": 22000,
-  "lien_currency": "USD",
-  "lien_holder": "US Bank",
-  "previous_owners": 2
-}`}</code>
-                </pre>
-              </div>
+              {result.lien && <div className="bg-red-50 border border-red-200 rounded p-3 text-xs text-red-700">This vessel has an active lien. Confirm lien release with {result.holders} before completing any sale.</div>}
             </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-cream-border py-8 px-6">
-        <div className="max-w-prose mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <span className="font-serif text-lg text-ink">VESSELFIND</span>
-            <nav className="flex items-center gap-6">
-              <a
-                href="#demo"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Demo
-              </a>
-              <a
-                href="#"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Privacy
-              </a>
-              <a
-                href="#"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Terms
-              </a>
-            </nav>
-          </div>
-          <p className="text-body-sm text-ink-muted">
-            &copy; 2026 VESSELFIND. All rights reserved.
-          </p>
+          )}
+          {result?.error && <p className="text-sm text-red-600">{result.error}</p>}
         </div>
-      </footer>
-    </div>
+      </section>
+      <section id="pricing" className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-2">Pricing</h2>
+        <div className="grid grid-cols-3 gap-4">{[{tier:"Free",price:"$0",calls:"100/day"},{tier:"Dev",price:"$19",calls:"10,000/day"},{tier:"Pro",price:"$49",calls:"100,000/day"}].map(p=>(<div key={p.tier} className="bg-white border border-cream-border rounded-lg p-5"><div className="text-xs text-ink-muted uppercase">{p.tier}</div><div className="text-2xl font-bold mt-1">{p.price}</div><div className="text-xs text-ink-muted mt-1">{p.calls}</div></div>))}</div>
+      </section>
+      <footer className="border-t border-cream-border pt-8 flex justify-between text-xs text-ink-muted"><span className="font-serif font-bold text-ink">VESSELFIND</span><span>Built by KRYZL19</span></footer>
+    </main>
   );
 }
