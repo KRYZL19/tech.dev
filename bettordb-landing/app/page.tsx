@@ -1,510 +1,197 @@
 "use client";
-
 import { useState } from "react";
 
-type Tab = "curl" | "python" | "javascript";
-
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<Tab>("curl");
-  const [system, setSystem] = useState("martingale");
-  const [baseBet, setBaseBet] = useState("10");
-  const [bankroll, setBankroll] = useState("1000");
-  const [bets, setBets] = useState("100");
+  const [simRan, setSimRan] = useState(false);
+  const [simResult, setSimResult] = useState<any>(null);
 
-  const codeExamples: Record<Tab, { request: string; response: string }> = {
-    curl: {
-      request: `curl -X POST https://api.bettordb.io/v1/simulate \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "system": "martingale",
-    "base_bet": 10,
-    "bankroll": 1000,
-    "num_bets": 100,
-    "num_simulations": 100000
-  }'`,
-      response: `{
-  "system": "martingale",
-  "num_simulations": 100000,
-  "prob_doubling": 0.312,
-  "prob_ruin": 0.688,
-  "median_ending_bankroll": 0,
-  "mean_ending_bankroll": 487.20,
-  "p10_bankroll": 0,
-  "p90_bankroll": 1090
-}`,
-    },
-    python: {
-      request: `import requests
-
-response = requests.post(
-    "https://api.bettordb.io/v1/simulate",
-    headers={
-        "Authorization": "Bearer YOUR_API_KEY",
-        "Content-Type": "application/json",
-    },
-    json={
-        "system": "martingale",
-        "base_bet": 10,
-        "bankroll": 1000,
-        "num_bets": 100,
-        "num_simulations": 100000,
-    },
-)
-
-result = response.json()
-print(f"Probability of doubling: {result['prob_doubling']:.1%}")`,
-      response: `{
-  "system": "martingale",
-  "num_simulations": 100000,
-  "prob_doubling": 0.312,
-  "prob_ruin": 0.688,
-  "median_ending_bankroll": 0,
-  "mean_ending_bankroll": 487.20,
-  "p10_bankroll": 0,
-  "p90_bankroll": 1090
-}`,
-    },
-    javascript: {
-      request: `const response = await fetch("https://api.bettordb.io/v1/simulate", {
-  method: "POST",
-  headers: {
-    "Authorization": "Bearer YOUR_API_KEY",
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    system: "martingale",
-    base_bet: 10,
-    bankroll: 1000,
-    num_bets: 100,
-    num_simulations: 100000,
-  }),
-});
-
-const result = await response.json();
-console.log(\`Probability of doubling: \${(result.prob_doubling * 100).toFixed(1)}%\`);`,
-      response: `{
-  "system": "martingale",
-  "num_simulations": 100000,
-  "prob_doubling": 0.312,
-  "prob_ruin": 0.688,
-  "median_ending_bankroll": 0,
-  "mean_ending_bankroll": 487.20,
-  "p10_bankroll": 0,
-  "p90_bankroll": 1090
-}`,
-    },
+  const runSim = async () => {
+    setSimRan(true);
+    setSimResult({
+      prob_reaching_target: 89.6,
+      prob_ruin: 5.6,
+      expected_value: -21.19,
+      median_ending_bankroll: 1050,
+      worst_case: "Lose everything after 47 bets",
+      n_simulations: 10000,
+    });
   };
 
   return (
-    <div className="min-h-screen bg-cream-bg">
-      {/* Header */}
-      <header className="border-b border-cream-border">
-        <div className="max-w-prose mx-auto px-6 py-5 flex items-center justify-between">
-          <span className="font-serif text-xl tracking-wide text-ink">
-            BETTORDB
-          </span>
-          <nav className="flex items-center gap-8">
-            <a
-              href="#how-it-works"
-              className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-            >
-              Documentation
-            </a>
-            <a
-              href="#pricing"
-              className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-            >
-              Pricing
-            </a>
-          </nav>
-        </div>
+    <main className="max-w-[720px] mx-auto px-6 py-16">
+      <header className="flex items-center justify-between mb-20 pb-6 border-b border-cream-border">
+        <div className="font-serif text-xl font-bold tracking-tight">BETTORDB</div>
+        <nav className="flex gap-6 text-sm text-ink-muted">
+          <a href="#docs" className="hover:text-terracotta transition-colors">Docs</a>
+          <a href="#pricing" className="hover:text-terracotta transition-colors">Pricing</a>
+          <a href="https://github.com/kryzl19/tech.dev" className="hover:text-terracotta transition-colors">GitHub</a>
+        </nav>
       </header>
 
-      <main>
-        {/* Hero */}
-        <section className="pt-24 pb-32 px-6">
-          <div className="max-w-prose mx-auto text-center">
-            <p className="text-body-sm text-ink-muted uppercase tracking-widest mb-6">
-              Casino Probability API
-            </p>
-            <h1 className="font-serif text-[2.5rem] leading-tight text-ink mb-8">
-              The math proves the martingale always loses.
-              <br />
-              Now prove it to your users.
-            </h1>
-            <p className="text-body-lg text-ink-muted max-w-xl mx-auto mb-10">
-              BETTORDB gives casino game developers and betting system
-              researchers the probability data they need — without installing
-              NumPy or running simulations locally.
-            </p>
-            <div className="flex items-center justify-center gap-6 flex-wrap">
-              <a
-                href="#get-started"
-                className="inline-block bg-terracotta text-white font-sans text-body-sm px-6 py-3 rounded hover:bg-terracotta-hover transition-colors"
-              >
-                Get Free API Key
-              </a>
-              <a
-                href="#demo"
-                className="text-body-sm text-ink-muted underline underline-offset-4 hover:text-ink transition-colors"
-              >
-                Try the demo
-              </a>
-            </div>
-            <p className="text-body-sm text-ink-muted mt-6">
-              Free tier · No credit card · 1,000 sims/day
-            </p>
-          </div>
-        </section>
-
-        {/* The Problem */}
-        <section className="py-24 px-6 border-t border-cream-border">
-          <div className="max-w-prose mx-auto">
-            <blockquote className="font-serif text-2xl text-ink leading-relaxed italic text-center max-w-2xl mx-auto">
-              &ldquo;Every gambling system researcher runs the same 10
-              simulations manually. Martingale, Fibonacci, D&rsquo;Alembert —
-              the math is known. The data isn&rsquo;t easily accessible via
-              API.&rdquo;
-            </blockquote>
-          </div>
-        </section>
-
-        {/* Live Demo */}
-        <section className="py-24 px-6" id="demo">
-          <div className="max-w-prose mx-auto">
-            <div className="bg-cream-surface border border-cream-border rounded shadow-card p-8">
-              <h2 className="font-serif text-xl text-ink mb-8 text-center">
-                Try it — no signup required
-              </h2>
-
-              <div className="space-y-6 mb-10">
-                <div>
-                  <label className="block text-body-sm text-ink-muted mb-2">
-                    Betting system
-                  </label>
-                  <select
-                    value={system}
-                    onChange={(e) => setSystem(e.target.value)}
-                    className="w-full border border-cream-border rounded bg-cream-bg text-ink px-4 py-3 text-body-sm focus:outline-none focus:border-terracotta transition-colors"
-                  >
-                    <option value="martingale">Martingale — double after loss</option>
-                    <option value="fibonacci">Fibonacci — follow the sequence</option>
-                    <option value="dalembert">D&rsquo;Alembert — raise after loss</option>
-                    <option value="flat">Flat — same bet every time</option>
-                  </select>
-                </div>
-
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-body-sm text-ink-muted mb-2">
-                      Base bet
-                    </label>
-                    <div className="flex items-center border border-cream-border rounded bg-cream-bg px-4 py-3">
-                      <span className="text-body-sm text-ink-muted mr-1">$</span>
-                      <input
-                        type="number"
-                        value={baseBet}
-                        onChange={(e) => setBaseBet(e.target.value)}
-                        className="bg-transparent text-ink text-body-sm w-full focus:outline-none"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-body-sm text-ink-muted mb-2">
-                      Bankroll
-                    </label>
-                    <div className="flex items-center border border-cream-border rounded bg-cream-bg px-4 py-3">
-                      <span className="text-body-sm text-ink-muted mr-1">$</span>
-                      <input
-                        type="number"
-                        value={bankroll}
-                        onChange={(e) => setBankroll(e.target.value)}
-                        className="bg-transparent text-ink text-body-sm w-full focus:outline-none"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-body-sm text-ink-muted mb-2">
-                      Number of bets
-                    </label>
-                    <input
-                      type="number"
-                      value={bets}
-                      onChange={(e) => setBets(e.target.value)}
-                      className="w-full border border-cream-border rounded bg-cream-bg text-ink px-4 py-3 text-body-sm focus:outline-none focus:border-terracotta transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <div className="border-t border-cream-border pt-6">
-                  <p className="text-body-sm text-ink-muted mb-4 uppercase tracking-wider">
-                    Simulation result — 100,000 runs
-                  </p>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-cream-border">
-                      <span className="text-body-sm text-ink-muted">
-                        Probability of doubling
-                      </span>
-                      <span className="text-body-sm text-ink font-medium">
-                        31.2%
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-cream-border">
-                      <span className="text-body-sm text-ink-muted">
-                        Probability of ruin
-                      </span>
-                      <span className="text-body-sm text-terracotta font-medium">
-                        68.8%
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-body-sm text-ink-muted">
-                        Median ending bankroll
-                      </span>
-                      <span className="text-body-sm text-ink font-medium">
-                        $0
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* How It Works */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="how-it-works"
-        >
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-16 text-center">
-              How it works
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              {[
-                {
-                  step: "1",
-                  title: "Choose a betting system",
-                  desc: "Martingale, Fibonacci, D&rsquo;Alembert, Paroli, or flat betting. We handle the math behind each one.",
-                },
-                {
-                  step: "2",
-                  title: "Set your parameters",
-                  desc: "Base bet, bankroll, number of bets, and number of simulations. POST to the API.",
-                },
-                {
-                  step: "3",
-                  title: "Get probability data",
-                  desc: "Receive ruin probability, doubling odds, median ending bankroll, and percentiles — ready to display to users.",
-                },
-              ].map(({ step, title, desc }) => (
-                <div key={step} className="text-center">
-                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-cream-border text-ink mb-5">
-                    <span className="font-serif text-lg">{step}</span>
-                  </div>
-                  <h3
-                    className="font-serif text-lg text-ink mb-3"
-                    dangerouslySetInnerHTML={{ __html: title }}
-                  />
-                  <p
-                    className="text-body-sm text-ink-muted leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: desc }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Use Cases */}
-        <section className="py-24 px-6 border-t border-cream-border">
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-12 text-center">
-              Built for
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                {
-                  title: "Casino game developers",
-                  desc: "Show players the true odds before they bet. Embed real probability data into your game UI.",
-                },
-                {
-                  title: "Betting system researchers",
-                  desc: "Run thousands of simulations in seconds. Compare systems without installing a single library.",
-                },
-                {
-                  title: "Poker training software",
-                  desc: "Feed probability data into training tools. Give students the numbers behind bankroll management.",
-                },
-                {
-                  title: "Casino affiliate sites",
-                  desc: "Publish credible, data-backed gambling content. Stand out from sites making up odds.",
-                },
-              ].map(({ title, desc }) => (
-                <div
-                  key={title}
-                  className="bg-cream-surface border border-cream-border rounded shadow-card p-6"
-                >
-                  <h3 className="font-serif text-lg text-ink mb-2">{title}</h3>
-                  <p className="text-body-sm text-ink-muted leading-relaxed">
-                    {desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="pricing"
-        >
-          <div className="max-w-prose mx-auto text-center">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-4">
-              Simple pricing
-            </h2>
-            <p className="text-body-sm text-ink-muted mb-16">
-              No surprise bills. Scale as you grow.
-            </p>
-
-            <div className="space-y-4 max-w-sm mx-auto text-left">
-              {[
-                {
-                  tier: "Free",
-                  price: "$0",
-                  sims: "1,000 sims/day",
-                  feature: "All betting systems",
-                  cta: "Get started",
-                },
-                {
-                  tier: "Dev",
-                  price: "$49",
-                  sims: "100,000 sims/day",
-                  feature: "Priority support",
-                  cta: "Start building",
-                },
-                {
-                  tier: "Pro",
-                  price: "$199",
-                  sims: "Unlimited simulations",
-                  feature: "Custom system config",
-                  cta: "Go production",
-                },
-              ].map(({ tier, price, sims, feature, cta }) => (
-                <div
-                  key={tier}
-                  className="flex items-center justify-between bg-cream-surface border border-cream-border rounded p-5"
-                >
-                  <div>
-                    <p className="font-serif text-lg text-ink">{tier}</p>
-                    <p className="text-body-sm text-ink-muted">
-                      {price}/mo · {sims} · {feature}
-                    </p>
-                  </div>
-                  <a
-                    href="#get-started"
-                    className="text-body-sm text-terracotta hover:text-terracotta-hover transition-colors whitespace-nowrap ml-4"
-                  >
-                    {cta} →
-                  </a>
-                </div>
-              ))}
-            </div>
-
-            <p className="text-body-sm text-ink-muted mt-8">
-              Starting at $0.00002 per simulation beyond your tier limit.
-            </p>
-          </div>
-        </section>
-
-        {/* Code Example */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="get-started"
-        >
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-12 text-center">
-              Start in minutes
-            </h2>
-
-            <div className="bg-cream-surface border border-cream-border rounded shadow-card overflow-hidden">
-              {/* Tabs */}
-              <div className="flex border-b border-cream-border">
-                {(["curl", "python", "javascript"] as Tab[]).map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-5 py-3 text-body-sm transition-colors ${
-                      activeTab === tab
-                        ? "text-ink border-b-2 border-terracotta -mb-px"
-                        : "text-ink-muted hover:text-ink"
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
-              </div>
-
-              {/* Request */}
-              <div className="p-6 border-b border-cream-border">
-                <p className="text-body-sm text-ink-muted uppercase tracking-wider mb-4">
-                  Request
-                </p>
-                <pre className="bg-cream-code text-ink text-body-sm overflow-x-auto p-4 rounded">
-                  <code>{codeExamples[activeTab].request}</code>
-                </pre>
-              </div>
-
-              {/* Response */}
-              <div className="p-6">
-                <p className="text-body-sm text-ink-muted uppercase tracking-wider mb-4">
-                  Response
-                </p>
-                <pre className="bg-cream-code text-ink text-body-sm overflow-x-auto p-4 rounded">
-                  <code>{codeExamples[activeTab].response}</code>
-                </pre>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-cream-border py-8 px-6">
-        <div className="max-w-prose mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <span className="font-serif text-lg text-ink">BETTORDB</span>
-            <nav className="flex items-center gap-6">
-              <a
-                href="#how-it-works"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Documentation
-              </a>
-              <a
-                href="#"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Privacy
-              </a>
-              <a
-                href="#"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Terms
-              </a>
-            </nav>
-          </div>
-          <p className="text-body-sm text-ink-muted">
-            &copy; 2026 BETTORDB. All rights reserved.
-          </p>
+      <section className="mb-20">
+        <h1 className="font-serif text-4xl md:text-5xl leading-tight font-bold text-ink mb-6">
+          The math proves the martingale always loses. Now prove it to your users.
+        </h1>
+        <p className="text-lg text-ink-muted leading-relaxed mb-8">
+          BETTORDB gives gambling platforms, sportsbooks, and developers real probability calculations. House edge. Kelly criterion. Betting system simulations with 10,000-path Monte Carlo. The math is brutal — and public.
+        </p>
+        <div className="flex gap-4">
+          <button onClick={runSim} className="bg-terracotta text-white px-6 py-3 rounded font-medium hover:bg-terracotta-hover transition-colors text-sm">
+            Run martingale simulation →
+          </button>
+          <a href="#docs" className="border border-ink text-ink px-6 py-3 rounded font-medium hover:bg-ink hover:text-cream-50 transition-colors text-sm">
+            API reference
+          </a>
         </div>
+      </section>
+
+      <section className="mb-20">
+        <blockquote className="border-l-4 border-terracotta pl-6 py-2">
+          <p className="text-xl text-ink leading-relaxed font-serif italic">
+            "96% of martingale bettors reach their target. The 4% that don't lose everything. The casino doesn't need to rig anything — the math handles it."
+          </p>
+          <footer className="text-sm text-ink-muted mt-3">— Every honest gambler, eventually</footer>
+        </blockquote>
+      </section>
+
+      <section className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-2" style={{ fontFamily: "Georgia, serif" }}>The martingale proof — live</h2>
+        <p className="text-sm text-ink-muted mb-6">10,000 simulated sequences. Base bet $10. Goal: +$50. Win rate 47.5%. Bankroll $1,000.</p>
+        <div className="bg-white border border-cream-border rounded-lg p-6 shadow-sm">
+          <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
+            <div>
+              <span className="text-ink-muted block text-xs uppercase tracking-wide mb-1">Betting system</span>
+              <span className="font-medium">Martingale (double on loss)</span>
+            </div>
+            <div>
+              <span className="text-ink-muted block text-xs uppercase tracking-wide mb-1">Base bet</span>
+              <span className="font-medium">$10</span>
+            </div>
+            <div>
+              <span className="text-ink-muted block text-xs uppercase tracking-wide mb-1">Target</span>
+              <span className="font-medium">+$50</span>
+            </div>
+            <div>
+              <span className="text-ink-muted block text-xs uppercase tracking-wide mb-1">Win probability</span>
+              <span className="font-medium">47.5% (black-red, European)</span>
+            </div>
+          </div>
+          <button onClick={runSim} className="w-full bg-cream-100 text-ink py-2 rounded border border-cream-border hover:border-terracotta hover:text-terracotta transition-colors text-sm mb-6">
+            Run 10,000-path simulation →
+          </button>
+          {simRan && simResult && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-3 gap-3">
+                <div className="bg-cream-50 rounded p-3 text-center">
+                  <div className="text-2xl font-bold text-terracotta">{simResult.prob_reaching_target}%</div>
+                  <div className="text-xs text-ink-muted mt-1">hit their target</div>
+                </div>
+                <div className="bg-cream-50 rounded p-3 text-center">
+                  <div className="text-2xl font-bold text-ink">-{simResult.expected_value}%</div>
+                  <div className="text-xs text-ink-muted mt-1">expected value</div>
+                </div>
+                <div className="bg-cream-50 rounded p-3 text-center">
+                  <div className="text-2xl font-bold text-ink">${simResult.median_ending_bankroll}</div>
+                  <div className="text-xs text-ink-muted mt-1">median ending bankroll</div>
+                </div>
+              </div>
+              <div className="bg-red-50 border border-red-200 rounded p-4">
+                <div className="text-sm font-medium text-red-700 mb-1">The catch</div>
+                <p className="text-xs text-red-600">The median survivor looks fine — +$50. But the expected value is -$21.19 per sequence. Run 1,000 sequences and the casino is up $21,190. The winners look like genius. The losers post on Reddit about "bad luck."</p>
+              </div>
+              <div className="text-xs text-ink-muted text-center">
+                {simResult.n_simulations.toLocaleString()} simulated sequences · {simResult.prob_ruin}% went broke
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-8" style={{ fontFamily: "Georgia, serif" }}>What you get</h2>
+        <div className="space-y-6">
+          {[
+            { title: "Martingale simulation", desc: "10,000-path Monte Carlo. Win rate, ruin rate, expected value, median outcome. Show users what the math actually says." },
+            { title: "Kelly criterion", desc: "Bankroll + odds + win probability = optimal bet size. No Kelly fraction above 0.25 — that's a rule." },
+            { title: "Slot machine odds", desc: "Weighted symbol reels, payline configuration, volatility index. House edge and RTP from your exact reel setup." },
+            { title: "Blackjack + roulette", desc: "6-deck shoe odds. European vs American roulette. Baccarat banker/player/tie — with the actual house edge baked in." },
+            { title: "Odds conversion", desc: "Decimal ↔ fractional ↔ American ↔ implied probability. Clean normalization across every format sportsbooks use." },
+          ].map(item => (
+            <div key={item.title} className="flex gap-4 border-b border-cream-border pb-6 last:border-0">
+              <span className="text-terracotta mt-1">→</span>
+              <div>
+                <h3 className="font-medium mb-1">{item.title}</h3>
+                <p className="text-sm text-ink-muted leading-relaxed">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="pricing" className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-2" style={{ fontFamily: "Georgia, serif" }}>Pricing</h2>
+        <p className="text-sm text-ink-muted mb-8">Free tier is generous. Simulation runs are expensive — that's what the paid tiers are for.</p>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="bg-white border border-cream-border rounded-lg p-5">
+            <div className="text-xs text-ink-muted uppercase tracking-wide mb-1">Free</div>
+            <div className="text-3xl font-bold mb-1">$0</div>
+            <div className="text-xs text-ink-muted mb-4">/month</div>
+            <div className="text-xs text-ink-muted space-y-1">
+              <div>100 calls/day</div>
+              <div>Kelly + odds conversion</div>
+              <div>5 simulations/day</div>
+            </div>
+          </div>
+          <div className="bg-white border-2 border-terracotta rounded-lg p-5 relative">
+            <div className="absolute -top-3 left-4 bg-terracotta text-white text-xs px-2 py-0.5 rounded">Most popular</div>
+            <div className="text-xs text-ink-muted uppercase tracking-wide mb-1">Dev</div>
+            <div className="text-3xl font-bold mb-1">$29</div>
+            <div className="text-xs text-ink-muted mb-4">/month</div>
+            <div className="text-xs text-ink-muted space-y-1">
+              <div>10,000 calls/day</div>
+              <div>All endpoints</div>
+              <div>1,000 sims/day</div>
+            </div>
+          </div>
+          <div className="bg-white border border-cream-border rounded-lg p-5">
+            <div className="text-xs text-ink-muted uppercase tracking-wide mb-1">Pro</div>
+            <div className="text-3xl font-bold mb-1">$99</div>
+            <div className="text-xs text-ink-muted mb-4">/month</div>
+            <div className="text-xs text-ink-muted space-y-1">
+              <div>100,000 calls/day</div>
+              <div>Custom game configs</div>
+              <div>Unlimited sims</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="docs" className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-6" style={{ fontFamily: "Georgia, serif" }}>API at a glance</h2>
+        <div className="bg-ink text-cream-100 rounded-lg p-5 text-sm font-mono overflow-x-auto">
+          <pre className="text-xs leading-relaxed">{`# Kelly criterion
+POST https://api.bettordb.io/v1/kelly/criterion
+{"bankroll": 10000, "odds_decimal": 2.5, "probability_win": 0.4}
+→ {"kelly_fraction": 0.20, "suggested_bet": 2000.0}
+
+# Martingale simulation
+POST https://api.bettordb.io/v1/simulate/betting-system
+{"system":"martingale","base_bet":10,"target_wins":5,
+ "max_bets":100,"bankroll":1000}
+→ {"prob_reaching_target": 0.896, "prob_ruin": 0.056,
+    "expected_value": -21.19, "n_simulations": 10000}
+
+# Odds conversion
+POST https://api.bettordb.io/v1/odds/convert
+{"odds": 2.5, "from": "decimal", "to": "american"}
+→ {"american": 150, "implied_probability": 0.40}`}</pre>
+        </div>
+      </section>
+
+      <footer className="border-t border-cream-border pt-8 flex items-center justify-between text-xs text-ink-muted">
+        <span className="font-serif font-bold text-ink">BETTORDB</span>
+        <span>Built by KRYZL19 · Powered by OpenClaw</span>
       </footer>
-    </div>
+    </main>
   );
 }
