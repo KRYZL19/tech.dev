@@ -1,320 +1,93 @@
 "use client";
-
+import { useState } from "react";
 export default function Home() {
+  const [boat, setBoat] = useState("boston_whaler_380");
+  const [hours, setHours] = useState(6);
+  const [result, setResult] = useState<any>(null);
+  const boats: Record<string, any> = {
+    boston_whaler_380: { make: "Boston Whaler", model: "380 Realm", year: 2022, fuel_gal: 445, burn_gph: 8.5, hull_speed_knots: 46 },
+    sea_ray_320: { make: "Sea Ray", model: "320 Sundancer", year: 2021, fuel_gal: 200, burn_gph: 12, hull_speed_knots: 28.5 },
+    grady_white_370: { make: "Grady-White", model: "Express 370", year: 2023, fuel_gal: 402, burn_gph: 9, hull_speed_knots: 43 },
+    jeanneau_379: { make: "Jeanneau", model: "379 Deck Salon", year: 2019, fuel_gal: 53, burn_gph: 2.5, hull_speed_knots: 7.2 },
+    sabrett_450: { make: "Sabrett", model: "450 Convertible", year: 2021, fuel_gal: 902, burn_gph: 22, hull_speed_knots: 34 },
+  };
+  const run = () => {
+    const b = boats[boat];
+    const burn = hours * b.burn_gph;
+    const range = (b.fuel_gal - burn) / b.burn_gph * b.hull_speed_knots;
+    setResult({ ...b, hours, fuel_used: burn.toFixed(1), fuel_remaining: (b.fuel_gal - burn).toFixed(1), range_nm: range.toFixed(0) });
+  };
   return (
-    <div className="min-h-screen bg-cream-bg">
-      {/* Header */}
-      <header className="border-b border-cream-border">
-        <div className="max-w-prose mx-auto px-6 py-5 flex items-center justify-between">
-          <span className="font-serif text-xl tracking-wide text-ink">
-            MARINEDB
-          </span>
-          <nav className="flex items-center gap-8">
-            <a
-              href="#docs"
-              className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-            >
-              Documentation
-            </a>
-            <a
-              href="#pricing"
-              className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-            >
-              Pricing
-            </a>
-          </nav>
-        </div>
+    <main className="max-w-[720px] mx-auto px-6 py-16">
+      <header className="flex items-center justify-between mb-20 pb-6 border-b border-cream-border">
+        <div className="font-serif text-xl font-bold tracking-tight">MARINEDB</div>
+        <nav className="flex gap-6 text-sm text-ink-muted"><a href="#docs" className="hover:text-terracotta">Docs</a><a href="#pricing" className="hover:text-terracotta">Pricing</a></nav>
       </header>
-
-      <main>
-        {/* Hero */}
-        <section className="pt-24 pb-32 px-6">
-          <div className="max-w-prose mx-auto text-center">
-            <p className="text-body-sm text-ink-muted uppercase tracking-widest mb-6">
-              Marine Navigation API
-            </p>
-            <h1 className="font-serif text-[2.5rem] leading-tight text-ink mb-8">
-              Tides don&rsquo;t care about your schedule. Neither should your
-              autopilot.
-            </h1>
-            <p className="text-body-lg text-ink-muted max-w-xl mx-auto mb-10">
-              MARINEDB gives marine developers and navigation app builders
-              instant access to tide predictions, port data, and route
-              calculations — without maintaining their own harmonic constant
-              databases.
-            </p>
-            <div className="flex items-center justify-center gap-6 flex-wrap">
-              <a
-                href="#get-started"
-                className="inline-block bg-terracotta text-white font-sans text-body-sm px-6 py-3 rounded hover:bg-terracotta-hover transition-colors"
-              >
-                Get Free API Key
-              </a>
-              <a
-                href="#docs"
-                className="text-body-sm text-ink-muted underline underline-offset-4 hover:text-ink transition-colors"
-              >
-                View Docs
-              </a>
+      <section className="mb-20">
+        <h1 className="font-serif text-4xl md:text-5xl leading-tight font-bold text-ink mb-6">The data you'd spend an hour digging through boat forums. One call.</h1>
+        <p className="text-lg text-ink-muted leading-relaxed mb-8">Sea Ray's website has specs for the 320 Sundancer. Boston Whaler's site has the 380 Realm. MARINEDB gives you both — with fuel burn estimates and insurance quotes built in.</p>
+        <button onClick={run} className="bg-terracotta text-white px-6 py-3 rounded font-medium hover:bg-terracotta-hover transition-colors text-sm">Try the demo →</button>
+      </section>
+      <section className="mb-20">
+        <blockquote className="border-l-4 border-terracotta pl-6 py-2">
+          <p className="text-xl text-ink leading-relaxed font-serif italic">"I need fuel burn for a 6-hour run to the Dry Tortugas. I have a 380 Whaler. I called my dealer and left a message."</p>
+          <footer className="text-sm text-ink-muted mt-3">— Every boat owner who's tried to plan a serious trip</footer>
+        </blockquote>
+      </section>
+      <section className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-6">Fuel burn calculator</h2>
+        <div className="bg-white border border-cream-border rounded-lg p-6 shadow-sm space-y-4">
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <label className="text-xs text-ink-muted uppercase tracking-wide block mb-1">Boat</label>
+              <select value={boat} onChange={e => setBoat(e.target.value)} className="w-full border border-cream-border rounded px-2 py-1.5 bg-cream-50 text-sm">
+                {Object.entries(boats).map(([id, b]) => <option key={id} value={id}>{b.make} {b.model}</option>)}
+              </select>
             </div>
-            <p className="text-body-sm text-ink-muted mt-6">
-              Free tier · No credit card · 100 calls/day
-            </p>
-          </div>
-        </section>
-
-        {/* The Problem */}
-        <section className="py-24 px-6 border-t border-cream-border">
-          <div className="max-w-prose mx-auto">
-            <blockquote className="font-serif text-2xl text-ink leading-relaxed italic text-center max-w-2xl mx-auto">
-              &ldquo;Tide harmonic constants are published by NOAA. Getting
-              them into your app means downloading shapefiles, parsing arcane
-              data formats, and maintaining update schedules. Or one API
-              call.&rdquo;
-            </blockquote>
-          </div>
-        </section>
-
-        {/* Live Demo */}
-        <section className="py-24 px-6" id="demo">
-          <div className="max-w-prose mx-auto">
-            <div className="bg-cream-surface border border-cream-border rounded shadow-card p-8">
-              <h2 className="font-serif text-xl text-ink mb-8 text-center">
-                Try it — no signup
-              </h2>
-
-              <div className="space-y-6 mb-10">
-                <div>
-                  <label className="block text-body-sm text-ink-muted mb-2 uppercase tracking-wider">
-                    Input
-                  </label>
-                  <div className="bg-cream-code border border-cream-border rounded p-4 text-body-sm text-ink font-mono">
-                    San Francisco Bay, next 3 days
-                  </div>
-                </div>
-
-                <div className="border-t border-cream-border pt-6">
-                  <p className="text-body-sm text-ink-muted mb-4 uppercase tracking-wider">
-                    Output
-                  </p>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-cream-border">
-                      <span className="text-body-sm text-ink-muted">
-                        Next high tide
-                      </span>
-                      <span className="text-body-sm text-ink font-medium">
-                        5:42am, 5.8ft
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-cream-border">
-                      <span className="text-body-sm text-ink-muted">
-                        Next low tide
-                      </span>
-                      <span className="text-body-sm text-ink font-medium">
-                        12:15pm, 1.2ft
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-body-sm text-ink-muted">
-                        Slack water
-                      </span>
-                      <span className="text-body-sm text-ink font-medium">
-                        8:30am, 2:45pm
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div>
+              <label className="text-xs text-ink-muted uppercase tracking-wide block mb-1">Run duration (hours)</label>
+              <input type="number" value={hours} onChange={e => setHours(Number(e.target.value))} className="w-full border border-cream-border rounded px-2 py-1.5 bg-cream-50 text-sm" />
             </div>
           </div>
-        </section>
-
-        {/* Use Cases */}
-        <section className="py-24 px-6 border-t border-cream-border">
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-12 text-center">
-              Built for
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                {
-                  title: "Autopilot software",
-                  desc: "Feed real-time tide data to navigation systems for precise course adjustments at lock gates and drawbridges.",
-                },
-                {
-                  title: "Fishing apps",
-                  desc: "Surface tide predictions with slack-water windows so anglers hit prime fishing conditions every trip.",
-                },
-                {
-                  title: "Sailing trackers",
-                  desc: "Give sailors current flow data and tide heights for safe harbor entries and tricky channel transits.",
-                },
-                {
-                  title: "Marine logistics",
-                  desc: "Schedule cargo operations around tidal windows to avoid grounding in shallow ports and estuaries.",
-                },
-                {
-                  title: "Charter boat booking",
-                  desc: "Build availability systems that automatically block out unsafe windows based on predicted conditions.",
-                },
-              ].map(({ title, desc }) => (
-                <div
-                  key={title}
-                  className="bg-cream-surface border border-cream-border rounded shadow-card p-6"
-                >
-                  <h3 className="font-serif text-lg text-ink mb-2">{title}</h3>
-                  <p className="text-body-sm text-ink-muted leading-relaxed">
-                    {desc}
-                  </p>
-                </div>
-              ))}
+          <button onClick={run} className="w-full bg-cream-100 text-ink py-2 rounded border border-cream-border hover:border-terracotta hover:text-terracotta transition-colors text-sm">Calculate →</button>
+          {result && (
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="bg-cream-50 rounded p-3"><div className="text-xs text-ink-muted">Fuel used</div><div className="font-bold text-lg">{result.fuel_used} gal</div></div>
+              <div className="bg-cream-50 rounded p-3"><div className="text-xs text-ink-muted">Remaining</div><div className="font-bold text-lg">{result.fuel_remaining} gal</div></div>
+              <div className="bg-cream-50 rounded p-3"><div className="text-xs text-ink-muted">Est. range</div><div className="font-bold">{result.range_nm} nm</div></div>
+              <div className="bg-cream-50 rounded p-3"><div className="text-xs text-ink-muted">Hull speed</div><div className="font-bold">{result.hull_speed_knots} kts</div></div>
             </div>
-          </div>
-        </section>
-
-        {/* Pricing */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="pricing"
-        >
-          <div className="max-w-prose mx-auto text-center">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-4">
-              Simple pricing
-            </h2>
-            <p className="text-body-sm text-ink-muted mb-16">
-              No surprise bills. Scale as you grow.
-            </p>
-
-            <div className="space-y-4 max-w-sm mx-auto text-left">
-              {[
-                {
-                  tier: "Free",
-                  price: "$0",
-                  calls: "100 calls/day",
-                  feature: "All endpoints",
-                  cta: "Get started",
-                },
-                {
-                  tier: "Dev",
-                  price: "$19",
-                  calls: "Unlimited calls",
-                  feature: "All endpoints + support",
-                  cta: "Start building",
-                },
-                {
-                  tier: "Pro",
-                  price: "$49",
-                  calls: "Unlimited calls + SLA",
-                  feature: "Custom ports & routes",
-                  cta: "Go production",
-                },
-              ].map(({ tier, price, calls, feature, cta }) => (
-                <div
-                  key={tier}
-                  className="flex items-center justify-between bg-cream-surface border border-cream-border rounded p-5"
-                >
-                  <div>
-                    <p className="font-serif text-lg text-ink">{tier}</p>
-                    <p className="text-body-sm text-ink-muted">
-                      {price}/mo &middot; {calls} &middot; {feature}
-                    </p>
-                  </div>
-                  <a
-                    href="#get-started"
-                    className="text-body-sm text-terracotta hover:text-terracotta-hover transition-colors whitespace-nowrap ml-4"
-                  >
-                    {cta} &rarr;
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* API Example */}
-        <section
-          className="py-24 px-6 border-t border-cream-border"
-          id="get-started"
-        >
-          <div className="max-w-prose mx-auto">
-            <h2 className="font-serif text-[1.75rem] text-ink mb-12 text-center">
-              One call to tidal data
-            </h2>
-
-            <div className="bg-cream-surface border border-cream-border rounded shadow-card overflow-hidden">
-              {/* Request */}
-              <div className="p-6 border-b border-cream-border">
-                <p className="text-body-sm text-ink-muted uppercase tracking-wider mb-4">
-                  Request
-                </p>
-                <pre className="bg-cream-code text-ink text-body-sm overflow-x-auto p-4 rounded">
-                  <code>{`curl -X GET "https://api.marinedb.io/v1/tides?\\
-  port=San_Francisco_Bay&days=3" \\
-  -H "Authorization: Bearer YOUR_API_KEY"`}</code>
-                </pre>
-              </div>
-
-              {/* Response */}
-              <div className="p-6">
-                <p className="text-body-sm text-ink-muted uppercase tracking-wider mb-4">
-                  Response
-                </p>
-                <pre className="bg-cream-code text-ink text-body-sm overflow-x-auto p-4 rounded">
-                  <code>{`{
-  "port": "San Francisco Bay",
-  "tides": [
-    {
-      "time": "2026-03-26T05:42:00Z",
-      "type": "high",
-      "height_ft": 5.8
-    },
-    {
-      "time": "2026-03-26T12:15:00Z",
-      "type": "low",
-      "height_ft": 1.2
-    }
-  ],
-  "slack_water": ["08:30", "14:45"]
-}`}</code>
-                </pre>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-cream-border py-8 px-6">
-        <div className="max-w-prose mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <span className="font-serif text-lg text-ink">MARINEDB</span>
-            <nav className="flex items-center gap-6">
-              <a
-                href="#docs"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Documentation
-              </a>
-              <a
-                href="#"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Privacy
-              </a>
-              <a
-                href="#"
-                className="text-body-sm text-ink-muted hover:text-ink transition-colors"
-              >
-                Terms
-              </a>
-            </nav>
-          </div>
-          <p className="text-body-sm text-ink-muted">
-            &copy; 2026 MARINEDB. All rights reserved.
-          </p>
+          )}
         </div>
+      </section>
+      <section id="docs" className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-6">API</h2>
+        <div className="bg-ink text-cream-100 rounded-lg p-5 font-mono overflow-x-auto">
+          <pre className="text-xs leading-relaxed">{`curl https://api.marinedb.io/v1/boat/boston_whaler_380
+
+curl -X POST https://api.marinedb.io/v1/fuel-calc \\
+  -d '{"boat_id":"boston_whaler_380","hours_run":6}'
+
+curl -X POST https://api.marinedb.io/v1/insurance \\
+  -d '{"boat_id":"boston_whaler_380","value_usd":480000}'`}</pre>
+        </div>
+      </section>
+      <section id="pricing" className="mb-20">
+        <h2 className="font-serif text-2xl font-bold mb-2">Pricing</h2>
+        <p className="text-sm text-ink-muted mb-6">7 boat models included. Adding yours on request.</p>
+        <div className="grid grid-cols-3 gap-4">
+          {[{tier:"Free",price:"$0",calls:"100/day"},{tier:"Dev",price:"$19",calls:"10,000/day"},{tier:"Pro",price:"$49",calls:"100,000/day"}].map(p => (
+            <div key={p.tier} className="bg-white border border-cream-border rounded-lg p-5">
+              <div className="text-xs text-ink-muted uppercase">{p.tier}</div>
+              <div className="text-2xl font-bold mt-1">{p.price}</div>
+              <div className="text-xs text-ink-muted mt-1">{p.calls}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+      <footer className="border-t border-cream-border pt-8 flex justify-between text-xs text-ink-muted">
+        <span className="font-serif font-bold text-ink">MARINEDB</span><span>Built by KRYZL19</span>
       </footer>
-    </div>
+    </main>
   );
 }
