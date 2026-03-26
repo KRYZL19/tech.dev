@@ -144,7 +144,7 @@ TASK_COST_MONTH=$(echo "scale=8; $TASK_COST_WEEK * 4.33" | bc)
 
 # Tool overhead (each tool call adds ~200 tokens)
 TOOL_OVERHEAD_CALLS=$(echo "$TOOL_COUNT * 3" | bc)
-TOOL_OVERHEAD_DAY=$(echo "scale=8; $TOOL_CALLS_DAY * 200 * $INPUT_PRICE / 1000000" | bc)
+TOOL_OVERHEAD_DAY=$(echo "scale=8; $TOOL_OVERHEAD_CALLS * 200 * $INPUT_PRICE / 1000000" | bc)
 
 TOTAL_DAY=$(echo "scale=8; $HB_COST_DAY + $TASK_COST_DAY" | bc)
 TOTAL_WEEK=$(echo "scale=8; $TOTAL_DAY * 7" | bc)
